@@ -2,48 +2,42 @@ import React from 'react'
 import styled from "styled-components";
 
 
-// const SignIn = ({signinData, onChangeSigninData}) => {
-const SignIn = () => {
-  /*________________cookie here_________________ */
+// const SignUp = ({ signupData, onChangeSignupData, setSignupData }) => {
+const SignUpComponent = () => {
+
 
   /*________________check input_________________ */
 
+
   /*________________connect to server_________________ */
-  const onClickSigninpButton = () => {
+  const onClickSignUpButton = () => {
     alert("No check input, No connect to server yet");
   }
     
 
   return (
-    <SignInContainer>
-      <SignInTitle>Start with ()!</SignInTitle>
-      <SignInSubtitle>이메일과 비밀번호를 입력하여 로그인해주세요</SignInSubtitle>
+    <SignUpContainer>
+      <SignUpTitle>Hi, there! Welcome to ( )</SignUpTitle>
+      <SignUpSubtitle>아래의 정보를 작성하면 가입이 완료됩니다.</SignUpSubtitle>
       <SmallPadding>
-        <SignInInput type='email' id='email' placeholder='이메일 입력' />
+        <SignUpInput type="email" id="email" placeholder='이메일 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
-        <SignInInput type='password' id='password'  placeholder='비밀번호 입력' />
+        <SignUpInput type="password" id="password" placeholder='비밀번호' />
       </SmallPadding>
-      <SignInButton onClick = {() => {onClickSigninpButton();}}>로그인</SignInButton>
       <BigPadding>
-        <OtherButton href='/signup'>회원가입</OtherButton>
-        <OtherButton>아이디 및 비밀번호 찾기</OtherButton>
+        <SignUpInput type="password" id="rePassword" placeholder='비밀번호 재확인' />
       </BigPadding>
-      <a>
-        <SocialButton src={'/img/naver_login_button.png'} />
-      </a>
-      <a>
-        <SocialButton src={'/img/kakao_login_button.png'} />
-      </a>
-      <a>
-        <SocialButton src={'/img/google_login_button.png'} />
-      </a>
-    </SignInContainer>
+      <SmallPadding>
+        <SignUpInput type="text" id="name" placeholder='이름' />
+      </SmallPadding>
+      <SignUpButton onClick={() => { onClickSignUpButton(); }}>회원가입</SignUpButton>
+    </SignUpContainer>
   )
 }
 
 /*__________________css___________________ */
-const SignInContainer = styled.div`
+const SignUpContainer = styled.div`
   display : block;
   text-align : center;
   max-width: 500px;
@@ -51,21 +45,21 @@ const SignInContainer = styled.div`
   padding: 50px 10px;
 `;
 
-const SignInTitle = styled.div`
+const SignUpTitle = styled.div`
   font-size : 20px;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   padding: 20% 0 0;
 `;
 
-const SignInSubtitle = styled.div`
+const SignUpSubtitle = styled.div`
   font-size : 12px;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   padding: 10px 0 10%;
 `;
 
-const SignInInput = styled.input`
+const SignUpInput = styled.input`
   font-family:     
   text-size-adjust: none;
   font-size: 13px; 
@@ -80,8 +74,7 @@ const SignInInput = styled.input`
   outline: none;
 `;
 
-const SignInButton = styled.button`
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
+const SignUpButton = styled.button`
   width : 300px;
   height : 45px;
   color: #1d1d1d;
@@ -94,31 +87,18 @@ const SignInButton = styled.button`
   margin : 10px 0 10px;
 `;
 
-//회원가입 | 아이디 및 비밀번호 찾기
-const OtherButton = styled.a`
+const Label = styled.label`
+  font-size : 10px;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-  margin : 10px 6% ;
-  font-weight: 200;
-  font-size: 12px;
-  line-height: 25px;
-  border: 2px solid #ffffff;
-`;
+`
 
-const SocialButton = styled.img`
-  width : 300px;
-  height : 45px;
-  margin :10px 0 0;
-`;
-
-//아래 10px
 const SmallPadding = styled.div`
 padding:  0 0 10px`
   ;
 
-//아래 50px
 const BigPadding = styled.div`
 padding:  0 0 50px`
   ;
 
 
-export default SignIn;
+export default SignUpComponent;
