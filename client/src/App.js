@@ -1,6 +1,7 @@
 
 import React from "react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom'; 
+import {RecoilRoot} from 'recoil';
 import Main from './pages/Main';
 import RoutineCam from './pages/RoutineCam';
 import PoseCam from './pages/PoseCam';
@@ -10,6 +11,8 @@ import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage'
 import Routine from './pages/Routine'
 
+// test 용
+import AtomTest from "./AtomTest";
 
 function App() {
   return (
