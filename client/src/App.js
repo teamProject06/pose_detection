@@ -5,8 +5,8 @@ import Main from './pages/Main';
 import RoutineCam from './pages/RoutineCam';
 import PoseCam from './pages/PoseCam';
 import Feedback from './pages/Feedback';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import SignIn from './components/user/SignIn';
+import SignUp from './components/user/SignUp';
 import MyPage from './pages/MyPage'
 import Routine from './pages/Routine'
 import Header from "./components/Header";
