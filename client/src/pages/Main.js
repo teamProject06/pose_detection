@@ -1,9 +1,16 @@
-import React from 'react'
+import React from 'react';
+import Middle from '../components/Middle';
+import Side from '../components/Side';
 
 const Main = () => {
+
   return (
-    <div>Main</div>
-  )
+    <main>
+        <Side />
+        <Middle />
+    </main>
+  );
 }
 
-export default Main
+
+export default Main;
