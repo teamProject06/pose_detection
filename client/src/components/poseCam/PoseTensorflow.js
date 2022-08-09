@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import * as poseDetection from '@tensorflow-models/pose-detection';
+import '@tensorflow/tfjs-backend-webgl';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
+import { drawCanvas } from '../../drawUtil';
 
 const PoseTensorflow = () => {
     const webcamRef = useRef(null);
@@ -34,6 +36,8 @@ const PoseTensorflow = () => {
             const pose = await net.estimatePoses(video);
 
             console.log(pose[0].keypoints, 'pose');
+
+            drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
 
         }
     };
