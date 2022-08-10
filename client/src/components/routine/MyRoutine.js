@@ -2,12 +2,11 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import NoAddModal from './NoAddModal';
-import ModalCheck from './ModalCheck';
-import { routineState } from '../../atom/atomState';
+import { routineListState } from '../../atom/atomState';
 
 
 const MyRoutine = () => {
-  const [routineList, setRoutineList] = useRecoilState(routineState)
+  const [routineList, setRoutineList] = useRecoilState(routineListState)
   const [addRoutine, setAddRoutine] = useState(1)
   const [userRoutine, setUserRoutine] = useState({
       name: '',
@@ -139,6 +138,7 @@ const MyRoutine = () => {
   }
 
   const changeRoutineInput = (e) => { 
+    console.log(e.target.name)
     if (e.target.name === 'routineName') { 
       setUserRoutine({
         ...userRoutine,
@@ -206,8 +206,7 @@ const MyRoutine = () => {
 
   return (
       <>
-          {isChecked.isAdd === false && <NoAddModal isAdd={onClickModalClose} />}
-          {isChecked.modal && isChecked.isAdd && <ModalCheck isChecked={onClickModalClose} />}
+          
           <RoutineInputContainer>
               {addRoutine > 0 && RoutineAdd()}
               <div className="button-container">
