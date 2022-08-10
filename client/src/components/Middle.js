@@ -4,20 +4,31 @@ import styled from 'styled-components';
 const Middle = () => {
   return (
     <MiddleBlock>
+
             <div id="1">
-                <div class="row inner bg-2 innerM">
-                    <div class="col-lg-4 innerM2">
-                        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+              {/* 영상 반복 재생 */}
+                <div className="row inner bg-2 hidden">
+                  <video loop autoplay="autoplay" muted="muted">
+                    <source src="./img/run.mp4" type="video/mp4"></source>
+                  </video>
+                </div>
+            </div>
+
+
+            <div id="2">
+                <div className="row inner bg-2 innerM">
+                    <div className="col-lg-4 innerM2">
+                        <svg className="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
                         <br/><br/>
-                        <h2 class="fw-normal">플랭크<br/><br/></h2>
+                        <h2 className="fw-normal">플랭크<br/><br/></h2>
                         <p>몸의 중심이 되는 코어 근육을 단련시키기 때문에 요통 개선, 강한 코어 구축, 신진대사 향상, 유연성 증가, 자세 교정 등의 효과를 볼 수 있는 유익한 운동입니다.<br/><br/></p>
                         <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></p>
                     </div>
 
-                    <div class="col-lg-4 innerM2">
-                        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                    <div className="col-lg-4 innerM2">
+                        <svg className="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
                         <br/><br/>
-                        <h2 class="fw-normal">다운도그<br/><br/></h2>
+                        <h2 className="fw-normal">다운도그<br/><br/></h2>
                         <p>가슴과 어깨를 젖혀줘 나쁜 자세로 생기는 통증을 완화하고 전신의 유연성을 높이는 운동입니다.<br/><br/></p>
                         <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></p>
                     </div>
@@ -26,7 +37,7 @@ const Middle = () => {
             </div>
 
 
-            <div id="2">
+            <div id="3">
                 <div id="myCarousel" className="inner bg-1 carousel slide" data-bs-ride="carousel">
 
                     <div className="carousel-indicators">
@@ -35,7 +46,7 @@ const Middle = () => {
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" className=""></button>
                     </div>
 
-                    <div class="carousel-inner">
+                    <div className="carousel-inner">
 
                     <div className="carousel-item innerH">
 
@@ -83,7 +94,6 @@ const Middle = () => {
                         <span className="visually-hidden">Next</span>
                     </button>
                 </div>
-
             </div>
     </MiddleBlock>
   );
@@ -96,6 +106,7 @@ const MiddleBlock = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  overflow-x:hidden; overflow-y: hiiden;
   }
   
   .bg-1 {
@@ -104,6 +115,7 @@ const MiddleBlock = styled.div`
   
   .bg-2 {
     background-color: #ffffff;
+    overflow: hidden;
   }
 
   .innerH{
@@ -118,6 +130,15 @@ const MiddleBlock = styled.div`
   .innerM2{
     margin-right: 1%;
   }
+
+.auto {overflow: auto;}
+.visible {overflow: visible;}
+.hidden {overflow: hidden;}
+.scroll-x {overflow-x: scroll;}
+.scroll-y {overflow-y: scroll;}
+.scroll {overflow: scroll;}
+
+
 
 
   
