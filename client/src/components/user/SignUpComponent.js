@@ -1,37 +1,114 @@
-import React from 'react'
+import { React, useState } from 'react';
 import styled from "styled-components";
+import $ from "jquery";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
+import port from "./../../data/port.json"; //urlData
 
-// const SignUp = ({ signupData, onChangeSignupData, setSignupData }) => {
 const SignUpComponent = () => {
+  const navigate = useNavigate();
 
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    rePassword: "",
+    name: ""
+  });
 
-  /*________________check input_________________ */
+  const onClickSignUpButton = () => {
 
+    /*________________check input_________________ */
+    if (signUpData.email === "") {
+      alert("이메일을 입력해주세요.");
+      // emailRef.current.focus();
+      $("#email").focus();
+      return;
+    }
+
+    if (!emailFormCheck(signUpData.email)) {
+      alert("이메일 형식에 맞게 입력해주세요.\n(ex. health@gmail.com)");
+      setSignUpData({
+        email: "",
+        ...signUpData,
+      });
+      $("#email").focus();
+      return;
+    }
+
+    if (signUpData.password === "") {
+      alert("비밀번호를 입력해주세요.");
+      $("#password").focus();
+      return;
+    }
+
+    if (signUpData.rePassword === "") {
+      alert("비밀번호 재확인을 입력해주세요.");
+      $("#rePassword").focus();
+      return;
+    }
+
+    if (signUpData.name === "") {
+      alert("이름을 입력해주세요");
+      $("#name").focus();
+      return;
+    }
+
+    if (signUpData.password !== signUpData.rePassword) {
+      alert("비밀번호와 비밀번호 확인이 일치하지 않아요.");
+      setSignUpData({
+        ...signUpData,
+        password: "",
+        rePassword: ""
+      });
+      
+      $("#password").focus();
+      return;
+  }
+  sendSignUpData().then((res) => {
+    alert(res.data.result); //회원가입 완료
+    navigate("/signin");
+  }).catch((e) => {
+    alert(e.response.data.fail);
+  });
+}
+
+  const changeSignUpData = (e) => {
+    setSignUpData({
+      ...signUpData,
+      [e.target.name] : e.target.value,
+    })
+  }
+
+  const emailFormCheck = (email) => { //이메일 형식 검사
+    var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    return reg.test(email);
+}
 
   /*________________connect to server_________________ */
-  const onClickSignUpButton = () => {
-    alert("No check input, No connect to server yet");
+  const sendSignUpData = async () => {
+    return await axios.post(port.url + "/user/signup", signUpData);
   }
-    
 
   return (
     <SignUpContainer>
       <SignUpTitle>Hi, there! Welcome to ( )</SignUpTitle>
       <SignUpSubtitle>아래의 정보를 작성하면 가입이 완료됩니다.</SignUpSubtitle>
       <SmallPadding>
-        <SignUpInput type="email" id="email" placeholder='이메일 (ex. health@gmail.com)' />
+        <Label>Email and Password</Label>
+        <SignUpInput type="email" id="email" name="email" onChange = {changeSignUpData} defaultValue = {signUpData.email}  placeholder='이메일 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
-        <SignUpInput type="password" id="password" placeholder='비밀번호' />
+        <SignUpInput type="password" id="password" name="password" defaultValue = {signUpData.password} onChange = {changeSignUpData}  placeholder='비밀번호' />
       </SmallPadding>
       <BigPadding>
-        <SignUpInput type="password" id="rePassword" placeholder='비밀번호 재확인' />
+        <SignUpInput type="password" id="rePassword" name="rePassword" defaultValue = {signUpData.rePassword} onChange = {changeSignUpData}  placeholder='비밀번호 재확인' />
       </BigPadding>
       <SmallPadding>
-        <SignUpInput type="text" id="name" placeholder='이름' />
+        <Label>Name</Label>
+        <SignUpInput type="text" id="name" name="name" defaultValue={signUpData.name} onChange = {changeSignUpData} placeholder='이름' />
       </SmallPadding>
-      <SignUpButton onClick={() => { onClickSignUpButton(); }}>회원가입</SignUpButton>
+      <SignUpButton onClick={onClickSignUpButton}>회원가입</SignUpButton>
     </SignUpContainer>
   )
 }
@@ -48,14 +125,14 @@ const SignUpContainer = styled.div`
 const SignUpTitle = styled.div`
   font-size : 20px;
   text-size-adjust: none;
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
   padding: 20% 0 0;
 `;
 
 const SignUpSubtitle = styled.div`
   font-size : 12px;
   text-size-adjust: none;
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
   padding: 10px 0 10%;
 `;
 
@@ -87,9 +164,12 @@ const SignUpButton = styled.button`
   margin : 10px 0 10px;
 `;
 
-const Label = styled.label`
-  font-size : 10px;
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
+const Label = styled.div`
+  padding : 0 100px 5px;
+  text-align : left;
+  font-size : 13px;
+  color : #c3dbff;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 `
 
 const SmallPadding = styled.div`

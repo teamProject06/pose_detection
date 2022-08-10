@@ -1,15 +1,56 @@
-import React from 'react'
+import {React, useState} from 'react'
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import $ from "jquery";
+import axios from 'axios';
+
+import port from "./../../data/port.json"; //url
+
 
 const SignInComponent = () => {
+  const navigate = useNavigate();
 
-  const onClickSignInpButton = () => {
+  const [signInData, setSignInData] = useState({
+    email : "",
+    password : "",
+  });
+  const [cookies, setCookie] = useCookies(["userInfo"]);
 
-    /*________________check input_________________ */
+  const onClickSignInButton = () => {
+    if(signInData.email === ""){
+      alert("이메일을 입력해주세요");
+      $("#email").focus();
+      return;
+    }
 
-    
-    /*________________connect to server_________________ */
-    alert("No check input, No connect to server yet");
+    if(signInData.password === ""){
+      alert("비밀번호를 입력해주세요");
+      $("#password").focus();
+      return;
+    }
+
+    sendSignInData().then((res)=> {
+      setCookie("userInfo", res.data, { path: "/" });
+      console.log("___cookies___ ", cookies);
+      alert("로그인이 완료되었습니다. 루틴을 만들어보세요!");
+      navigate("/")
+    }).catch((e)=>{
+      console.log(e.response);
+      alert(e.response.data.message);
+    })
+  }
+
+  const changeSignInData = (e) => {
+    setSignInData({
+      ...signInData,
+      [e.target.name] : e.target.value,
+    });
+  }
+
+  /*________________connect to server_________________ */
+  const sendSignInData =  async () => {
+    return await axios.post(port.url + "/user/signin", signInData);
   }
 
   return (
@@ -17,12 +58,12 @@ const SignInComponent = () => {
       <SignInTitle>Start with ()!</SignInTitle>
       <SignInSubtitle>이메일과 비밀번호를 입력하여 로그인해주세요</SignInSubtitle>
       <SmallPadding>
-        <SignInInput type='email' id='email' placeholder='이메일 입력' />
+        <SignInInput type='email' id='email' name='email' value = {signInData.email} onChange={changeSignInData} placeholder='이메일 입력 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
-        <SignInInput type='password' id='password'  placeholder='비밀번호 입력' />
+        <SignInInput type='password' id='password' name='password' value = {signInData.password} onChange={changeSignInData} placeholder='비밀번호 입력' />
       </SmallPadding>
-      <SignInButton onClick = {() => {onClickSignInpButton();}}>로그인</SignInButton>
+      <SignInButton onClick = {onClickSignInButton}>로그인</SignInButton>
       <BigPadding>
         <OtherButton href='/signup'>회원가입</OtherButton>
         <OtherButton>아이디 및 비밀번호 찾기</OtherButton>
