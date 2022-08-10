@@ -17,16 +17,12 @@ const PoseTensorflow = () => {
         leftKneeTmp: [],
         leftWristTmp: [],
         rightWristTmp: [],
-        leftStrideTmp: [],
-        rightStrideTmp: [],
         kneeProtrusionTmp: [],
     };
 
     const bodyPoint = {
         leftElbows: [],
         rightElbows: [],
-        leftStrides: [],
-        rightStrides: [],
         rightKnees: [],
         leftWrists: [],
         rightWrists: [],
@@ -34,14 +30,8 @@ const PoseTensorflow = () => {
         kneeProtrusion: [],
     };
 
-    // useEffect(() => {
-    //   console.log(test, 'tttt');
-    // }, [test]);
-
     let count = 0;
     setInterval(() => {
-        //console.log(leftElbow[5], '50')
-        //console.log(leftElbow, '0')
         if (tmp['leftElbowTmp'].length >= 6) {
             bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
             tmp['leftElbowTmp'].length = 0;
@@ -65,16 +55,6 @@ const PoseTensorflow = () => {
         if (tmp['leftWristTmp'].length >= 6) {
             bodyPoint['leftWrists'].push(tmp['leftWristTmp'][5]);
             tmp['leftWristTmp'].length = 0;
-        }
-
-        if (tmp['rightWristTmp'].length >= 6) {
-            bodyPoint['rightWrists'].push(tmp['rightWristTmp'][5]);
-            tmp['rightWristTmp'].length = 0;
-        }
-
-        if (tmp['leftStrideTmp'].length >= 6) {
-            bodyPoint['leftStrides'].push(tmp['leftStrideTmp'][5]);
-            tmp['leftStrideTmp'].length = 0;
         }
 
         if (tmp['rightStrideTmp'].length >= 6) {
@@ -128,25 +108,21 @@ const PoseTensorflow = () => {
             findExercise(pose[0].keypoints, 'squat');
 
             // console.log(leftKnee, 'leftKnee');
-            //console.log(rightStride, 'rightStride');
-            //console.log(leftElbow)
         }
     };
 
     const findExercise = (exercises, pose) => {
-        // console.log(pose, 'findpose')
         switch (pose) {
             case 'squat': {
                 divisionBodySquat(exercises);
                 break;
             }
-            case 'deadLift': {
-                divisionBody(exercises, 'leftElbow', 'rightElbow', 'leftKnee', 'rightKnee', 'leftWrist', 'rightWrist');
+            case 'oneArmLow': {
 
                 break;
             }
             case 'lunge': {
-                divisionBody(exercises, 'leftKnee', 'rightKnee', 'leftAnkle', 'rightAnkle', 'leftWrist', 'rightWrist');
+
                 break;
             }
             default:
@@ -173,55 +149,7 @@ const PoseTensorflow = () => {
         tmp['rightWristTmp'].push(
             calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
         );
-        tmp['leftStrideTmp'].push(calculatorStrideRange(body[11].x, body[27].x));
-        tmp['rightStrideTmp'].push(calculatorStrideRange(body[12].x, body[28].x));
         tmp['kneeProtrusionTmp'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
-    };
-
-    // ankle 런지 각도만 확인
-    // 'leftKnee', 'rightKnee', 'leftAnkle', 'rightAnkle', 'leftWrist', 'rightWrist' leftStride rightStride
-    const divisionBody = (body, pose, ...rest) => {
-        // console.log(Math.abs(body[11].x + body[12].x) / 2, 'x');
-        // const bodyPosition = {
-        //   1: [body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y],
-        //   2: [body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y],
-        //   3: [body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y],
-        //   4: [body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y],
-        //   5: [body[11].x, body[11].y, body[23].x, body[23].y, body[25].x, body[25].y],
-        //   6: [body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y],
-        //   // 'leftAnkle': [body[31].x, body[31].y, body[29].x, body[29].y, body[27].x, body[27].y],
-        // };
-
-        const poseAngle = () => {
-            console.log(pose, 'dd');
-            //console.log(Object.keys(bodyPosition).includes(angle))
-            if (pose === 'squat') {
-                //console.log(bodyPosition[angle], 'bodyPosition[angle]')
-                //tmp.leftAnkleTmp.push(calculatorAngles(bodyPosition[angle]));
-                tmp['leftElbowTmp'].push(
-                    calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
-                );
-                tmp['rightElbowTmp'].push(
-                    calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y])
-                );
-                tmp['leftKneeTmp'].push(
-                    calculatorAngles([body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y])
-                );
-                tmp['rightKneeTmp'].push(
-                    calculatorAngles([body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y])
-                );
-                tmp['leftWristTmp'].push(
-                    calculatorAngles([body[11].x, body[11].y, body[23].x, body[23].y, body[25].x, body[25].y])
-                );
-                tmp['rightWristTmp'].push(
-                    calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
-                );
-                tmp['leftStrideTmp'].push(calculatorStrideRange(body[11].x, body[27].x));
-                tmp['rightStrideTmp'].push(calculatorStrideRange(body[12].x, body[28].x));
-            }
-        };
-
-        return poseAngle;
     };
 
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
@@ -233,7 +161,7 @@ const PoseTensorflow = () => {
         return true;
     };
 
-    //[0ax, 1ay, 2bx, 3by, 4cx, 5cy]
+    //[0ax, 1ay, 2bx, 3by, 4cx, 5cy] 각도 계산
     const calculatorAngles = (position) => {
         const radians =
             Math.atan2(position[5] - position[3], position[4] - position[2]) -
@@ -247,51 +175,46 @@ const PoseTensorflow = () => {
         return angle;
     };
 
-    const calculatorStrideRange = (a, b) => {
-        console.log(a, b, 'position');
-        const range = Math.abs(a - b);
-        console.log(range, 'r');
-        if (range > 25) {
-            return false;
-        }
-
-        // console.log(range, 'range');
-
-        return true;
-    };
+    
 
     window.requestAnimationFrame(runPosenet);
 
     return (
         <>
             <WebcamComponent>
-                <Webcam ref={webcamRef} />
-            </WebcamComponent>
-            <CanvasContainer>
-                <canvas ref={canvasRef}></canvas>
-            </CanvasContainer>
+                <Webcam ref={webcamRef}
+            style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            height: "93vh",
+            width: "100%",
+             objectFit: 'cover'
+                }}/>
+                <canvas ref={canvasRef} style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    height: "93vh",
+                    width: "100%",
+                }}></canvas>
+                </WebcamComponent>
         </>
     );
 };
 
 const WebcamComponent = styled.div`
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 640px;
-    height: 480px;
-    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 93vh;
     z-index: 10;
+    margin-top: 7%;
 `;
 
-const CanvasContainer = styled.div`
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 640px;
-    height: 480px;
-    text-align: center;
-    z-index: 10;
-`;
+
 
 export default PoseTensorflow;
