@@ -7,8 +7,8 @@ const Middle = () => {
 
             <div id="1">
               {/* 영상 반복 재생 */}
-                <div className="row inner bg-2 hidden">
-                  <video loop autoplay="autoplay" muted="muted">
+                <div className="inner bg-2 hidden">
+                  <video loop autoPlay="autoPlay" muted="muted">
                     <source src="./img/run.mp4" type="video/mp4"></source>
                   </video>
                 </div>
@@ -22,7 +22,7 @@ const Middle = () => {
                         <br/><br/>
                         <h2 className="fw-normal">플랭크<br/><br/></h2>
                         <p>몸의 중심이 되는 코어 근육을 단련시키기 때문에 요통 개선, 강한 코어 구축, 신진대사 향상, 유연성 증가, 자세 교정 등의 효과를 볼 수 있는 유익한 운동입니다.<br/><br/></p>
-                        <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></p>
+                        <p><a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></a></p>
                     </div>
 
                     <div className="col-lg-4 innerM2">
@@ -30,7 +30,7 @@ const Middle = () => {
                         <br/><br/>
                         <h2 className="fw-normal">다운도그<br/><br/></h2>
                         <p>가슴과 어깨를 젖혀줘 나쁜 자세로 생기는 통증을 완화하고 전신의 유연성을 높이는 운동입니다.<br/><br/></p>
-                        <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></p>
+                        <p><a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></a></p>
                     </div>
 
                 </div>
@@ -55,7 +55,7 @@ const Middle = () => {
                         <div className="carousel-caption text-start">
                             <h1>스쿼트<br/><br/></h1>
                             <p>가장 기본적인 하체 운동으로 대퇴사두근, 대둔근, 슬굴곡근이 단련되면서 <br/> 허벅지와 엉덩이, 종아리를 포함한 하체 근육을 강화시켜주는 효과가 있습니다.<br/><br/></p>
-                            <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></p>
+                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
                         </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ const Middle = () => {
                         <div className="carousel-caption text-start ">
                             <h1>런지<br/><br/></h1>
                             <p>균형감각을 향상시키고, 엉덩이와 허벅지의 군살을 제거하며, 탄탄하게 만들어 주는 효과가 있습니다.<br/><br/></p>
-                            <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></p>
+                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
                         </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ const Middle = () => {
                         <div className="carousel-caption text-start">
                             <h1>데드리프트<br/><br/></h1>
                             <p>무거운 중량을 버티는 등, 허리의 안정화와 하체 근육 단련에 효과적입니다. <br/> 근력과 순발력 훈련은 물론, 신진대사 활성화하고 지방 감량에 효과가 있습니다.<br/><br/></p>
-                            <p><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></p>
+                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
                         </div>
                         </div>
                     </div>
