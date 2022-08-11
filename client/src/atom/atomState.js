@@ -1,9 +1,23 @@
-import { atom } from 'recoil';
+import { atom , selector } from 'recoil';
 
-export const routineState = atom({
-    key: 'routineState',
+export const routineListState = atom({
+    key: 'routineListState',
     default: [], 
 })
+
+export const isRoutineCheckedState = atom({
+    key: 'isRoutineCheckedState',
+    default: {
+        isAdd: true,
+        routine: false,
+    }
+})
+
+export const editIdFilterState = atom({
+  key: 'editIdFilterState',
+  default: []
+})
+
 
 export const poseImproveState = atom({
     key: 'poseImproveState',

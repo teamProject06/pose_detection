@@ -6,7 +6,7 @@ const NoAddModal = ({ isAdd }) => {
         <ModalWrapper>
             <Modal>
                 <div>
-                    <p className="modal-txt">확인을 눌러주세요.</p>
+                    <p className="modal-txt">동작을 입력해주세요.</p>
                 </div>
                 <button onClick={isAdd} className="modal-check-btn">
                     확인
