@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const Header = (props) => {
     const navigate = useNavigate();
+
+    const location = useLocation();
 
     // 1. useState로 scrolled 상태 관리.
     // 처음은 scrollY값이 0일테니, false를 기본값으로 한다.
@@ -44,7 +46,7 @@ const Header = (props) => {
 
 
     useEffect(() => {
-        if (cookies.userInfo === undefined) {
+        if (cookies.userInfo === undefined && location.pathname !== '/posecam') {
             setView({
                 SignIn: false
             }) 
@@ -65,7 +67,7 @@ const Header = (props) => {
     <Block>
               <header className={scrolled ? 'fix-container scrolled' : 'fix-container'}>
                   <nav>
-                  <ul className="nav-list">
+                  <ul className={(location.pathname.length === 1) ? "nav-list fix-nav" : "nav-list"}>
                               <Headerb>
                               <div className='boxtool'>
                                   <Logo>
@@ -108,7 +110,7 @@ const Header = (props) => {
                                                 removeCookie("userInfo", { path: "/" });
                                                 navigate("/");
                                             }}><span>로그아웃</span></Menuli>
-                                              <Menuli onClick={() => navigate("/mypage")}><span>마이페이지</span></Menuli>
+                                              <Menuli onClick={() => navigate(`/${cookies.userInfo.email}/mypage`)}><span>마이페이지</span></Menuli>
                                           </div>)
                                   }
                               </div>
@@ -152,7 +154,7 @@ const SideBlock = styled.div`
   width: 25%;
   min-width: 170px;
   display: inline-flex;
-  margin-left: 30px;
+  margin-left: 10px;
 
   span {
     cursor: pointer;
@@ -177,6 +179,14 @@ const Block = styled.div`
         height: 100px;
         transition: height 0.3s ease;
       }
+    }
+
+    .nav-list.fix-nav{
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
     }
   }
   `
