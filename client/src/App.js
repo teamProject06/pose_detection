@@ -19,7 +19,7 @@ function App() {
         <RecoilRoot>
             <BrowserRouter>
                 {/* <AtomTest/> 테스트용 */}
-                {/* <Header /> */}
+                <Header />
                 <Routes>
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>

@@ -64,7 +64,6 @@ const Header = (props) => {
     return (
     <Block>
               <header className={scrolled ? 'fix-container scrolled' : 'fix-container'}>
-              <div className="header">
                   <nav>
                   <ul className="nav-list">
                               <Headerb>
@@ -116,7 +115,6 @@ const Header = (props) => {
                           </Headerb>
                   </ul>
                   </nav>
-              </div>
               </header>
       </Block>
     );
@@ -125,73 +123,58 @@ const Header = (props) => {
 const Headerb = styled.div`
 .boxtool{
 width: 100%;
-height: 7%;
 display: inline-flex;
-padding: 10px 20px;
-margin-top:1%;
-margin-left: 1%;
-border-radius: 0px 0px 30px 30px;
 align-items: center;
-position: fixed;
+box-sizing: border-box;
 }
 `
 
 const Logo = styled.div`
 justify-content: center;
-width: 80px;
-height: 80px;
-padding: 1%;
+width: 50px;
+margin: 10px 0px 10px 20px;
 `
 
 const Menuli = styled.button`
+min-width: 100px;
 text-align: center;
 font-size: 15px;
-margin-right: 20px;
 `
 
 const Box = styled.div`
 visibility: hidden;
-width: 80%;
+width: 50%;
 
 `
 
 // 메뉴
 const SideBlock = styled.div`
-  width: 20%;
-  position: fixed;
-  margin-left: 1%;
-  justify-content: center;
-  align-items: center;
+  width: 25%;
+  min-width: 170px;
   display: inline-flex;
+  margin-left: 30px;
 
   span {
     cursor: pointer;
-    margin: 10px;
+    margin: 5px;
   }
 
   span:hover{
     color: grey;
   }
-  `
+`
 
 
 
 const Block = styled.div`
 .fix-container {
-    position: fixed;
-    top: 0;
     z-index: 10;
-    // ...생략
-  
-    .header {
-      height: 150px;
-    }
   
     &.scrolled {
-      box-shadow: // ...그림자 속성;
+      box-shadow: //그림자 속성;
   
       .header {
-        height: 80px;
+        height: 100px;
         transition: height 0.3s ease;
       }
     }
