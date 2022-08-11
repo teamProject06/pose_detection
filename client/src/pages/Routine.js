@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MyRoutine from '../components/routine/MyRoutine';
 import OtherRoutine from '../components/routine/OtherRoutine';
-import ToRoutin from '../components/routine/ToRoutin';
 
 const dummy = [
   {
@@ -57,8 +56,7 @@ const Routine = () => {
               회원 루틴
           </button>
           <RoutineContainer>
-          {/* {isClick.myRoutine &&<MyRoutine />} */}
-          {isClick.myRoutine &&<ToRoutin />}
+          {isClick.myRoutine &&<MyRoutine />}
           {isClick.otherRoutine && <OtherRoutine />}
           </RoutineContainer>
       </Container>
