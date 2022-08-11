@@ -33,7 +33,6 @@ const RoutineItem = ({item}) => {
                 name: e.target.value
             })
         }
-        console.log(1);
         setChangeInput({
             ...changeInput,
             name: e.target.value
@@ -85,6 +84,10 @@ const RoutineItem = ({item}) => {
 
     }
   }
+
+    // edit 수정하기 버튼을 누르면 input창이 나오고 안누르면 p 태그 
+    // 수정 버튼 클릭하면 확인버튼으로 바뀜 글자만 바뀌고 
+    // x 삭제 버튼
 
     return (
     <div>

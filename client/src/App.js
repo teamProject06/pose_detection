@@ -24,8 +24,9 @@ function App() {
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
-                    <Route path="/routine" element={<Routine />}>
+                    <Route path="/routine">
                         <Route path="routinecam" element={<RoutineCam />}></Route>
+                        <Route path="routinecreate" element={<Routine />}></Route>
                     </Route>
                     <Route path="/:id">
                         <Route path="mypage" element={<MyPage />}></Route>

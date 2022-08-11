@@ -1,13 +1,22 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../drawUtil';
+import { routineListState } from '../../atom/atomState';
+import { useRecoilValue } from 'recoil';
 
-const PoseTensorflow = () => {
+const RoutineTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
+    const routineListValue = useRecoilValue(routineListState)
+    const routineData = [];
+    
+    useEffect(()=> {
+        routineData.push(routineListValue)
+        console.log(routineData, 'routineData')
+    }, [])
 
     // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
     const tmp = {
@@ -15,58 +24,38 @@ const PoseTensorflow = () => {
         rightElbowTmp: [],
         rightKneeTmp: [],
         leftKneeTmp: [],
-        leftWristTmp: [],
-        rightWristTmp: [],
-        kneeProtrusionTmp: [],
     };
 
     const bodyPoint = {
         leftElbows: [],
         rightElbows: [],
         rightKnees: [],
-        leftWrists: [],
-        rightWrists: [],
         leftKnees: [],
-        kneeProtrusion: [],
     };
 
-    // let count = 0;
-    // setInterval(() => {
-    //    // if (tmp['leftElbowTmp'].length >= 6) {
-    //    //     bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
-    //       //  tmp['leftElbowTmp'].length = 0;
-    //   //  }
-    //     if (tmp['rightElbowTmp'].length >= 6) {
-    //         bodyPoint['rightElbows'].push(tmp['rightElbowTmp'][5]);
-    //         tmp['rightElbowTmp'].length = 0;
-    //     }
-    //     if (tmp['leftKneeTmp'].length >= 6) {
-    //         console.log(tmp['leftKneeTmp'][25], "tmp['leftKneeTmp'][25]");
-    //         bodyPoint['leftKnees'].push(tmp['leftKneeTmp'][5]);
-    //         if (tmp['leftKneeTmp'][20] <= 110) {
-    //             count += 1;
-    //         }
-    //         tmp['leftKneeTmp'].length = 0;
-    //     }
-    //     if (tmp['rightKneeTmp'].length >= 6) {
-    //         bodyPoint['rightKnees'].push(tmp['rightKneeTmp'][5]);
-    //         tmp['rightKneeTmp'].length = 0;
-    //     }
-    //     if (tmp['leftWristTmp'].length >= 6) {
-    //         bodyPoint['leftWrists'].push(tmp['leftWristTmp'][5]);
-    //         tmp['leftWristTmp'].length = 0;
-    //     }
-
-    //     if (tmp['rightStrideTmp'].length >= 6) {
-    //         bodyPoint['rightStrides'].push(tmp['rightStrideTmp'][5]);
-    //         tmp['rightStrideTmp'].length = 0;
-    //     }
-
-    //     if (tmp['kneeProtrusionTmp'].length >= 6) {
-    //         bodyPoint['kneeProtrusion'].push(tmp['kneeProtrusionTmp'][5]);
-    //         tmp['kneeProtrusionTmp'].length = 0;
-    //     }
-    // }, 500);
+    let count = 0;
+    setInterval(() => {
+        if (tmp['leftElbowTmp'].length >= 6) {
+            bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
+            tmp['leftElbowTmp'].length = 0;
+        }
+        if (tmp['rightElbowTmp'].length >= 6) {
+            bodyPoint['rightElbows'].push(tmp['rightElbowTmp'][5]);
+            tmp['rightElbowTmp'].length = 0;
+        }
+        if (tmp['leftKneeTmp'].length >= 6) {
+            console.log(tmp['leftKneeTmp'][25], "tmp['leftKneeTmp'][25]");
+            bodyPoint['leftKnees'].push(tmp['leftKneeTmp'][5]);
+            if (tmp['leftKneeTmp'][20] <= 110) {
+                count += 1;
+            }
+            tmp['leftKneeTmp'].length = 0;
+        }
+        if (tmp['rightKneeTmp'].length >= 6) {
+            bodyPoint['rightKnees'].push(tmp['rightKneeTmp'][5]);
+            tmp['rightKneeTmp'].length = 0;
+        }
+    }, 800);
 
     const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
@@ -79,10 +68,6 @@ const PoseTensorflow = () => {
 
         setTimeout(() => {
             clearInterval(interval);
-            console.log(tmp, 'tmp');
-            // console.log(count, 'cc');
-            // console.log(bodyPoint, 'bodyPoint');
-            window.localStorage.setItem('bodyAngle', JSON.stringify(bodyPoint));
         }, 10000);
     };
 
@@ -143,36 +128,7 @@ const PoseTensorflow = () => {
         tmp['rightKneeTmp'].push(
             calculatorAngles([body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y])
         );
-        tmp['leftWristTmp'].push(
-            calculatorAngles([body[11].x, body[11].y, body[23].x, body[23].y, body[25].x, body[25].y])
-        );
-        tmp['rightWristTmp'].push(
-            calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
-        );
-        tmp['kneeProtrusionTmp'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
     };
-
-   
-
-    const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
-        console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
-
-        if (leftKnee < 0 && leftFoot < 0 && leftKnee < leftFoot) return false;
-        if (rightKnee < 0 && rightFoot < 0 && rightKnee < rightFoot) return false;
-
-        return true;
-    };
-
-    // 발꿈치(y) 떼어져 있는지 
-    // const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
-    //     console.log("왼발 앞:", leftFootIndex, "왼발꿈치:", leftHeel, "오른발 앞:", rightFootIndex, "오른발꿈치: ", rightHeel);
-
-    //     // 발 앞보다 발꿈치의 y값이 더 작아야 한다 = 까치발
-    //     if (leftFootIndex < leftHeel) return false;
-    //     if (rightFootIndex < rightHeel) return false;
-
-    //     return true;
-    // };
 
     //[0ax, 1ay, 2bx, 3by, 4cx, 5cy] 각도 계산
     const calculatorAngles = (position) => {
@@ -230,4 +186,4 @@ const WebcamComponent = styled.div`
 
 
 
-export default PoseTensorflow;
+export default RoutineTensorflow;

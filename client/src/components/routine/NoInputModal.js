@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const NoAddModal = ({ isAdd }) => {
+const NoInputModal = ({ isAdd }) => {
     return (
         <ModalWrapper>
             <Modal>
@@ -48,4 +48,4 @@ const Modal = styled.div`
     }
 `;
 
-export default NoAddModal
+export default NoInputModal

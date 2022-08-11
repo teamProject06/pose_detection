@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { routineListState, isRoutineCheckedState } from '../../atom/atomState'
 import { useSetRecoilState, useRecoilState } from 'recoil'
-import NoAddModal from './NoAddModal';
+import NoInputModal from './NoInputModal';
 
 
 const RoutineItemCreate = () => {
     const setRoutineList = useSetRecoilState(routineListState) 
-    
+    const [isActiveName, setIsActiveName] = useState(false)
     const [inputValue, setInputValue] = useState({
         name: '',
         count: '',
@@ -51,7 +51,7 @@ const RoutineItemCreate = () => {
                 count: '',
                 isActive: true,
             })
-
+            setIsActiveName(false)
        
     }
 
@@ -78,25 +78,58 @@ const RoutineItemCreate = () => {
           return;
         }
       }
-     
+      
+      const onClicktitle = (e) => {
+        if (e.target.textContent === '스쿼트') {
+            setInputValue({
+                ...inputValue,
+                name: '스쿼트'
+            })
+            return
+        }
+        if (e.target.textContent === '런지') {
+            setInputValue({
+                ...inputValue,
+                name: '런지'
+            })
+            return
+        }
+        if (e.target.textContent === '원암덤벨로우') {
+            setInputValue({
+                ...inputValue,
+                name: '원암덤벨로우'
+            })
+            return
+        }
+        if (e.target.textContent[0] === '정') {
+            setInputValue({
+                ...inputValue,
+                name: ''
+            })
+            setIsActiveName(true)
+            return
+        }
+      } 
+
 
     return (
         <>
-        {isChecked.isAdd === false && <NoAddModal isAdd={onClickModalClose} />}
-        <ul className="category-ul">
+        {isChecked.isAdd === false && <NoInputModal isAdd={onClickModalClose} />}
+        <ul className="category-ul" onClick={onClicktitle}>
         <li>스쿼트</li>
         <li>런지</li>
-        <li>데드리프트</li>
+        <li>원암덤벨로우</li>
         <li>
             정적운동
             <small>* 정적운동은 횟수가 아닌 시간을 기록합니다.</small>
-                 <input
+               {isActiveName && <input
                     type="text"
                     placeholder="운동이름을 입력해주세요."
                     name="routineName"
                     value={inputValue.name}
                     onChange={changeRoutineInput}
-                />
+                />}
+
         </li>
     <input
         type="text"
