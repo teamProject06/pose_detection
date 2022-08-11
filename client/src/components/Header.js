@@ -99,18 +99,18 @@ const Header = (props) => {
                                   {  // 로그인 확인
                                       !view.SignIn ? (
                                       <div>
-                                          <Menuli onClick={() => navigate("/signin")}><span>로그인</span></Menuli>
-                                          <Menuli onClick={() => navigate("/signup")}><span>회원가입</span></Menuli>
+                                          <Menuli className="span" onClick={() => navigate("/signin")}>로그인</Menuli>
+                                          <Menuli className="span" onClick={() => navigate("/signup")}>회원가입</Menuli>
                                       </div>) : (
                                           <div>
-                                              <Menuli onClick={() => {
+                                              <Menuli className="span" onClick={() => {
                                                  setView({
                                                     SignIn: false
                                                 }) 
                                                 removeCookie("userInfo", { path: "/" });
                                                 navigate("/");
-                                            }}><span>로그아웃</span></Menuli>
-                                              <Menuli onClick={() => navigate(`/${cookies.userInfo.email}/mypage`)}><span>마이페이지</span></Menuli>
+                                            }}>로그아웃</Menuli>
+                                              <Menuli className="span" onClick={() => navigate(`/${cookies.userInfo.email}/mypage`)}>마이페이지</Menuli>
                                           </div>)
                                   }
                               </div>
@@ -156,12 +156,12 @@ const SideBlock = styled.div`
   display: inline-flex;
   margin-left: 10px;
 
-  span {
+  .span {
     cursor: pointer;
     margin: 5px;
   }
 
-  span:hover{
+  .span:hover{
     color: grey;
   }
 `
@@ -169,8 +169,12 @@ const SideBlock = styled.div`
 
 
 const Block = styled.div`
+
+width: 100%;
+height: 80px;
+
 .fix-container {
-    z-index: 10;
+  z-index: 10;
   
     &.scrolled {
       box-shadow: //그림자 속성;

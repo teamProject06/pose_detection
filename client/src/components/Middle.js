@@ -7,7 +7,7 @@ const Middle = () => {
 
             <div id="1">
               {/* 영상 반복 재생 */}
-                <div className="inner bg-2 hidden">
+                <div className="inner bg-2">
                   <video loop autoPlay="autoPlay" muted="muted">
                     <source src="./img/run.mp4" type="video/mp4"></source>
                   </video>
@@ -130,15 +130,6 @@ const MiddleBlock = styled.div`
   .innerM2{
     margin-right: 1%;
   }
-
-.auto {overflow: auto;}
-.visible {overflow: visible;}
-.hidden {overflow: hidden;}
-.scroll-x {overflow-x: scroll;}
-.scroll-y {overflow-y: scroll;}
-.scroll {overflow: scroll;}
-
-
 
 
   
