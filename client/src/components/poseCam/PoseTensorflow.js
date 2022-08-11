@@ -122,7 +122,7 @@ const PoseTensorflow = () => {
                 break;
             }
             case 'lunge': {
-
+                //divisionBodyLunge(exercises);
                 break;
             }
             default:
@@ -152,11 +152,24 @@ const PoseTensorflow = () => {
         tmp['kneeProtrusionTmp'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
     };
 
+   
+
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
         console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
 
         if (leftKnee < 0 && leftFoot < 0 && leftKnee < leftFoot) return false;
         if (rightKnee < 0 && rightFoot < 0 && rightKnee < rightFoot) return false;
+
+        return true;
+    };
+
+    // 발꿈치(y) 떼어져 있는지 
+    const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
+        console.log("왼발 앞:", leftFootIndex, "왼발꿈치:", leftHeel, "오른발 앞:", rightFootIndex, "오른발꿈치: ", rightHeel);
+
+        // 발 앞보다 발꿈치의 y값이 더 작아야 한다 = 까치발
+        if (leftFootIndex < leftHeel) return false;
+        if (rightFootIndex < rightHeel) return false;
 
         return true;
     };
