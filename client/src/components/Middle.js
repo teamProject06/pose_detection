@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-scroll';
+import PostureForm from './PostureForm';
 
 const Middle = () => {
+  const [content, setContent] = useState();
+
+  const handleClickButton = e => {
+      const { name } = e.target;
+      setContent(name);
+  };
+
+  const selectComponent = {
+    first: <PostureForm />,
+  };
+
   return (
     <MiddleBlock>
 
             <div id="1">
               {/* 영상 반복 재생 */}
-                <div className="inner bg-2">
+                <div className="inner bg-1">
+                <p className='b1'>
+                헬스 3대 동작을 보다 정확하게 분석.<br/><br/>
+                내 동작에 대한 명확한 피드백과 가장 올바른 운동의 완성.<br/><br/><br/><br/><br/>
+                <Link className="span" to="2" spy={true} smooth={true}><a href="/routine"><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="이용설명"><span>이용설명</span></button></a></Link>
+                <Link className="span" to="3" spy={true} smooth={true}><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></Link></p>
                   <video loop autoPlay="autoPlay" muted="muted">
                     <source src="./img/run.mp4" type="video/mp4"></source>
                   </video>
@@ -16,29 +34,7 @@ const Middle = () => {
 
 
             <div id="2">
-                <div className="row inner bg-2 innerM">
-                    <div className="col-lg-4 innerM2">
-                        <svg className="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-                        <br/><br/>
-                        <h2 className="fw-normal">플랭크<br/><br/></h2>
-                        <p>몸의 중심이 되는 코어 근육을 단련시키기 때문에 요통 개선, 강한 코어 구축, 신진대사 향상, 유연성 증가, 자세 교정 등의 효과를 볼 수 있는 유익한 운동입니다.<br/><br/></p>
-                        <p><a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></a></p>
-                    </div>
-
-                    <div className="col-lg-4 innerM2">
-                        <svg className="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-                        <br/><br/>
-                        <h2 className="fw-normal">다운도그<br/><br/></h2>
-                        <p>가슴과 어깨를 젖혀줘 나쁜 자세로 생기는 통증을 완화하고 전신의 유연성을 높이는 운동입니다.<br/><br/></p>
-                        <p><a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="시작하기"><span>시작하기</span></button></a></p>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div id="3">
-                <div id="myCarousel" className="inner bg-1 carousel slide" data-bs-ride="carousel">
+                <div id="myCarousel" className="inner bg-3 carousel slide" data-bs-ride="carousel">
 
                     <div className="carousel-indicators">
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" aria-label="Slide 1" className="active"></button>
@@ -49,13 +45,11 @@ const Middle = () => {
                     <div className="carousel-inner">
 
                     <div className="carousel-item innerH">
-
                         <div className="container">
-                        <svg className="" width="100%" height="100%" xmlns=""   focusable="false"><rect fill=""></rect></svg>
+                        <svg className="" width="100%" height="100%" xmlns="" focusable="false"><rect fill=""></rect></svg>
                         <div className="carousel-caption text-start">
-                            <h1>스쿼트<br/><br/></h1>
-                            <p>가장 기본적인 하체 운동으로 대퇴사두근, 대둔근, 슬굴곡근이 단련되면서 <br/> 허벅지와 엉덩이, 종아리를 포함한 하체 근육을 강화시켜주는 효과가 있습니다.<br/><br/></p>
-                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
+                            <h1> <p className='font'>사이트 이용방법</p><br/><br/></h1>
+                            <p> '자세 교정'으로 올바른 자세를 찾고,<br/><br/>'운동루틴'을 통해 나만의 헬스 루틴을 찾을 수 있습니다. <br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -64,9 +58,9 @@ const Middle = () => {
                         <div className="container">
                         <svg className="" width="100%" height="100%" xmlns=""   focusable="false"><rect fill="#b6d8f2"></rect></svg>
                         <div className="carousel-caption text-start ">
-                            <h1>런지<br/><br/></h1>
-                            <p>균형감각을 향상시키고, 엉덩이와 허벅지의 군살을 제거하며, 탄탄하게 만들어 주는 효과가 있습니다.<br/><br/></p>
-                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
+                            <h1><p className='font'>자세교정</p><br/><br/></h1>
+                            <p>나의 자세를 분석하여 정확한 자세를 찾아줍니다.<br/></p>
+                            <p>교정하고 싶은 자세를 선택하여 자세 피드백을 받으세요.<br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -76,9 +70,9 @@ const Middle = () => {
                         <div className="container">
                         <svg className="" width="100%" height="100%" xmlns=""  focusable="false"><rect fill="#b6d8f2"></rect></svg>
                         <div className="carousel-caption text-start">
-                            <h1>데드리프트<br/><br/></h1>
-                            <p>무거운 중량을 버티는 등, 허리의 안정화와 하체 근육 단련에 효과적입니다. <br/> 근력과 순발력 훈련은 물론, 신진대사 활성화하고 지방 감량에 효과가 있습니다.<br/><br/></p>
-                            <p><a href="/posecam" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동하기"><span>운동하기</span></button></a></p>
+                            <h1><p className='font'>운동루틴</p><br/><br/></h1>
+                            <p>나의 운동을 루틴으로 구성하여 매일매일 규칙적인 운동을 시작합니다.<br/><br/></p>
+                            <p>원하는 운동을 선택하고 나만의 운동 루틴을 기록하세요.<br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -93,6 +87,23 @@ const Middle = () => {
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Next</span>
                     </button>
+                </div>
+            </div>
+
+            <div id="3">
+                <div className="inner bg-2">
+                    <div className="innerM2">
+                    <h1><p className='font'>원하는 운동을 선택하세요.</p><br/><br/></h1>
+                    {
+                      <div>
+                        {selectComponent[content]}
+                      </div>
+                    }
+
+                    <button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="자세교정"
+                    onClick={handleClickButton} name={'first'}><span>자세교정</span></button>
+                    <a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동루틴"><span>운동루틴</span></button></a>
+                    </div>
                 </div>
             </div>
     </MiddleBlock>
@@ -111,25 +122,45 @@ const MiddleBlock = styled.div`
   
   .bg-1 {
     background-color: #b6d8f2;
+    overflow: hidden;
+    position: relative;
+    color: white;
+  }
+
+  .b1{
+    position: absolute;
+    float: left;
   }
   
   .bg-2 {
-    background-color: #ffffff;
-    overflow: hidden;
+    //background-color: black;
+    background-image: url("/img/background2.jpg");
+    background-size: cover;
+  }
+
+  .bg-3 {
+    //background-color: black;
+    background-image: url("/img/background.jpg");
+    background-size: cover;
   }
 
   .innerH{
     height: 300px;
   }
 
-  .innerM{
-    margin-left: 10%;
-    margin-right: 8%;
+  .innerM2{
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 1.1rem;
   }
 
-  .innerM2{
-    margin-right: 1%;
+  .font{
+    font-weight: bold;
+    font-size: 1.3rem;
   }
+
+
 
 
   
@@ -143,7 +174,7 @@ const MiddleBlock = styled.div`
   padding: 1em 2em;
   border: none;
   background: none;
-  color: inherit;
+  color: white;
   vertical-align: middle;
   position: relative;
   z-index: 1;
@@ -194,7 +225,7 @@ const MiddleBlock = styled.div`
     top: 0;
     left: 0;
     opacity: 0;
-    color: #000000;
+    color:  black;
     -webkit-transform: translate3d(0, 25%, 0);
     transform: translate3d(0, 25%, 0);
   }
