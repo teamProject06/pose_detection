@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-scroll';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -79,19 +78,23 @@ const Header = (props) => {
                                   {  // 로그인 확인
                                       !view.SignIn ? (
                                           <SideBlock>
-                                              <Link to="2" spy={true} smooth={true}>
-                                                  <span>자세교정</span>
-                                              </Link>
+                                            <a href="/" >
+                                              자세교정
+                                            </a>
+                                          
                                           </SideBlock>
                                       ) : (
                                           <SideBlock>
-                                              <Link to="2" spy={true} smooth={true}>
-                                                  <span>자세교정</span>
-                                              </Link>
-                                              <Link to="3" spy={true} smooth={true}>
-                                                  <span>운동루틴</span>
-                                              </Link>
-                                          </SideBlock>)
+                                             <a href="/">
+                                              자세교정&nbsp;&nbsp;&nbsp;
+                                            </a>
+                                              
+                                              <a href="/routine" >
+                                                운동루틴
+                                              </a>
+                                          
+                                          </SideBlock>
+                                          )
                                   }
   
                                   <Box/>
@@ -124,10 +127,12 @@ const Header = (props) => {
 
 const Headerb = styled.div`
 .boxtool{
+background-color: white;
 width: 100%;
 display: inline-flex;
 align-items: center;
 box-sizing: border-box;
+color: white;
 }
 `
 
@@ -154,7 +159,7 @@ const SideBlock = styled.div`
   width: 25%;
   min-width: 170px;
   display: inline-flex;
-  margin-left: 10px;
+  margin-left: 20px;
 
   .span {
     cursor: pointer;
