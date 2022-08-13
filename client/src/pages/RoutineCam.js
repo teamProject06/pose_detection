@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import RoutineTensorflow from '../components/routineCam/RoutineTensorflow';
 
 const RoutineCam = () => {
   return (
-    <div>RoutineCam</div>
+    <>
+      <RoutineTensorflow />
+    </>
   )
 }
 
