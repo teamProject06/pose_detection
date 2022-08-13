@@ -154,41 +154,6 @@ const PoseTensorflow = () => {
     };
 
 
-    const divisionBodyLunge = (body) => {
-        //무릎 왼/오, 어깨 왼/오, 골반 왼/오 
-        tmp['leftElbowTmp'].push(  //왼쪽 팔
-            calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
-        );
-        tmp['rightElbowTmp'].push( //오른쪽 팔
-            calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y])
-        );
-        tmp['leftKneeTmp'].push( //왼쪽 무릎
-            calculatorAngles([body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y])
-        );
-        tmp['rightKneeTmp'].push( //오른쪽 무릎
-            calculatorAngles([body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y])
-        );
-        tmp['leftWristTmp'].push( //왼쪽 골반
-            calculatorAngles([body[11].x, body[11].y, body[23].x, body[23].y, body[25].x, body[25].y])
-        );
-        tmp['rightWristTmp'].push( //오른쪽 골반
-            calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
-        );
-
-        // 발뒤꿈치 왼/오, 발목 왼/오
-        tmp['FootHeel'].push(checkFootHeel(body[31].y, body[29].y, body[32].y, body[30].y));
-
-        // 무릎, 발 좌표 비교 (x, z) 
-        tmp['kneeProtrusionTmp'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
-
-        tmp['Elbowknee'].push(checkKneeAngles(calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y]),  
-        calculatorAngles([body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y]),
-        calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y]),
-        calculatorAngles([body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y])
-         ));
-
-    };
-
     // (함수) 무릎, 발 좌표 비교
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
         console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
@@ -200,17 +165,6 @@ const PoseTensorflow = () => {
     };
 
 
-    // (함수) 굽히는 팔 반대쪽 무릎의 각도가 90도 인지
-    const checkKneeAngles = (leftElbow, rightKnee, rightElbow, leftKnee) => {
-        console.log("왼팔:", leftElbow, "오른쪽 무릎:", rightKnee, "오른팔:", rightElbow, "왼쪽 무릎: ", leftKnee);
-
-        if (leftElbow < 105 && leftElbow > 85 && rightKnee < 100){ // 왼팔을 굽히고 있다면 -> 오른쪽 무릎 
-            return true;
-        }
-        if (rightElbow < 105 && rightElbow > 85 && leftKnee < 100) return true;
-
-        return false;
-    };
 
     //[0ax, 1ay, 2bx, 3by, 4cx, 5cy] 각도 계산
     const calculatorAngles = (position) => {
