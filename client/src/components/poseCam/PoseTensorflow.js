@@ -10,16 +10,6 @@ const PoseTensorflow = () => {
     const canvasRef = useRef(null);
 
     // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
-    const tmp = {
-        leftElbowTmp: [],
-        rightElbowTmp: [],
-        rightKneeTmp: [],
-        leftKneeTmp: [],
-        leftWristTmp: [],
-        rightWristTmp: [],
-        kneeProtrusionTmp: [],
-    };
-
     const bodyPoint = {
         leftElbows: [],
         rightElbows: [],
@@ -27,44 +17,46 @@ const PoseTensorflow = () => {
         leftWrists: [],
         rightWrists: [],
         leftKnees: [],
+        leftShouldersMove: [],
+        rightShouldersMove: [],
         kneeProtrusion: [],
     };
 
     // let count = 0;
     // setInterval(() => {
-    //    // if (tmp['leftElbowTmp'].length >= 6) {
-    //    //     bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
-    //       //  tmp['leftElbowTmp'].length = 0;
+    //    // if (bodyPoint['leftElbowbodyPoint'].length >= 6) {
+    //    //     bodyPoint['leftElbows'].push(bodyPoint['leftElbowbodyPoint'][5]);
+    //       //  bodyPoint['leftElbowbodyPoint'].length = 0;
     //   //  }
-    //     if (tmp['rightElbowTmp'].length >= 6) {
-    //         bodyPoint['rightElbows'].push(tmp['rightElbowTmp'][5]);
-    //         tmp['rightElbowTmp'].length = 0;
+    //     if (bodyPoint['rightElbowbodyPoint'].length >= 6) {
+    //         bodyPoint['rightElbows'].push(bodyPoint['rightElbowbodyPoint'][5]);
+    //         bodyPoint['rightElbowbodyPoint'].length = 0;
     //     }
-    //     if (tmp['leftKneeTmp'].length >= 6) {
-    //         console.log(tmp['leftKneeTmp'][25], "tmp['leftKneeTmp'][25]");
-    //         bodyPoint['leftKnees'].push(tmp['leftKneeTmp'][5]);
-    //         if (tmp['leftKneeTmp'][20] <= 110) {
+    //     if (bodyPoint['leftKneebodyPoint'].length >= 6) {
+    //         console.log(bodyPoint['leftKneebodyPoint'][25], "bodyPoint['leftKneebodyPoint'][25]");
+    //         bodyPoint['leftKnees'].push(bodyPoint['leftKneebodyPoint'][5]);
+    //         if (bodyPoint['leftKneebodyPoint'][20] <= 110) {
     //             count += 1;
     //         }
-    //         tmp['leftKneeTmp'].length = 0;
+    //         bodyPoint['leftKneebodyPoint'].length = 0;
     //     }
-    //     if (tmp['rightKneeTmp'].length >= 6) {
-    //         bodyPoint['rightKnees'].push(tmp['rightKneeTmp'][5]);
-    //         tmp['rightKneeTmp'].length = 0;
+    //     if (bodyPoint['rightKneebodyPoint'].length >= 6) {
+    //         bodyPoint['rightKnees'].push(bodyPoint['rightKneebodyPoint'][5]);
+    //         bodyPoint['rightKneebodyPoint'].length = 0;
     //     }
-    //     if (tmp['leftWristTmp'].length >= 6) {
-    //         bodyPoint['leftWrists'].push(tmp['leftWristTmp'][5]);
-    //         tmp['leftWristTmp'].length = 0;
-    //     }
-
-    //     if (tmp['rightStrideTmp'].length >= 6) {
-    //         bodyPoint['rightStrides'].push(tmp['rightStrideTmp'][5]);
-    //         tmp['rightStrideTmp'].length = 0;
+    //     if (bodyPoint['leftWristbodyPoint'].length >= 6) {
+    //         bodyPoint['leftWrists'].push(bodyPoint['leftWristbodyPoint'][5]);
+    //         bodyPoint['leftWristbodyPoint'].length = 0;
     //     }
 
-    //     if (tmp['kneeProtrusionTmp'].length >= 6) {
-    //         bodyPoint['kneeProtrusion'].push(tmp['kneeProtrusionTmp'][5]);
-    //         tmp['kneeProtrusionTmp'].length = 0;
+    //     if (bodyPoint['rightStridebodyPoint'].length >= 6) {
+    //         bodyPoint['rightStrides'].push(bodyPoint['rightStridebodyPoint'][5]);
+    //         bodyPoint['rightStridebodyPoint'].length = 0;
+    //     }
+
+    //     if (bodyPoint['kneeProtrusionbodyPoint'].length >= 6) {
+    //         bodyPoint['kneeProtrusion'].push(bodyPoint['kneeProtrusionbodyPoint'][5]);
+    //         bodyPoint['kneeProtrusionbodyPoint'].length = 0;
     //     }
     // }, 500);
 
@@ -79,11 +71,11 @@ const PoseTensorflow = () => {
 
         setTimeout(() => {
             clearInterval(interval);
-            console.log(tmp, 'tmp');
+            console.log(bodyPoint, 'bodyPoint');
             // console.log(count, 'cc');
             // console.log(bodyPoint, 'bodyPoint');
             window.localStorage.setItem('bodyAngle', JSON.stringify(bodyPoint));
-        }, 10000);
+        }, 20000);
     };
 
     const detect = async (net) => {
@@ -131,28 +123,28 @@ const PoseTensorflow = () => {
     };
 
     const divisionBodySquat = (body) => {
-        tmp['leftElbowTmp'].push(
-            calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
-        );
-        tmp['rightElbowTmp'].push(
-            calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y])
-        );
-        tmp['leftKneeTmp'].push(
+        // bodyPoint['leftElbowbodyPoint'].push(
+        //     calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
+        // );
+        // bodyPoint['rightElbowbodyPoint'].push(
+        //     calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y])
+        // );
+        bodyPoint['leftKnees'].push(
             calculatorAngles([body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y])
         );
-        tmp['rightKneeTmp'].push(
+        bodyPoint['rightKnees'].push(
             calculatorAngles([body[28].x, body[28].y, body[26].x, body[26].y, body[24].x, body[24].y])
         );
-        tmp['leftWristTmp'].push(
+        bodyPoint['leftWrists'].push(
             calculatorAngles([body[11].x, body[11].y, body[23].x, body[23].y, body[25].x, body[25].y])
         );
-        tmp['rightWristTmp'].push(
+        bodyPoint['rightWrists'].push(
             calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
         );
-        tmp['kneeProtrusionTmp'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
+        checkShoulderMove([body[11].z, body[12].z, body[11].x, body[12].x])
+        
+        // bodyPoint['kneeProtrusionbodyPoint'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
     };
-
-   
 
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
         console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
@@ -162,6 +154,17 @@ const PoseTensorflow = () => {
 
         return true;
     };
+
+    const checkShoulderMove = (shoulders) => {
+        // if (shoulders[0] < 0 && shoulders[0] < shoulders[1]) {
+            
+        //     console.log('leftttttt',  shoulders[2])
+        //     return bodyPoint['leftShouldersMove'].push(shoulders[2]), bodyPoint['leftShouldersMove'].push(shoulders[3]) 
+        // } 
+        bodyPoint['leftShouldersMove'].push(shoulders[2]) 
+        bodyPoint['rightShouldersMove'].push(shoulders[3]) 
+
+    } 
 
     // 발꿈치(y) 떼어져 있는지 
     // const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
@@ -192,29 +195,24 @@ const PoseTensorflow = () => {
 
     window.requestAnimationFrame(runPosenet);
 
+    const videoConstraints = {
+        width: 760,
+        height: 486,       
+        facingMode: "user"
+      };
+      
+
     return (
         <>
             <WebcamComponent>
                 <Webcam ref={webcamRef}
-            style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            height: "93vh",
-            width: "100%",
-             objectFit: 'cover'
-                }}/>
-                <canvas ref={canvasRef} style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    height: "93vh",
-                    width: "100%",
-                }}></canvas>
+                audio={false}
+                height={486}
+                screenshotFormat="image/jpeg"
+                width={760}
+                videoConstraints={videoConstraints}
+                />
+                <canvas ref={canvasRef} className="canvas"></canvas>
                 </WebcamComponent>
         </>
     );
@@ -222,10 +220,18 @@ const PoseTensorflow = () => {
 
 const WebcamComponent = styled.div`
     position: relative;
-    width: 100%;
-    height: 93vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1280px;
+    margin: 0 auto;
     z-index: 10;
-    margin-top: 7%;
+    .canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 
