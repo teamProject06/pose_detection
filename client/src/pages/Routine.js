@@ -3,23 +3,6 @@ import styled from 'styled-components';
 import MyRoutine from '../components/routine/MyRoutine';
 import UserRoutine from '../components/routine/UserRoutine';
 
-const dummy = [
-  {
-    'nickName': 'user1',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-  {
-    'nickName': 'user2',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-  {
-    'nickName': 'user3',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-]
 
 const Routine = () => {
   const [isClick, setIsClick] = useState({
@@ -81,7 +64,7 @@ const Container = styled.section`
   text-align : center;
   max-width: 80%;
   height: 100%;
-  margin: 0 auto;
+  margin: 0 10%;
 .title{
   font-size : 20px;
   text-size-adjust: none;
@@ -110,5 +93,11 @@ const Parent = styled.div`
 const RoutineContainer = styled.div`
 width : 100%;
 height: 300px;`
+
+// const GlobalStyle = createGlobalStyle`
+//       body {
+//         background-color: #c3dbff;
+//       }
+//       `
 
 export default Routine

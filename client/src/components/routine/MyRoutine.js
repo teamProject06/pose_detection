@@ -20,36 +20,49 @@ const MyRoutine = () => {
   return (
     <>
     <AddRoutineItem />
-    <TmpRoutine>
-       {routineList.map(item => (
-            <EditRoutineItem key={item.id} item={item} />
+    <SQUARE>
+      <Table>
+        <tbody>
+       {routineList.map((item) => (
+            <EditRoutineItem key={item.id} item={item}/>
         ))}
+        </tbody>
+        </Table>
         {routineList.length > 0 && <LongChoose type='button' onClick={()=> {
           naviation('/routine/routinecam', { replace: true})
-        }}>완료</LongChoose>}</TmpRoutine>
+        }}>이 루틴으로 운동 시작</LongChoose>}
+        </SQUARE>
     </>
   )
 }
 
-const TmpRoutine = styled.div`
-    justify-content: center;
-    display: flex;
-    border: 1px solid #dae1e6;
+const Table = styled.table`
+width: 100%;
+border-collapse: collapse;
+td{
+  font-size: 12px;
+  font-weight: 900;
+  border-top : 1.3px solid #c3dbff;
+  border-bottom : 1.3px solid #c3dbff;
+  padding : 16px 0;
+}`
+
+const SQUARE = styled.div`
     height: 150px;
     width: 95%;
-    margin : 0% 2.5%;`
+    margin : 0% 2.5%;
+    margin-bottom: 5%;`
     
-const LongChoose = styled.div`
+    const LongChoose = styled.div`
     border-radius: 13px;
     background-color: #c3dbff;
-    font-size: 13px;
-    height: 30px;
-    padding : 2%;
-    font-weight: 1000;
+    /* color : white; */
+    font-size: 14px;
+    width : 90%;
+    height: 45px;
+    padding : 14px;
+    font-weight: 600;
     text-align: center;
     text-decoration: none;
-    /* position: relative; */
-    margin: 20px;
-    border-radius: 1px;
-`
-export default MyRoutine
+    margin: 5% ;`
+export default MyRoutine;

@@ -1,28 +1,107 @@
-import React from 'react'
-import styled from "styled-components";
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTable } from 'react-table';
+import styled, { createGlobalStyle } from "styled-components";
+import $ from 'jquery';
 
 const UserRoutine = () => {
+  /*_____________________data_______________________*/
+  useEffect(()=>{
+    getList();
+  },[]);
+
+  let tmpTableBody;
+
+  const userRoutine = [
+    
+    {
+      name : "이나영1",
+      routine : ["routine1", "routine2", "routine3"],
+      date : "2022-08-14",
+    },
+    {
+      name : "이나영2",
+      routine : ["routine1", "routine2", "routine3"],
+      date : "2022-08-14",
+    },
+    {
+      name : "이나영3",
+      routine : ["routine1", "routine2", "routine3"],
+      date : "2022-08-14",
+    },
+    {
+      name : "이나영4",
+      routine : ["routine1", "routine2", "routine3"],
+      date : "2022-08-14",
+    },
+    {
+      name : "이나영5",
+      routine : ["routine1", "routine2", "routine3"],
+      date : "2022-08-14",
+    }
+  ]
+
+  const getList = () => {
+    $(".tableBody").empty();
+    userRoutine.map((it,index) => {
+      tmpTableBody = `<tr>
+      <td scope="row">${index + 1}</td> 
+      <td>${it.name}</td>
+      <td>${it.routine}</td>
+      <td>${it.date}</td>
+    </tr>`;
+    $('.tableBody').append(tmpTableBody);
+    })
+  }
+  /*_____________________data_______________________*/
+  
   return (
-    <SQUARE>UserRoutine</SQUARE>
+    <SQUARE>
+      {/* <Label>다른 회원 루틴을 참고해서 루틴을 등록해보세요!</Label> */}
+      <Table>
+        <thead>
+          <tr>
+            <th scope = "col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Routine</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+          <tbody className='tableBody'></tbody>
+      </Table>
+    </SQUARE>
   )
 }
 
 const SQUARE = styled.div`
-    justify-content: center;
-    display: flex;
-    border: 1px solid #dae1e6;
-    height: 400px;
-    width: 95%;
-    margin : 0% 2.5%;
+        justify-content: center;
+        background-color: white;
+        height: 570px;
+        width: 95%;
+        margin : 0 2.5% 20px;
+        margin-bottom: 5%;`
+
+const Label = styled.div`
+  text-align: right;
+  font-size : 13px;
+  margin-bottom: 3%;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 `
 
+const Table = styled.table`
+width: 100%;
+border-collapse: collapse;
+th{
+  font-size: 14px;
+  font-weight: 900;
+  border: 0.5px solid #dae1e6;
+  padding : 5% 0;
+}
+td{
+  font-size: 12px;
+  font-weight: 450;
+  border-right : 0.5px solid #dae1e6;
+  border-left : 0.5px solid #dae1e6;
+  border-bottom : 0.5px solid #dae1e6;
+  padding : 20px 0;
+}`
 export default UserRoutine;
-
-/*
-
-여기다가 OtherRoutine이 백준 사이트처럼 뿌려지는 거지
-  이름 | 루틴 횟수 - 루틴 횟수 - 루틴 횟수 | 날짜
-  이름 | 루틴 루틴 루틴 | 날짜
-> 루틴 횟수 - 루틴 횟수 - 루틴 횟수
-
-*/
