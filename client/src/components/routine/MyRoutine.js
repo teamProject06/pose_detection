@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useRecoilValue } from 'recoil';
 import {routineListState}  from '../../atom/atomState'
-import RoutineItemCreate from './RoutineItemCreate';
-import RoutineItem from './RoutineItem';
+import AddRoutineItem from './AddRoutineItem';
+import EditRoutineItem from './EditRoutineItem';
 import { useNavigate } from 'react-router-dom'; 
+import styled from 'styled-components';
 
 const MyRoutine = () => {
     const routineList = useRecoilValue(routineListState)
@@ -13,20 +14,42 @@ const MyRoutine = () => {
         console.log(routineList)
     }, [routineList])
     
-    // RoutineItemCreate 루틴을 추가하는 인풋
-    // RoutineItem 루틴 리스트를 보여주고 확인 수정 가능하고 버튼이 있다
+    // AddRoutineItem 루틴을 추가하는 인풋
+    // EditRoutineItem 루틴 리스트를 보여주고 확인 수정 가능하고 버튼이 있다
 
   return (
     <>
-    <RoutineItemCreate />
+    <AddRoutineItem />
+    <TmpRoutine>
        {routineList.map(item => (
-            <RoutineItem key={item.id} item={item} />
+            <EditRoutineItem key={item.id} item={item} />
         ))}
-        {routineList.length > 0 && <button type='button' onClick={()=> {
+        {routineList.length > 0 && <LongChoose type='button' onClick={()=> {
           naviation('/routine/routinecam', { replace: true})
-        }}>완료</button>}
+        }}>완료</LongChoose>}</TmpRoutine>
     </>
   )
 }
 
+const TmpRoutine = styled.div`
+    justify-content: center;
+    display: flex;
+    border: 1px solid #dae1e6;
+    height: 150px;
+    width: 95%;
+    margin : 0% 2.5%;`
+    
+const LongChoose = styled.div`
+    border-radius: 13px;
+    background-color: #c3dbff;
+    font-size: 13px;
+    height: 30px;
+    padding : 2%;
+    font-weight: 1000;
+    text-align: center;
+    text-decoration: none;
+    /* position: relative; */
+    margin: 20px;
+    border-radius: 1px;
+`
 export default MyRoutine

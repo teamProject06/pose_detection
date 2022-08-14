@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { routineListState, editIdFilterState } from '../../atom/atomState';
-import { useRecoilState } from 'recoil'; 
+import { routineListState, editIdFilterState, activeExcerciseState } from '../../atom/atomState';
+import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 
-const RoutineItem = ({item}) => {
+const EditRoutineItem = ({ item }) => {
     const [editCheck, setEditCheck] = useRecoilState(editIdFilterState)
   const [routineUpdateList, setRoutineUpdateList] = useRecoilState(routineListState)
   const [isEdit, setIsEdit] = useState({
@@ -100,10 +101,36 @@ const RoutineItem = ({item}) => {
             (<p>{item.name} {item.count}</p>)
         }
         
-        {editCheck.filter(it => parseInt(it) === parseInt(item.id)).length === 0 ? <button onClick={(e) => onClickEdit(e, item.id)}>수정</button> : <button onClick={(e) => onClickEdit(e, item.id)}>확인</button>}
-        <button onClick={deleteItem}>X</button>
+        {editCheck.filter(it => parseInt(it) === parseInt(item.id)).length === 0 ? <EditorDelete onClick={(e) => onClickEdit(e, item.id)}>수정</EditorDelete> : <EditorDelete onClick={(e) => onClickEdit(e, item.id)}>확인</EditorDelete>}
+        <EditorDelete onClick={deleteItem}>X</EditorDelete>
     </div>
   )
 }
 
-export default RoutineItem
+const EditorDelete = styled.button`
+padding : 5px;
+ font-size: 13px;
+ border: 2px solid #c3dbff;
+border-radius: 5px;
+ width: 40px;
+ height: 30px;
+ font-weight: 500;
+ text-align: center;
+ margin: 5px;
+`
+const LongChoose = styled.div`
+    border-radius: 13px;
+    background-color: #c3dbff;
+    font-size: 13px;
+    height: 30px;
+    padding : 2%;
+    font-weight: 1000;
+    text-align: center;
+    text-decoration: none;
+    /* position: relative; */
+    margin: 20px 0px;
+    border-radius: 1px;
+`
+
+
+export default EditRoutineItem
