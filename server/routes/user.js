@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const crypto = require("crypto");
 const util = require("util");
-const { User } = require("./../models/schemas/userSchemas");
+const { User } = require("./../models/schemas/userSchema");
 const jwt = require("jsonwebtoken");
 const jwtConfig = require("../config/jwtConfig.json");
 

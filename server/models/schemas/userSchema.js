@@ -1,9 +1,11 @@
 const mongoose = require ("mongoose");
 const { Schema } = mongoose;
-// const shortId = ...;
+//pw찾을 때 shortId 필요
+// const shortId = require("./types/short-id.js");
 
 const user = new Schema(
   {
+    // shortId,
     email: String,
     password: String,
     salt : String,

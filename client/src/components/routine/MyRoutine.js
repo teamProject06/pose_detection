@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useRecoilValue } from 'recoil';
 import {routineListState}  from '../../atom/atomState'
-import RoutineItemCreate from './RoutineItemCreate';
-import RoutineItem from './RoutineItem';
+import AddRoutineItem from './AddRoutineItem';
+import EditRoutineItem from './EditRoutineItem';
 import { useNavigate } from 'react-router-dom'; 
+import styled from 'styled-components';
 
 const MyRoutine = () => {
     const routineList = useRecoilValue(routineListState)
@@ -13,20 +14,56 @@ const MyRoutine = () => {
         console.log(routineList)
     }, [routineList])
     
-    // RoutineItemCreate 루틴을 추가하는 인풋
-    // RoutineItem 루틴 리스트를 보여주고 확인 수정 가능하고 버튼이 있다
+    // AddRoutineItem 루틴을 추가하는 인풋
+    // EditRoutineItem 루틴 리스트를 보여주고 확인 수정 가능하고 버튼이 있다
 
   return (
     <>
-    <RoutineItemCreate />
-       {routineList.map(item => (
-            <RoutineItem key={item.id} item={item} />
+    <AddRoutineItem />
+    <SQUARE>
+      <Table>
+        <tbody>
+       {routineList.map((item) => (
+            <EditRoutineItem key={item.id} item={item}/>
         ))}
-        {routineList.length > 0 && <button type='button' onClick={()=> {
+        </tbody>
+        </Table>
+        {routineList.length > 0 && <LongChoose type='button' onClick={()=> {
           naviation('/routine/routinecam', { replace: true})
-        }}>완료</button>}
+        }}>이 루틴으로 운동 시작</LongChoose>}
+        </SQUARE>
     </>
   )
 }
 
-export default MyRoutine
+const Table = styled.table`
+width: 100%;
+border-collapse: collapse;
+td{
+  font-size: 12px;
+  font-weight: 900;
+  border-top : 1.3px solid black;//#c3dbff;
+  border-bottom : 1.3px solid black;//#c3dbff;
+
+  padding : 16px 0;
+}`
+
+const SQUARE = styled.div`
+    width: 95%;
+    margin : 10% 2.5%;
+    margin-bottom: 20px;`
+//이 루틴으로 운동시작
+const LongChoose = styled.div`
+    border-radius: 13px;
+    background-color: black; //#c3dbff;
+    color : white;
+    font-size: 14px;
+    width : 90%;
+    height: 45px;
+    padding : 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    margin: 5%;`
+
+export default MyRoutine;
