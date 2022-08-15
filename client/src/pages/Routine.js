@@ -1,37 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MyRoutine from '../components/routine/MyRoutine';
-import OtherRoutine from '../components/routine/OtherRoutine';
+import UserRoutine from '../components/routine/UserRoutine';
 
-const dummy = [
-  {
-    'nickName': 'user1',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-  {
-    'nickName': 'user2',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-  {
-    'nickName': 'user3',
-    'date': 'user1',
-    'routine': 'user1',
-  },
-]
 
 const Routine = () => {
   const [isClick, setIsClick] = useState({
     'myRoutine': false,
-    'otherRoutine': false,
-  }) 
+    'userRoutine': false,
+  })
 
-  useEffect(() => { 
+  useEffect(() => {
     console.log(isClick)
   }, [isClick])
 
-  const clickMyRoytineAdd = () => { 
+  const clickMyRoutineAdd = () => {
     console.log(
       'dsda')
     setIsClick({
@@ -40,64 +23,81 @@ const Routine = () => {
     })
   }
 
-  const clickOtherRoutine = () => { 
+  const clickOtherRoutine = () => {
     setIsClick({
       ...isClick,
-      otherRoutine: true,
+      userRoutine: true,
     })
   }
 
   return (
-      <Container>
-        <div className='title'>운동 루틴</div>
+    <Container>
+      {/* <div className='title'>운동 루틴</div> */}
+      <Parent>
+        <button type="button" onClick={clickMyRoutineAdd} className="my-routine Div">
+          루틴 등록
+        </button>
+        <button type="button" onClick={clickOtherRoutine} className="other-routine Div">
+          회원 루틴
+        </button>
+        </Parent>
         <Parent>
-            <button type="button" onClick={clickMyRoytineAdd} className="my-routine Div">
-                루틴 등록
-            </button>
-            <button type="button" onClick={clickOtherRoutine} className="other-routine Div">
-                회원 루틴
-            </button>
-            <RoutineContainer>
-            {isClick.myRoutine &&<MyRoutine />}
-            {isClick.otherRoutine && <OtherRoutine />}
-            </RoutineContainer>
-          </Parent>
-      </Container>
+        <RoutineContainer>
+          <Left>{isClick.myRoutine && <MyRoutine />}</Left>
+          <Right>{isClick.userRoutine && <UserRoutine />}</Right>
+        </RoutineContainer>
+      </Parent>
+    </Container>
   );
 }
 
+const Left = styled.div`
+  width : 50%;
+  float :left
+`
+const Right = styled.div`
+  width : 50%;
+  float :right
+`
+
 const Container = styled.section`
   text-align : center;
-  max-width: 500px;
-  margin: 0 auto;
-
+  max-width: 80%;
+  height: 100%;
+  margin: 0 10%;
 .title{
-  font-size : 30px;
+  font-size : 20px;
+  font-weight: 700;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-  padding: 20% 0 0;
-  margin-bottom: 10%;
+  margin-bottom: 3%;
 }
 `;
 
 const Parent = styled.div`
-display: flex;
-height: 80px;
-
+  display: flex;
+  height: 80px;
 .Div{
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 50%;
   height : 45px;
-  color: #1d1d1d;
+  color: black;
   font-weight: 600;
   font-size: 15px;
   padding: 15px;
-  border-radius: 8px;
-  background-color : #c3dbff;
+  border-bottom: 3px solid black;
   margin-left: 10px;
   margin-right: 10px;
 }
 `
-const RoutineContainer = styled.article``;
+const RoutineContainer = styled.div`
+width : 100%;
+height: 300px;`
+
+// const GlobalStyle = createGlobalStyle`
+//       body {
+//         background-color: #c3dbff;
+//       }
+//       `
 
 export default Routine
