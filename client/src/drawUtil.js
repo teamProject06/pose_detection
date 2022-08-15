@@ -24,7 +24,7 @@ const COLOR_PALETTE = [
 ];
 
 const STATE = {
-    camera: { targetFPS: 60, sizeOption: '640 X 480' },
+    camera: { targetFPS: 60, sizeOption: '1280 X 720' },
     backend: '',
     flags: {},
     modelConfig: {},

@@ -31,7 +31,8 @@ function App() {
                     <Route path="/:id">
                         <Route path="mypage" element={<MyPage />}></Route>
                     </Route>
-                    <Route path="/posecam" element={<PoseCam />}>
+                    <Route path="/posedetection" >
+                        <Route path="posecam" element={<PoseCam />}></Route>
                         <Route path="feedback" element={<Feedback />}></Route>
                     </Route>
                 </Routes>
