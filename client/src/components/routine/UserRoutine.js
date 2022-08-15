@@ -100,6 +100,7 @@ th{
 td{
   font-size: 13px;
   font-weight: 500;
+
   border-right : 0.5px solid #dae1e6;
   border-left : 0.5px solid #dae1e6;
   border-bottom : 0.5px solid #dae1e6;

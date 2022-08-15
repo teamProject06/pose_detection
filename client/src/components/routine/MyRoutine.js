@@ -44,6 +44,7 @@ td{
   font-weight: 900;
   border-top : 1.3px solid black;//#c3dbff;
   border-bottom : 1.3px solid black;//#c3dbff;
+
   padding : 16px 0;
 }`
 
@@ -64,4 +65,5 @@ const LongChoose = styled.div`
     text-align: center;
     text-decoration: none;
     margin: 5%;`
+
 export default MyRoutine;

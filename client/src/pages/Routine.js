@@ -32,7 +32,7 @@ const Routine = () => {
 
   return (
     <Container>
-      {/* <div className='title'>운동 루틴</div> */}
+      <div className='title'>운동 루틴</div>
       <Parent>
         <button type="button" onClick={clickMyRoutineAdd} className="my-routine Div">
           루틴 등록

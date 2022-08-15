@@ -123,6 +123,7 @@ const AddRoutineItem = () => {
                 <ActiveExcercise>원암덤벨로우</ActiveExcercise>
                 <li>
                     <ShortChoose>inactive excercise</ShortChoose>
+
                     <Label>정적운동 이름은 아래에 직접 입력해주세요. (정적운동으로 나무자세, 플랭크를 추천합니다.)</Label>
                     {/* {!isActiveName && <InActiveInput */}
                     <OverExcerciseInput>your choice is . . .</OverExcerciseInput>
@@ -138,6 +139,7 @@ const AddRoutineItem = () => {
                 <ShortChoose>How much</ShortChoose>
                 <Label>동적운동은 횟수를, 정적운동은 시간(초)을 기록합니다.</Label>
                 <NumInput
+
                     type="text"
                     placeholder="동작 횟수 / 시간을 입력해주세요."
                     name="countOrTime"
@@ -150,7 +152,6 @@ const AddRoutineItem = () => {
     )
 }
 
-//큰 틀
 const SQUARE = styled.div`
     border: 1px solid #dae1e6;
     height: 600px;
@@ -162,6 +163,7 @@ const SQUARE = styled.div`
 const ShortChoose = styled.div`
     float: left;
     /* color :#c3dbff; */
+
     font-size: 18px;
     width: 90%;
     height: 10px;
@@ -251,6 +253,7 @@ const LongChoose = styled.div`
     text-decoration: none;
     margin: 3% 10% ;
 `
+
 
 
 export default AddRoutineItem
