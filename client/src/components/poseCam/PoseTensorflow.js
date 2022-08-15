@@ -4,13 +4,13 @@ import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../drawUtil';
+import { useNavigate } from 'react-router-dom';
 
 const PoseTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
-
-    //const now = new Date().now
+    const navigation = useNavigate()
 
     setTimeout(()=> {
         console.log(recordedChunks, 'recordedChunks')
@@ -65,7 +65,8 @@ const PoseTensorflow = () => {
           const url = URL.createObjectURL(blob);
           // 임시 로컬 저장 변경 예정
           console.log(url)
-          window.localStorage.setItem("video", JSON.stringify(url))
+          window.localStorage.setItem("video", url)
+          navigation('/posedetection/feedback')
         }
       }, [recordedChunks]);
     
@@ -82,8 +83,20 @@ const PoseTensorflow = () => {
         leftShouldersMove: [],
         rightShouldersMove: [],
         kneeProtrusion: [],
-        scores: [],
     };
+
+    const pointScores = {
+        leftElbowPoints: [],
+        rightElbowPoints: [],
+        rightKneePoints: [],
+        leftWristPoints: [],
+        rightWristPoints: [],
+        leftKneePoints: [],
+        leftShoulderPoints: [],
+        rightShoulderPoints: [],
+        leftAnklePoint: [],
+        rightAnklePoint: [],
+    }
 
     const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
@@ -97,9 +110,11 @@ const PoseTensorflow = () => {
         setTimeout(() => {
             clearInterval(interval);
             console.log(bodyPoint, 'bodyPoint');
+            console.log(pointScores, 'pointScores');
             // console.log(count, 'cc');
             // console.log(bodyPoint, 'bodyPoint');
-            window.localStorage.setItem('bodyAngle', JSON.stringify(bodyPoint));
+            window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
+            window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
         }, 20000);
     };
 
@@ -170,10 +185,8 @@ const PoseTensorflow = () => {
             calculatorAngles([body[12].x, body[12].y, body[24].x, body[24].y, body[26].x, body[26].y])
         );
         checkShoulderMove([body[11].x, body[12].x])
-        bodyPoint['scores'].push(
-            [body[11].score, 'leftshoulder'],[body[12].score, 'rightshoulder'], [body[23].score, 'lefthip'], [body[24].score, 'righthip'],
-            [body[25].score, 'lefknee'], [body[26].score, 'lefknee'], [body[27].score, 'lefankle'], [body[28].score, 'rightankle']
-        )
+        bodyScorePoints([body[11].score, body[12].score, body[13].score, body[14].score, body[23].score, body[24].score, body[25].score, body[26].score, body[27].score, body[28].score])
+       
         // bodyPoint['kneeProtrusionbodyPoint'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
     };
 
@@ -191,6 +204,19 @@ const PoseTensorflow = () => {
         bodyPoint['rightShouldersMove'].push(shoulders[1]) 
 
     } 
+
+    const bodyScorePoints = (point) => {
+        pointScores['leftShoulderPoints'].push(point[0])
+        pointScores['rightShoulderPoints'].push(point[1])
+        pointScores['leftElbowPoints'].push(point[2])
+        pointScores['rightElbowPoints'].push(point[3])
+        pointScores['leftWristPoints'].push(point[4])
+        pointScores['rightWristPoints'].push(point[5])
+        pointScores['leftKneePoints'].push(point[6])
+        pointScores['rightKneePoints'].push(point[7])
+        pointScores['leftAnklePoint'].push(point[8])
+        pointScores['rightAnklePoint'].push(point[9])
+    }
 
     // 발꿈치(y) 떼어져 있는지 
     // const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
