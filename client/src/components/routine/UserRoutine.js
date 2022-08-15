@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTable } from 'react-table';
+import React, { useEffect} from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import $ from 'jquery';
 
@@ -91,14 +90,17 @@ const Table = styled.table`
 width: 100%;
 border-collapse: collapse;
 th{
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 900;
-  border: 0.5px solid #dae1e6;
-  padding : 5% 0;
+  border: 0.5px solid white;
+  background-color: #1d1d1d;
+  color : white;
+  padding : 2% 0;
 }
 td{
-  font-size: 12px;
-  font-weight: 450;
+  font-size: 13px;
+  font-weight: 500;
+
   border-right : 0.5px solid #dae1e6;
   border-left : 0.5px solid #dae1e6;
   border-bottom : 0.5px solid #dae1e6;

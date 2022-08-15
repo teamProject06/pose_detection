@@ -67,6 +67,7 @@ const Container = styled.section`
   margin: 0 10%;
 .title{
   font-size : 20px;
+  font-weight: 700;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   margin-bottom: 3%;
@@ -80,12 +81,11 @@ const Parent = styled.div`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 50%;
   height : 45px;
-  color: #1d1d1d;
-  font-weight: 500;
+  color: black;
+  font-weight: 600;
   font-size: 15px;
   padding: 15px;
-  border-radius: 8px;
-  background-color : #c3dbff;
+  border-bottom: 3px solid black;
   margin-left: 10px;
   margin-right: 10px;
 }

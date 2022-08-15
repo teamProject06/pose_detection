@@ -42,21 +42,21 @@ border-collapse: collapse;
 td{
   font-size: 12px;
   font-weight: 900;
-  border-top : 1.3px solid #c3dbff;
-  border-bottom : 1.3px solid #c3dbff;
+  border-top : 1.3px solid black;//#c3dbff;
+  border-bottom : 1.3px solid black;//#c3dbff;
+
   padding : 16px 0;
 }`
 
 const SQUARE = styled.div`
-    height: 150px;
     width: 95%;
-    margin : 0% 2.5%;
-    margin-bottom: 5%;`
-    
-    const LongChoose = styled.div`
+    margin : 10% 2.5%;
+    margin-bottom: 20px;`
+//이 루틴으로 운동시작
+const LongChoose = styled.div`
     border-radius: 13px;
-    background-color: #c3dbff;
-    /* color : white; */
+    background-color: black; //#c3dbff;
+    color : white;
     font-size: 14px;
     width : 90%;
     height: 45px;
@@ -64,5 +64,6 @@ const SQUARE = styled.div`
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    margin: 5% ;`
+    margin: 5%;`
+
 export default MyRoutine;

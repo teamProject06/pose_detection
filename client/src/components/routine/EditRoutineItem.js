@@ -126,12 +126,5 @@ margin: 0px 5px;
 color: #1a1a1a;
 outline: none;
 text-align: center;`
-const RoutineList =styled.span`
-font-size: 14px;
-font-weight: 600;
-padding :5px;
-border-bottom: 2px solid #c3dbff;
-width : 100px;
-margin :10px;
-`
+
 export default EditRoutineItem

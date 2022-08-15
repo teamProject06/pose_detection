@@ -45,7 +45,7 @@ const Header = (props) => {
 
 
     useEffect(() => {
-        if (cookies.userInfo === undefined && location.pathname !== '/posecam') {
+        if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/posedetection/feedback') {
             setView({
                 SignIn: false
             }) 
@@ -181,14 +181,14 @@ height: 80px;
 .fix-container {
   z-index: 10;
   
-    &.scrolled {
+    /* &.scrolled {
       box-shadow: //그림자 속성;
   
-      .header {
+       .header {
         height: 100px;
         transition: height 0.3s ease;
-      }
-    }
+      } 
+      } */  
 
     .nav-list.fix-nav{
       position: fixed;
@@ -198,6 +198,6 @@ height: 80px;
       bottom: 0;
     }
   }
-  `
+`
 
 export default Header;
