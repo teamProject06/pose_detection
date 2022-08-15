@@ -2,28 +2,25 @@ const { Schema } = require("mongoose");
 const pose = new Schema(
     {
         name: String,
-        time: Date.now(),
+        time: String,
         poseName: String,
-        result: String,
+        result:
+        {
+            good: [{
+                part: String,
+                feedback: String,
+            },],
+            bad: [{
+                part: String,
+                feedback: String,
+            },],
+            none: String,
+        }
     }
 );
 
-const Pose =  mongoose.model("pose", pose);
+const Pose = mongoose.model("pose", pose);
 module.exports = { Pose };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 const { Schema } = require("mongoose");
