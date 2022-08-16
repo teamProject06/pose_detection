@@ -66,7 +66,7 @@ const SignInComponent = () => {
       <SignInButton onClick = {onClickSignInButton}>로그인</SignInButton>
       <BigPadding>
         <OtherButton href='/signup'>회원가입</OtherButton>
-        <OtherButton>아이디 및 비밀번호 찾기</OtherButton>
+        <OtherButton hred='/findpw'>아이디 및 비밀번호 찾기</OtherButton>
       </BigPadding>
       <a>
         <SocialButton src={'/img/naver_login_button.png'} />

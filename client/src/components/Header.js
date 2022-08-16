@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
 
 
 const Header = (props) => {
@@ -45,7 +46,7 @@ const Header = (props) => {
 
 
     useEffect(() => {
-        if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/posedetection/feedback') {
+        if (cookies.userInfo === undefined && location.pathname !== '/posecam') {
             setView({
                 SignIn: false
             }) 
@@ -70,28 +71,32 @@ const Header = (props) => {
                               <Headerb>
                               <div className='boxtool'>
                                   <Logo>
-                                  <a href="/">
-                                      <img src="https://cdn-icons-png.flaticon.com/512/2840/2840214.png" alt="임시 로고" />
-                                  </a>
+                                  <Link to="/">
+                                    <h1 className='font'>FITBACK</h1>
+                                  </Link>
                                   </Logo>
   
                                   {  // 로그인 확인
                                       !view.SignIn ? (
                                           <SideBlock>
-                                            <a href="/" >
+                                            <Link to="/posture" >
+                                           
                                               자세교정
-                                            </a>
+                                           
+                                            </Link>
                                           
                                           </SideBlock>
                                       ) : (
                                           <SideBlock>
-                                             <a href="/">
+                                             <Link to="/posture">
+                                             
                                               자세교정&nbsp;&nbsp;&nbsp;
-                                            </a>
+                                            
+                                             </Link>
                                               
-                                              <a href="/routine" >
+                                              <Link to="/routine/routinecreate" >
                                                 운동루틴
-                                              </a>
+                                              </Link>
                                           
                                           </SideBlock>
                                           )
@@ -138,8 +143,15 @@ color: white;
 
 const Logo = styled.div`
 justify-content: center;
-width: 50px;
-margin: 10px 0px 10px 20px;
+width: 70px;
+margin: 10px 10px 20px 10px;
+
+
+.font{
+    font-weight: bold;
+    font-size: 2.1rem;
+    
+  }
 `
 
 const Menuli = styled.button`
@@ -159,7 +171,7 @@ const SideBlock = styled.div`
   width: 25%;
   min-width: 170px;
   display: inline-flex;
-  margin-left: 20px;
+  margin-left: 70px;
 
   .span {
     cursor: pointer;
@@ -181,14 +193,14 @@ height: 80px;
 .fix-container {
   z-index: 10;
   
-    /* &.scrolled {
+    &.scrolled {
       box-shadow: //그림자 속성;
   
-       .header {
+      .header {
         height: 100px;
         transition: height 0.3s ease;
-      } 
-      } */  
+      }
+    }
 
     .nav-list.fix-nav{
       position: fixed;
@@ -198,6 +210,6 @@ height: 80px;
       bottom: 0;
     }
   }
-`
+  `
 
 export default Header;

@@ -10,6 +10,8 @@ import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
 import Routine from './pages/Routine';
 import Header from './components/Header';
+import FindPW from './pages/FindPW';
+import Posture from './pages/Posture';
 
 // test 용
 import AtomTest from './AtomTest';
@@ -24,6 +26,7 @@ function App() {
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
+                    <Route path="/findpw" element={<FindPW />}></Route>
                     <Route path="/routine">
                         <Route path="routinecam" element={<RoutineCam />}></Route>
                         <Route path="routinecreate" element={<Routine />}></Route>
@@ -31,6 +34,7 @@ function App() {
                     <Route path="/:id">
                         <Route path="mypage" element={<MyPage />}></Route>
                     </Route>
+                    <Route path="/posture" element={<Posture />}></Route>
                     <Route path="/posedetection" >
                         <Route path="posecam" element={<PoseCam />}></Route>
                         <Route path="feedback" element={<Feedback />}></Route>
