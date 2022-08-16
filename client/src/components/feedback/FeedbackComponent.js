@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
+import FilterDataComponent from './FilterDataComponent';
+import FilterNoneComponent from './FilterNoneComponent';
+
 
 const FeedbackComponent = () => {
     const resultData = JSON.parse(window.localStorage.getItem("bodyData")) 
@@ -75,14 +78,14 @@ const FeedbackComponent = () => {
                 posedetectionResult = {
                 part: '상체 움직임',
                 feedback: '상체 흔들림이 없고 안정적입니다.',
-                state: 'good',
+                state: 'Good',
             }
 
         } else {
             posedetectionResult = {
                 part: '상체 움직임',
                 feedback: '상체 흔들림이 있습니다 앞 뒤로 움직이지 않도록 어깨 움직임을 신경써주세요.',
-                state: 'bad',
+                state: 'Bad',
             }
         } 
 
@@ -104,25 +107,25 @@ const FeedbackComponent = () => {
             posedetectionResult = {
                     part: '상체 각도',
                     feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                    state: 'none',
+                    state: 'None',
                 }
         } else if (angle >= 120) {
             posedetectionResult = {
                 part: '상체 각도',
                 feedback: '상체 각도에 문제가 있습니다. 상체를 적당히 숙여주세요.',
-                state: 'bad'
+                state: 'Bad'
             }
         } else if (angle >= 80) {
             posedetectionResult = {
                 part: '상체 각도',
                 feedback: '상체 숙여지는 각도가 좋으며 상체 자세가 올바릅니다.',
-                state: "good",
+                state: "Good",
             }
         } else if (angle < 80)  {
             posedetectionResult = {
                 part: '상체 각도',
                 feedback: '상체 각도에 문제가 있습니다. 상체가 너무 숙여졌습니다. 허리를 좀 더 펴주세요.',
-                state: "bad"
+                state: "Bad"
             }
         } 
         console.log(posedetectionResult, 'posedetectionResult')
@@ -144,19 +147,19 @@ const FeedbackComponent = () => {
             posedetectionResult = {
                 part: '무릎 각도',
                 feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                state: 'none',
+                state: 'None',
             }
         } else if (angle >= 80) {
             posedetectionResult = {
                 part: '무릎 각도',
                 feedback: '스쿼트의 깊이가 적절하며 올바른 자세로 운동을 하고 있습니다.',
-                state: 'good'
+                state: 'Good'
             }
         } else {
             posedetectionResult = {
                 part: '무릎 각도',
                 feedback: '하체의 깊이가 너무 깊습니다. 무릎에 무리가 갈 수 있어 부상의 위험이 있습니다.',
-                state: 'bad'
+                state: 'Bad'
             }
         }
             
@@ -166,24 +169,75 @@ const FeedbackComponent = () => {
         }
         
         console.log(resultList, 'resultListresultList')
-    
+
   return (
     <FeedbackContainer>
-        {postData.result.map(it => {
-            return (
-                <div>
-                    {it.part}
-                    {it.feedback}
-                </div>
-            )
-        })}
-        <button type="button" onClick={()=> naviation('/')}>Home</button>
-        <button type="button" onClick={()=> naviation('/posedetection/posecam')}>다시하기</button>
+        <ul>
+            {resultNone !== 2 && postData.result.map((it,index) => {
+                if (it.state === 'Good') {
+                    return (
+                        <li key={index} className="list neumorphic--pressed">
+                            <FilterDataComponent data={it}/>
+                        </li>
+                    )
+                }
+               
+            })}
+            {resultNone !== 2 && postData.result.map((it,index) => {
+                if (it.state === 'Bad') {
+                    return (
+                        <li key={index} className="list neumorphic--pressed">
+                            <FilterDataComponent data={it}/>
+                        </li>
+                    )
+                }
+               
+            })}
+            {resultNone === 2 && postData.result.map((it,index) => {
+                return (
+                    <li key={index}>
+                        <FilterNoneComponent data={it.feedback}/>
+                    </li>
+                )
+               
+            })}
+        </ul>
+        <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>
+        <button type="button" className='button back' onClick={()=> naviation('/posedetection/posecam')}>다시하기</button>
     </FeedbackContainer>
   )
 }
 
 const FeedbackContainer = styled.article`
+    position: relative;
+    .list {
+        box-sizing: border-box;
+        
+    }
+    .button {
+        position: absolute;
+        display: inline-block;
+        width: 50%;
+        bottom: 0;
+        padding: .5em 1em;
+        border-radius: 10px;
+    }
+    .button.back{
+        right: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        color: black;
+    }
+    .button.home{
+        left: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: black;
+        color: #f5f5f5;
+    }
+   
 `;
 
 export default FeedbackComponent
