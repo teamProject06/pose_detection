@@ -1,17 +1,20 @@
 [
     {
         "exercise": "런지",
-        "feedback": ["허리를 더 펴세요."],
-        "count" : "3회"
+        "feedback": ["다리를 더 굽히세요."],
+        "count" : "3회",
+        "status" : false
     },
     {
         "exercise": "스쿼트",
         "feedback": ["다리를 더 굽히세요."],
-        "count" : "6회"
+        "count" : "6회",
+        "status" : false
     },
     {
         "exercise": "플랭크",
         "feedback": ["허리를 더 내리세요."],
-        "count" : "60초"
+        "count" : "60초",
+        "status" : true
     }
 ]

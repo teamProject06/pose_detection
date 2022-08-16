@@ -16,7 +16,7 @@ const MyPage = () => {
 
       <Parent>
           <Div>운동루틴</Div>
-          <Div2>결과 및 피드백</Div2>
+          <Div2>피드백</Div2>
           <Div>시간 및 횟수</Div>
       </Parent>
           {
@@ -79,12 +79,12 @@ const Div = styled.div`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 50%;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 15px;
   padding: 15px;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : black;
   margin-left: 10px;
   margin-right: 10px;
 `;
@@ -93,12 +93,12 @@ const Div2 = styled.div`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 80%;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 15px;
   padding: 15px;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : black;
   margin-left: 10px;
   margin-right: 10px;
 `;

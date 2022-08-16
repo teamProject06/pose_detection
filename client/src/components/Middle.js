@@ -59,7 +59,7 @@ const Middle = () => {
                         <svg className="" width="100%" height="100%" xmlns=""   focusable="false"><rect fill="#b6d8f2"></rect></svg>
                         <div className="carousel-caption text-start ">
                             <h1><p className='font'>자세교정</p><br/><br/></h1>
-                            <p>나의 자세를 분석하여 정확한 자세를 찾아줍니다.<br/></p>
+                            <p>나의 자세를 분석하여 정확한 자세를 찾아줍니다.<br/><br/></p>
                             <p>교정하고 싶은 자세를 선택하여 자세 피드백을 받으세요.<br/><br/></p>
                         </div>
                         </div>
@@ -129,7 +129,7 @@ const MiddleBlock = styled.div`
 
   .b1{
     position: absolute;
-    float: left;
+    left: 50px;
   }
   
   .bg-2 {
