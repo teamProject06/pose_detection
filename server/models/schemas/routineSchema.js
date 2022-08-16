@@ -1,12 +1,15 @@
-const { Schema } = require("mongoose");
+const mongoose = require ("mongoose");
+const { Schema } = mongoose;
+
 const routine = new Schema(
     {
         name: String,
-        time: Date.now(),
+        time: String,
         routine: [{
-            isActive : true,
-            exercise :String,
-            number : Number,
+            id : Number,
+            isActive : false,
+            name :String,
+            count : String,
         },],
     }
 );
