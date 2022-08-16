@@ -53,9 +53,18 @@ const SignInComponent = () => {
     return await axios.post(port.url + "/user/signin", signInData);
   }
 
+  //--------------- kakao oauth ---------------
+     //1번
+     const REST_API_KEY = "ada966e93bbeabff88b6e8c8f28ae1d8";
+     const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+ 
+     //카카오 서버 주소
+     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`; 
+ 
+
   return (
     <SignInContainer>
-      <SignInTitle>Start with ()!</SignInTitle>
+      <SignInTitle>Start with FITBACK!</SignInTitle>
       <SignInSubtitle>이메일과 비밀번호를 입력하여 로그인해주세요</SignInSubtitle>
       <SmallPadding>
         <SignInInput type='email' id='email' name='email' value = {signInData.email} onChange={changeSignInData} placeholder='이메일 입력 (ex. health@gmail.com)' />
@@ -65,13 +74,13 @@ const SignInComponent = () => {
       </SmallPadding>
       <SignInButton onClick = {onClickSignInButton}>로그인</SignInButton>
       <BigPadding>
-        <OtherButton href='/signup'>회원가입</OtherButton>
-        <OtherButton>아이디 및 비밀번호 찾기</OtherButton>
+        <OtherButton onClick={() => navigate("/signup")}>회원가입</OtherButton>
+        <OtherButton onClick={() => navigate("/findpw")}>비밀번호 찾기</OtherButton>
       </BigPadding>
       <a>
         <SocialButton src={'/img/naver_login_button.png'} />
       </a>
-      <a>
+      <a href={KAKAO_AUTH_URI}>
         <SocialButton src={'/img/kakao_login_button.png'} />
       </a>
       <a>
@@ -123,13 +132,13 @@ const SignInButton = styled.button`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width : 300px;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 14px;
   line-height: 25px;
   border: 0.1px solid #c3dbff;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : black;
   margin : 10px 0 10px;
 `;
 

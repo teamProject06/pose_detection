@@ -91,6 +91,34 @@ router.post("/signin", async (req, res, next) => {
     );
   });
 
+
+  /*________________비밀번호 변경_________________ */
+router.post("/findpw", async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(500).json({
+      fail: "가입되지 않은 이메일입니다.",
+    });
+    return;
+  }
+
+
+  const key = await pbkdf2Promise(password, user.salt, 108273, 64, "sha512");
+  const hashedPassword = key.toString("base64");
+  console.log("newpw:", hashedPassword);
+
+  await User.findOneAndUpdate({salt: user.salt}, { // 임시 비밀번호로 비밀번호 변경
+    password: hashedPassword,
+  })
+
+  res.json({
+    result: "비밀번호가 변경되었습니다. 로그인을 해주세요!",
+  });
+});
+
+
 /*________________hash with salt_________________ */
 const createHashedPassword = async(password) => {
   // return crypto.createHash("sha512").update(password).digest("base64");

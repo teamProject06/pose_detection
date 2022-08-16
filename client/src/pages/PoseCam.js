@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PoseTensorflow from '../components/poseCam/PoseTensorflow';
-import PostureForm from '../components/PostureForm';
+
 
 const PoseCam = () => {
 

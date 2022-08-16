@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-scroll';
 import PostureForm from './PostureForm';
 
+
 const Middle = () => {
   const [content, setContent] = useState();
 
@@ -102,7 +103,7 @@ const Middle = () => {
 
                     <button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="자세교정"
                     onClick={handleClickButton} name={'first'}><span>자세교정</span></button>
-                    <a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동루틴"><span>운동루틴</span></button></a>
+                    <a href="/routine/routinecreate"><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동루틴"><span>운동루틴</span></button></a>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
-import { React, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import $ from "jquery";
 import axios from "axios";
@@ -6,8 +7,12 @@ import {useNavigate} from "react-router-dom";
 
 import port from "./../../data/port.json"; //urlData
 
-const SignUpComponent = () => {
+const SocialSignUp = () => {
   const navigate = useNavigate();
+
+  const [cookiesAuth, setCookieAuth, removeCookieAuth] = useCookies(["auth"]);
+
+  const emailRef = useRef();
 
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -16,25 +21,26 @@ const SignUpComponent = () => {
     name: ""
   });
 
+  const changeSignUpData = (e) => {
+    setSignUpData({
+        ...signUpData,
+        [e.target.name]: e.target.value
+    })
+}
+
+useEffect(() => {
+    console.log(cookiesAuth.auth);
+
+    setSignUpData({
+        ...signUpData,
+        email: cookiesAuth.auth.kakao_account.email,
+        name: cookiesAuth.auth.kakao_account.profile.nickname
+    });
+}, []);
+
   const onClickSignUpButton = () => {
 
     /*________________check input_________________ */
-    if (signUpData.email === "") {
-      alert("이메일을 입력해주세요.");
-      // emailRef.current.focus();
-      $("#email").focus();
-      return;
-    }
-
-    if (!emailFormCheck(signUpData.email)) {
-      alert("이메일 형식에 맞게 입력해주세요.\n(ex. health@gmail.com)");
-      setSignUpData({
-        email: "",
-        ...signUpData,
-      });
-      $("#email").focus();
-      return;
-    }
 
     if (signUpData.password === "") {
       alert("비밀번호를 입력해주세요.");
@@ -48,11 +54,7 @@ const SignUpComponent = () => {
       return;
     }
 
-    if (signUpData.name === "") {
-      alert("이름을 입력해주세요");
-      $("#name").focus();
-      return;
-    }
+
 
     if (signUpData.password !== signUpData.rePassword) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않아요.");
@@ -73,30 +75,18 @@ const SignUpComponent = () => {
   });
 }
 
-  const changeSignUpData = (e) => {
-    setSignUpData({
-      ...signUpData,
-      [e.target.name] : e.target.value,
-    })
-  }
-
-  const emailFormCheck = (email) => { //이메일 형식 검사
-    var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    return reg.test(email);
-}
-
   /*________________connect to server_________________ */
   const sendSignUpData = async () => {
-    return await axios.post(port.url + "/user/signup", signUpData);
+    return await axios.post(port.url + "/auth/kakao", signUpData);
   }
 
   return (
     <SignUpContainer>
-      <SignUpTitle>Hi, there! Welcome to FITBACK!</SignUpTitle>
-      <SignUpSubtitle>아래의 정보를 작성하면 가입이 완료됩니다.</SignUpSubtitle>
+      <SignUpTitle>KaKao 로그인</SignUpTitle>
+      <SignUpSubtitle>카카오계정으로 가입합니다.</SignUpSubtitle>
       <SmallPadding>
         <Label>Email and Password</Label>
-        <SignUpInput type="email" id="email" name="email" onChange = {changeSignUpData} defaultValue = {signUpData.email}  placeholder='이메일 (ex. health@gmail.com)' />
+        <SignUpInput type="email"  disabled ref={emailRef} value={signUpData.email} id="email" name="email" onChange = {changeSignUpData} defaultValue = {signUpData.email}  placeholder='이메일 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
         <SignUpInput type="password" id="password" name="password" defaultValue = {signUpData.password} onChange = {changeSignUpData}  placeholder='비밀번호' />
@@ -106,7 +96,7 @@ const SignUpComponent = () => {
       </BigPadding>
       <SmallPadding>
         <Label>Name</Label>
-        <SignUpInput type="text" id="name" name="name" defaultValue={signUpData.name} onChange = {changeSignUpData} placeholder='이름' />
+        <SignUpInput type="text" id="name" name="name" defaultValue={signUpData.name} disabled value={signUpData.name} onChange = {changeSignUpData} placeholder='이름' />
       </SmallPadding>
       <SignUpButton onClick={onClickSignUpButton}>회원가입</SignUpButton>
     </SignUpContainer>
@@ -137,7 +127,6 @@ const SignUpSubtitle = styled.div`
 `;
 
 const SignUpInput = styled.input`
-  //font-family:     
   text-size-adjust: none;
   font-size: 13px; 
   font-weight: 500;
@@ -181,4 +170,4 @@ padding:  0 0 50px`
   ;
 
 
-export default SignUpComponent;
+export default SocialSignUp;

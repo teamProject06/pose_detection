@@ -27,7 +27,7 @@ const PostureForm = () => {
         <Block>
             <p className='font'>교정할 자세를 선택하세요.</p>
             <div className="d-flex gap-5 justify-content-center">
-                <ul className="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-5000px">
+                <ul className="dropdown-menu position-static d-grid p-2 rounded-2 w">
                     <li className="dropdown-item rounded-2"><button onClick={ClickSquart}>스쿼트</button></li>
                     <li className="dropdown-item rounded-2"><button onClick={ClickLunji}>런지</button></li>
                     <li className="dropdown-item rounded-2"><button onClick={ClickOneArm}>원암덤벨로우</button></li>
@@ -44,6 +44,11 @@ const Block = styled.div`
     font-size: 1.2rem;
     margin: 20px;
     margin-bottom: 20px;
+  }
+
+  .w{
+    width: 50%;
+    min-width: 30%;
   }
 `
 

@@ -1,20 +1,21 @@
 [
     {
         "exercise": "런지",
-        "feedback": ["다리를 더 굽히세요."],
-        "count" : "3회",
-        "status" : false
+        "feedback_title": ["다리를 더 굽히세요."],
+        "feedback_detail" : ["다리를 더 굽히세요."],
+        "result" : "bad"
     },
     {
         "exercise": "스쿼트",
-        "feedback": ["다리를 더 굽히세요."],
-        "count" : "6회",
-        "status" : false
+        "feedback_title": ["none"],
+        "feedback_detail" : ["none"],
+        "result" : "none"
     },
     {
-        "exercise": "플랭크",
-        "feedback": ["허리를 더 내리세요."],
-        "count" : "60초",
-        "status" : true
+        "exercise": "런지",
+        "feedback_title": ["다리를 더 굽히세요."],
+        "feedback_detail" : ["다리를 더 굽히세요."],
+        "result" : "good"
     }
+    
 ]

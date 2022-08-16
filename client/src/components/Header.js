@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
 
 
 const Header = (props) => {
@@ -70,28 +71,32 @@ const Header = (props) => {
                               <Headerb>
                               <div className='boxtool'>
                                   <Logo>
-                                  <a href="/">
+                                  <Link to="/">
                                     <h1 className='font'>FITBACK</h1>
-                                  </a>
+                                  </Link>
                                   </Logo>
   
                                   {  // 로그인 확인
                                       !view.SignIn ? (
                                           <SideBlock>
-                                            <a href="/" >
+                                            <Link to="/posture" >
+                                           
                                               자세교정
-                                            </a>
+                                           
+                                            </Link>
                                           
                                           </SideBlock>
                                       ) : (
                                           <SideBlock>
-                                             <a href="/">
+                                             <Link to="/posture">
+                                             
                                               자세교정&nbsp;&nbsp;&nbsp;
-                                            </a>
+                                            
+                                             </Link>
                                               
-                                              <a href="/routine" >
+                                              <Link to="/routine/routinecreate" >
                                                 운동루틴
-                                              </a>
+                                              </Link>
                                           
                                           </SideBlock>
                                           )

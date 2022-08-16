@@ -12,19 +12,22 @@ const MyPage = () => {
 
   return (
     <Container>
-      <Title>My Page</Title>
+      <Title>MY PAGE</Title>
+      <p className='subTitle'>내 운동 정보</p>
 
       <Parent>
           <Div>운동루틴</Div>
-          <Div2>피드백</Div2>
-          <Div>시간 및 횟수</Div>
+          <Div>결과</Div>
+          <Div2>상체 피드백</Div2>
+          <Div2>상세 피드백</Div2>
       </Parent>
           {
             mypageData.map((it, index) => (
               <div className='boxing' key={index}>
                 <p className='list'>{it.exercise}</p>
-                <p className='list2'>{it.feedback}</p>
-                <p className='list'>{it.count}</p>
+                <p className='list'>{it.result}</p>
+                <p className='list2'>{it.feedback_title}</p>
+                <p className='list2'>{it.feedback_detail}</p>
               </div>
               ))
           }
@@ -34,7 +37,8 @@ const MyPage = () => {
 
 const Container = styled.div`
   text-align : center;
-  max-width: 500px;
+  width: 80%;
+  min-width: 500px;
   margin: 0 auto;
 
   .boxing{
@@ -44,30 +48,44 @@ const Container = styled.div`
 
   .list{
     font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-    width: 40%;
-    height : 10px;
-    font-weight: 500;
-    font-size: 15px;
-    padding: 15px;
-    border-radius: 8px;
+  width: 50%;
+  height : 45px;
+  color: black;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
   }
   .list2{
     font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-    width: 70%;
-    height : 10px;
-    font-weight: 500;
-    font-size: 15px;
-    padding: 15px;
-    border-radius: 8px;
+  width: 80%;
+  height : 45px;
+  color: black;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  }
+
+  .subTitle{
+  font-size : 14px;
+  font-weight: 600;
+  text-size-adjust: none;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
+  margin-bottom: 10%;
+  margin-top: 1%;
   }
 `;
 
 const Title = styled.div`
-  font-size : 30px;
+  font-size : 20px;
+  font-weight: 700;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-  padding: 20% 0 0;
-  margin-bottom: 10%;
+  margin-bottom: 1%;
+  margin-top: 5%;
 `;
 
 const Parent = styled.div`
@@ -79,12 +97,11 @@ const Div = styled.div`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 50%;
   height : 45px;
-  color: white;
+  color: black;
   font-weight: 600;
   font-size: 15px;
   padding: 15px;
-  border-radius: 8px;
-  background-color : black;
+  border-bottom: 3px solid black;
   margin-left: 10px;
   margin-right: 10px;
 `;
@@ -93,12 +110,11 @@ const Div2 = styled.div`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 80%;
   height : 45px;
-  color: white;
+  color: black;
   font-weight: 600;
   font-size: 15px;
   padding: 15px;
-  border-radius: 8px;
-  background-color : black;
+  border-bottom: 3px solid black;
   margin-left: 10px;
   margin-right: 10px;
 `;
