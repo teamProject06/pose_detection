@@ -10,13 +10,11 @@ const Routine = () => {
     'userRoutine': false,
   })
 
-  useEffect(() => {
-    console.log(isClick)
-  }, [isClick])
+  // useEffect(() => {
+  //   console.log(isClick)
+  // }, [isClick])
 
   const clickMyRoutineAdd = () => {
-    console.log(
-      'dsda')
     setIsClick({
       ...isClick,
       myRoutine: true,

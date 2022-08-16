@@ -8,6 +8,7 @@ const AddRoutineItem = () => {
     const setRoutineList = useSetRecoilState(routineListState)
     const [isActiveName, setIsActiveName] = useState(true)
     const [inputValue, setInputValue] = useState({
+        id : null,
         name: '',
         count: '',
         isActive: true,
@@ -54,9 +55,10 @@ const AddRoutineItem = () => {
             })
             return
         }
-        if (e.target.textContent[0] === '정') {
+        if (e.target.name === 'routineName') {
             setInputValue({
                 ...inputValue,
+                isActive : false,
                 name: ''
             })
             setIsActiveName(false)
@@ -95,7 +97,7 @@ const AddRoutineItem = () => {
             return [
                 ...list,
                 {
-                    id,
+                    id : id,
                     name: inputValue.name,
                     count: inputValue.count,
                     isActive: isActiveName,
@@ -154,7 +156,7 @@ const AddRoutineItem = () => {
 
 const SQUARE = styled.div`
     border: 1px solid #dae1e6;
-    height: 600px;
+    height: 650px;
     width: 95%;
     margin : 0% 2.5%;
     margin-bottom: 5%;
@@ -163,7 +165,6 @@ const SQUARE = styled.div`
 const ShortChoose = styled.div`
     float: left;
     /* color :#c3dbff; */
-
     font-size: 18px;
     width: 90%;
     height: 10px;
