@@ -92,7 +92,7 @@ const SignUpComponent = () => {
 
   return (
     <SignUpContainer>
-      <SignUpTitle>Hi, there! Welcome to ( )</SignUpTitle>
+      <SignUpTitle>Hi, there! Welcome to FITBACK</SignUpTitle>
       <SignUpSubtitle>아래의 정보를 작성하면 가입이 완료됩니다.</SignUpSubtitle>
       <SmallPadding>
         <Label>Email and Password</Label>
@@ -136,8 +136,7 @@ const SignUpSubtitle = styled.div`
   padding: 10px 0 10%;
 `;
 
-const SignUpInput = styled.input`
-  font-family:     
+const SignUpInput = styled.input` 
   text-size-adjust: none;
   font-size: 13px; 
   font-weight: 500;
