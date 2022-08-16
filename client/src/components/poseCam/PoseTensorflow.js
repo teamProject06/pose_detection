@@ -240,7 +240,9 @@ const PoseTensorflow = () => {
             angle = 360 - angle;
         }
 
-        return angle;
+
+
+        return Number(Math.floor(angle));
     };
 
     
