@@ -136,7 +136,7 @@ const SignUpSubtitle = styled.div`
   padding: 10px 0 10%;
 `;
 
-const SignUpInput = styled.input` 
+const SignUpInput = styled.input`
   text-size-adjust: none;
   font-size: 13px; 
   font-weight: 500;

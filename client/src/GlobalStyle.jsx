@@ -47,6 +47,7 @@ table {
 button {
     background: inherit;
     border: none;
+    cursor: pointer;
 }
 img {
     width: 100%;

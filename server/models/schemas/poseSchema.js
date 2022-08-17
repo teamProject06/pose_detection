@@ -16,7 +16,10 @@ const pose = new Schema(
                 part: String,
                 feedback: String,
             },],
-            none: String,
+            none: [{
+                part: String,
+                feedback: String,
+            },],
         }
     }
 );
