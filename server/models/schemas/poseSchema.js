@@ -8,15 +8,15 @@ const pose = new Schema(
         poseName: String,
         result:
         {
-            good: [{
+            Good: [{
                 part: String,
                 feedback: String,
             },],
-            bad: [{
+            Bad: [{
                 part: String,
                 feedback: String,
             },],
-            none: [{
+            None: [{
                 part: String,
                 feedback: String,
             },],

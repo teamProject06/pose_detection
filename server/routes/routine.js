@@ -25,9 +25,10 @@ router.post("/", async (req,res, next) => {
 });
 
 /*___________________다른 회원 루틴 불러오기_________________*/
-router.get("/", async (req, res, next) => {
+router.get("/:name/mypage", async (req, res, next) => {
+    const {name} = req.params;
     await Routine
-    .find({})
+    .find({name})
     .populate("routine") // key to populate
     .then(routine => {
        res.json(routine); 
