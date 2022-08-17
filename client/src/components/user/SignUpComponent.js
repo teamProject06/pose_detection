@@ -137,7 +137,6 @@ const SignUpSubtitle = styled.div`
 `;
 
 const SignUpInput = styled.input`
-  font-family:     
   text-size-adjust: none;
   font-size: 13px; 
   font-weight: 500;

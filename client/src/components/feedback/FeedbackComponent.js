@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
 import FilterDataComponent from './FilterDataComponent';
 import FilterNoneComponent from './FilterNoneComponent';
+import axios from 'axios';
+import port from "./../../data/port.json";
 
 
 const FeedbackComponent = () => {
@@ -40,7 +42,6 @@ const FeedbackComponent = () => {
             window.localStorage.setItem("minUpperBodyMove", minUpperBodyMove)
             window.localStorage.setItem("maxUpperBodyMove", maxUpperBodyMove)
         }
-        
 
     useEffect(()=> {
         
@@ -64,6 +65,31 @@ const FeedbackComponent = () => {
 
     },[])
 
+    useEffect(() => {
+        try {
+            console.log(postData, "POSTDATA");
+            if (postData.result.length > 0) {
+                sendFeedback().then((res) => {
+                    alert(res.data.result);
+                }).catch(e =>{
+                    alert(e.response.data.message);
+                })
+            }
+        }
+        catch (e) {
+            alert("피드백 저장에 실패했습니다.");
+        }
+    }, [postData])
+
+
+    const sendFeedback = async () => {
+        // console.log(tmpData, "TMPDATA");
+        return await axios.post(port.url + "/pose", postData,{
+            headers: {
+              accessToken: cookies.userInfo.accessToken,
+            }
+          })
+    }
 
         const upperBodyMoveResult =  (max, min) =>  {
             let posedetectionResult = {
