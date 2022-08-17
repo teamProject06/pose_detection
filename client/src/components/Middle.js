@@ -102,7 +102,7 @@ const Middle = () => {
 
                     <button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="자세교정"
                     onClick={handleClickButton} name={'first'}><span>자세교정</span></button>
-                    <a href="/routine" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동루틴"><span>운동루틴</span></button></a>
+                    <a href="/routine/routinecreate" ><button className="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="운동루틴"><span>운동루틴</span></button></a>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@ const MiddleBlock = styled.div`
   }
   
   .bg-1 {
-    background-color: #b6d8f2;
+    //background-color: #b6d8f2;
     overflow: hidden;
     position: relative;
     color: white;
@@ -130,6 +130,7 @@ const MiddleBlock = styled.div`
   .b1{
     position: absolute;
     float: left;
+    left: 10%;
   }
   
   .bg-2 {

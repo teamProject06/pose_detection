@@ -55,7 +55,7 @@ const SignInComponent = () => {
 
   return (
     <SignInContainer>
-      <SignInTitle>Start with ()!</SignInTitle>
+      <SignInTitle>Start with FITBACK!</SignInTitle>
       <SignInSubtitle>이메일과 비밀번호를 입력하여 로그인해주세요</SignInSubtitle>
       <SmallPadding>
         <SignInInput type='email' id='email' name='email' value = {signInData.email} onChange={changeSignInData} placeholder='이메일 입력 (ex. health@gmail.com)' />

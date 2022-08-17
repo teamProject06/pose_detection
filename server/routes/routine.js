@@ -35,6 +35,16 @@ router.get("/", async (req, res, next) => {
     });
 });
 
+// /*___________________나의 루틴 불러오기_________________*/
+// router.get("/", async (req, res, next) => {
+//     await Routine
+//     .find({})
+//     .populate("routine") 
+//     .then(routine => {
+//        res.json(routine); 
+//     });
+// });
+
 
 /* 참고 movie review */
 // router.get("/", async (req, res, next) => {
