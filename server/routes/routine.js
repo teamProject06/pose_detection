@@ -24,7 +24,7 @@ router.post("/", async (req,res, next) => {
     }
 });
 
-/*___________________다른 회원 루틴 불러오기_________________*/
+/*___________________마이페이지 루틴 불러오기_________________*/
 router.get("/:name/mypage", async (req, res, next) => {
     const {name} = req.params;
     await Routine
@@ -36,15 +36,15 @@ router.get("/:name/mypage", async (req, res, next) => {
     });
 });
 
-// /*___________________나의 루틴 불러오기_________________*/
-// router.get("/", async (req, res, next) => {
-//     await Routine
-//     .find({})
-//     .populate("routine") 
-//     .then(routine => {
-//        res.json(routine); 
-//     });
-// });
+/*___________________다른 회원 루틴 불러오기_________________*/
+router.get("/", async (req, res, next) => {
+    await Routine
+    .find({})
+    .populate("routine") 
+    .then(routine => {
+       res.json(routine); 
+    });
+});
 
 
 /* 참고 movie review */
