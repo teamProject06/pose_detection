@@ -11,19 +11,9 @@ const MyPagePose = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
 
-    const [getData, setGetData] = useState([]);
+    const getData = [];
 
     let tmpTableBody;
-  
-
-  // poses 데이터 불러오기
-  let myPose =[];
-  let tmpPose = [];
-  let poses = "";
-  let PoseName = "";
-  let score = "";
-  let ppose = "";
-  let click = false;
 
   useEffect(()=>{
       getList();
@@ -31,87 +21,29 @@ const MyPagePose = () => {
 
   const getList = async() => { //data불러와서 myPose에 저장
       const UserName = cookies.userInfo.name; //로그인 계정 이름 
+      $(".Bodyp").empty();
 
       try {
       await axios.get(port.url+ `/pose/${UserName}/mypage`,).then((res) => {
-        console.log(res.data, 'frrs'); // 전체 데이터 불러오기
-        setGetData([res.data]);
-
-        $(".Bodyp").empty();
+       // console.log(res.data, '전체 데이터'); // 전체 데이터 불러오기
+        getData.push(res.data);
+        console.log(getData, 'getData');
 
         getData.map((data, i) => {
             console.log("동작명:", data.poseName);
-            console.log("good피드백: ", data[i].result.good);
-            console.log("bad피드백: ", data[i].result.bad);
-            console.log("bad part: ", data[i].result.bad.part);
+            console.log("good피드백: ", data.result.good);
+            console.log("bad피드백: ", data.result.bad);
 
             tmpTableBody = `
             <span className='box'>${data.poseName}</span>
-            <Feedback1 name={${data[i].result.good}} />
-            <Feedback2 name={${data[i].result.bad}} />
+
+            <Feedback1 datas={${data.result.good}} />
+            <Feedback2 datas={${data.result.bad}} />
             `;
 
             $('.Bodyp').append(tmpTableBody);
         })
 
-          //myPose = [];
-          //tmpPose = res.data;
-          //console.log(tmpPose, 'tmpPose'); // 전체 데이터 불러오기
-
-          
-    //       for (var i in tmpPose) {
-    //           if(UserName === tmpPose[i].name){
-    //               //let results = tmpPose[i].result; 
-    //               //console.log("tmpPose[i].result :", results);
-    //               //console.log("tmpPose[0].result.bad :", tmpPose[i].result.bad.length !== 0);
-
-    //               if(tmpPose[i].result.bad.length !== 0){  // 평가가 bad이면
-    //                 score = "bad";
-    //                 for (var j in tmpPose[i].result.bad){
-    //                     poses = [];
-    //                     ppose = "";
-    //                     PoseName = "";
-    //                     let ppart = tmpPose[i].result.bad[j].part;
-    //                     let pfeedback = tmpPose[i].result.bad[j].feedback;
-    //                     let pname = tmpPose[i].poseName;
-                
-    //                     ppose = ppart +' : '+ pfeedback;
-    //                     PoseName = pname;
-
-    //                     poses.push({
-    //                         "fb": ppose
-    //                     });
-    //                 }
-    //                 console.log(myPose);
-    //               }else if(tmpPose[i].result.good.length !== 0){
-    //                 score = "bad";
-    //                 for (var j in tmpPose[i].result.good){
-    //                     poses ="";
-    //                     PoseName = "";
-    //                     let ppart = tmpPose[i].result.good[j].part;
-    //                     let pfeedback = tmpPose[i].result.good[j].feedback;
-    //                     let pname = tmpPose[i].poseName;
-
-    //                     poses = ppart +' : '+ pfeedback;
-    //                     PoseName = pname;
-    //                 }
-    //               }
-
-    //               myPose.push({
-    //                 "pose": poses,
-    //                 "name": PoseName,
-    //                 "score": score
-    //             })
-    //           }
-    //       }
-    //       myPose.map((it, index) => {
-    //           tmpTableBody = `
-    //           <span className='box'>${it.name}</span>
-    //           <span className='box'>${it.score}</span>
-    //           <span className='box'>${it.pose}</span>
-    //           `;
-    //           $('.Bodyp').append(tmpTableBody);
-    //       })
        })
       } catch (e) {
       console.log(e);
@@ -119,10 +51,10 @@ const MyPagePose = () => {
 
   }
 
-  useEffect(()=> {
-    console.log(getData, 'getData')
-    console.log(getData[0], 'getData time')
-  }, [getData])
+//  useEffect(()=> {
+//  console.log(getData, 'getData')
+// }, [getData])
+
 
 
 
@@ -134,8 +66,16 @@ const MyPagePose = () => {
             <p className='box'>BAD</p>
         </div>
 
-        <div className='parent'>
-            <div className='bodyp'></div>
+        <div className='parent Bodyp'>
+            {getData.map((data, idx) =>  {
+                return (
+                    <>
+                      <span className='box'>${data[idx].poseName}</span>
+                      {data.result.good.length > 0 && <Feedback1 datas={data.result.good} />}
+                      {data.result.bad.length > 0 && <Feedback2 datas={data.result.bad}/>}
+                    </>
+                )
+            })}
         </div>
     </Container>
   

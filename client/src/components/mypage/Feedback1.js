@@ -1,24 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Feedback1 = (props) => {
-  {
-    props.map((it, i) =>{
+const Feedback1 = ({datas}) => {
+    console.log("props1 : ", datas);
+
       return (
         <Container>
             <div className='parent'>
                 <div className='box'>
-                    <p>{it[i].part} : {it[i].feedback}</p>
+                    <p>{datas.part} : {datas.feedback}</p>
                 </div>
             </div>
         </Container>
       )
-    })
-  } 
+
 }
 
 const Container = styled.div`
-
 
   .parent{
     display: flex;

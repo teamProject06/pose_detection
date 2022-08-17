@@ -1,21 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Feedback2 = (props) => {
-  {
-    props.map((it, i) =>{
+const Feedback2 = ({datas}) => {
+  console.log("props2 : ", datas);
       return (
         <Container>
-            <div className='parent'>
+           <div className='parent'>
                 <div className='box'>
-                    <p>{it[i].part} : {it[i].feedback}</p>
+                    <p>{datas.part} : {datas.feedback}</p>
                 </div>
             </div>
         </Container>
       )
-    })
-  } 
 }
+  
+
 
 const Container = styled.div`
 
