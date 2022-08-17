@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const FilterDataComponent = ({data}) => {
+const FilterDataComponent = ({data, idx}) => {
     console.log(data)
     let none = 0;
     if (data.state === 'None') none++
@@ -14,12 +14,20 @@ const FilterDataComponent = ({data}) => {
             <div className='flex'>
                 <div className='left-box'>
                 {data.state}
-                <div className="checkbox">
-                <input id="checkbox-2" type="checkbox" />
-                <label htmlFor="checkbox-2">
-                    <img src={'/img/check.png'} />
-                </label>
-                </div>
+                {data.state === 'Bad' && 
+                    <div className="checkbox">
+                    <input id={"checkbox-1" + idx } type="checkbox" />
+                    <label htmlFor={"checkbox-1" + idx }>
+                        <img src={'/img/check.png'} />
+                    </label>
+                </div>}
+                {data.state === 'Good' && 
+                    <div className="checkbox">
+                    <input id={"checkbox-2" + idx } type="checkbox" />
+                    <label htmlFor={"checkbox-2" + idx } className='checkbox-2-label'>
+                        <div className='circle'></div>
+                    </label>
+                </div>}
                 </div>
                 <div className='rigth-box'>
                     {data.state !== 'None' && <Title>{data.part}</Title>}
@@ -44,6 +52,7 @@ const DataCotainer = styled.div`
     background-color:  #f5f5f5;
     padding: 1em 1.3em;
     box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #fff;
+    margin-bottom: 1em;
     .flex {
         display: flex;
         .left-box {
@@ -70,6 +79,19 @@ const DataCotainer = styled.div`
                     width: 1.2rem;
                     height: 1.2rem;
                     padding: .3em;
+                        }
+                        .checkbox-2-label {
+                            position: relative;
+                            .circle {
+                                position: absolute;
+                                width: 8px;
+                                height: 8px;
+                                border-radius: 50%;
+                                left: 50%;
+                                top: 50%;
+                                transform: translate(-50%, -50%);
+                                background-color: #2c7c35;
+                            }
                         }
                 }
         }    

@@ -60,6 +60,8 @@ const FeedbackComponent = () => {
             ]
         })
 
+        window.localStorage.clear();
+
     },[])
 
 
@@ -177,7 +179,7 @@ const FeedbackComponent = () => {
                 if (it.state === 'Good') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
-                            <FilterDataComponent data={it}/>
+                            <FilterDataComponent data={it} idx={index}/>
                         </li>
                     )
                 }
@@ -187,7 +189,7 @@ const FeedbackComponent = () => {
                 if (it.state === 'Bad') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
-                            <FilterDataComponent data={it}/>
+                            <FilterDataComponent data={it} idx={index}/>
                         </li>
                     )
                 }
@@ -203,7 +205,10 @@ const FeedbackComponent = () => {
             })}
         </ul>
         <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>
-        <button type="button" className='button back' onClick={()=> naviation('/posedetection/posecam')}>다시하기</button>
+        <button type="button" className='button back' onClick={()=> {
+            window.localStorage.setItem("posture", poseName)
+            naviation('/posedetection/posecam')
+        }}>다시하기</button>
     </FeedbackContainer>
   )
 }
@@ -218,7 +223,7 @@ const FeedbackContainer = styled.article`
         position: absolute;
         display: inline-block;
         width: 50%;
-        bottom: 0;
+        bottom: 2%;
         padding: .5em 1em;
         border-radius: 10px;
     }

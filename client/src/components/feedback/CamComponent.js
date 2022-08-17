@@ -6,13 +6,12 @@ const CamComponent = () => {
 
   return (
     <PoseCamContainer>
-        <video src={videoUrl} controls type="video/webm" width={420} height={300}></video>
+        <video src={videoUrl} controls type="video/webm" width={500} height={330}></video>
     </PoseCamContainer>
   )
 }
 
 const PoseCamContainer = styled.article`
-  margin-right: 40px;
 `;
 
 export default CamComponent

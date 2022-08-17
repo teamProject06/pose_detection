@@ -19,13 +19,13 @@ const Container = styled.section`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   margin: 2em 4rem 0;
   border-radius: 15px;
-  padding: 2rem;
+  padding: 2em 2.5em 2em;
 
 `
 
 const FeedbackContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const H2 = styled.h2`
