@@ -3,7 +3,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
-import { drawCanvas } from '../../drawUtil';
+import { drawCanvas } from '../../util/drawUtil';
 import { routineListState } from '../../atom/atomState';
 import { useRecoilValue } from 'recoil';
 
@@ -11,7 +11,7 @@ const RoutineTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const routineListValue = useRecoilValue(routineListState)
-    const routineData = [];
+    const routineData = []; 
     
     useEffect(()=> {
         routineData.push(routineListValue)
