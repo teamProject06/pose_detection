@@ -19,7 +19,7 @@ const UserRoutine = () => {
   },[])
 
   const getList = async() => { //data불러와서 userRoutine에 저장
-    $(".tableBody").empty();
+    
     try {
       await axios.get(port.url + '/routine',
         // {
@@ -30,6 +30,7 @@ const UserRoutine = () => {
       ).then((res) => {
         userRoutine = [];
         tmpRoutine = res.data;
+        $(".tableBody").empty();
         console.log(tmpRoutine, 'tmpRoutine'); //배열
         for (var i in tmpRoutine) {
           let name = tmpRoutine[i].name;
@@ -48,20 +49,21 @@ const UserRoutine = () => {
             "routine": routine,
           })
         }
+        userRoutine.map((it, index) => {
+          tmpTableBody = `<tr>
+            <td scope="row">${index + 1}</td> 
+            <td>${it.name}</td>
+            <td>${it.routine}</td>
+            <td>${it.time}</td>
+          </tr>`;
+          $('.tableBody').append(tmpTableBody);
+        })
       })
     }
     catch (e) {
       console.log(e);
     }
-    userRoutine.map((it, index) => {
-      tmpTableBody = `<tr>
-        <td scope="row">${index + 1}</td> 
-        <td>${it.name}</td>
-        <td>${it.routine}</td>
-        <td>${it.time}</td>
-      </tr>`;
-      $('.tableBody').append(tmpTableBody);
-    })
+   
     click = true;
   }
 
