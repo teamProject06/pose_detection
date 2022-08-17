@@ -28,9 +28,9 @@ const PostureForm = () => {
             <p className='font'>교정할 자세를 선택하세요.</p>
             <div className="d-flex gap-5 justify-content-center">
                 <ul className="dropdown-menu position-static d-grid p-2 rounded-2 w">
-                    <li className="dropdown-item rounded-2"><button onClick={ClickSquart}>스쿼트</button></li>
-                    <li className="dropdown-item rounded-2"><button onClick={ClickLunji}>런지</button></li>
-                    <li className="dropdown-item rounded-2"><button onClick={ClickOneArm}>원암덤벨로우</button></li>
+                    <li className="dropdown-item rounded-2" onClick={ClickSquart}><button>스쿼트</button></li>
+                    <li className="dropdown-item rounded-2" onClick={ClickLunji}><button>런지</button></li>
+                    <li className="dropdown-item rounded-2" onClick={ClickOneArm}><button>원암덤벨로우</button></li>
                 </ul>
             </div>
         </Block>

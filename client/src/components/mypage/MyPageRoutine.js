@@ -10,9 +10,10 @@ const MyPageRoutine = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
 
-    let myRoutine;
+    let myRoutine =[];
     let tmpRoutine = [];
     let tmpTableBody;
+    let routine = "";
     let click = false;
 
     useEffect(()=>{
@@ -20,9 +21,6 @@ const MyPageRoutine = () => {
     },[])
 
     const getList = async() => { //data불러와서 myRoutine에 저장
-        $(".tableBody").empty();
-
-        //console.log("로그인 이름:", cookies.userInfo.name);
         const UserName = cookies.userInfo.name;
 
         try {
@@ -30,58 +28,56 @@ const MyPageRoutine = () => {
         ).then((res) => {
             myRoutine = [];
             tmpRoutine = res.data;
-            console.log(tmpRoutine, 'tmpRoutine'); //배열
+            console.log(tmpRoutine, 'tmpRoutine'); // 전체 데이터
+            $(".Bodyr").empty();
             
             for (var i in tmpRoutine) {
-                //console.log("i name : ", tmpRoutine[i].name);
                 if(UserName === tmpRoutine[i].name){
-                    //let name = tmpRoutine[i].name;
-                    let time = tmpRoutine[i].time;
-                    let routine ="";
+                    //let time = tmpRoutine[i].time;
+                    routine ="";
 
                     for (var j in tmpRoutine[i].routine){
                         let count = tmpRoutine[i].routine[j].count;
                         let excercise = tmpRoutine[i].routine[j].name;
-                        let oneRoutine = `${excercise}(${count})`;
+                        let oneRoutine = `${excercise} ${count}회`;
 
-                        if (j === 0) routine = routine + oneRoutine;
-                        else routine = routine + ' - '+ oneRoutine;
+                        if (j == 0) {
+                            routine = routine + oneRoutine;
+                        }
+                        else routine = routine + ' > '+ oneRoutine;
                     }
         
                     myRoutine.push({
-                        "time": time,
+                        //"time": time,
                         "routine": routine
                     })
                 }
             }
+            myRoutine.map((it, index) => {
+                tmpTableBody = `
+                    <p>${it.routine}</p>
+                    </br>
+                `;
+                $('.Bodyr').append(tmpTableBody);
+            })
         })
         }catch (e) {
         console.log(e);
         }
 
-        myRoutine.map((it, index) => {
-            tmpTableBody = `
-            <Parent>
-                <Box>${it.routine}</Box>
-            </Parent>
-            `;
-            $('.tableBody').append(tmpTableBody);
-          })
-
-          click = true;
     }
 
   return (
     <Container>
         <div className='head'>
-            <p className='box'>ROUTINE (TIME)</p>
+            <p className='box'>ROUTINE</p>
         </div>
 
-        <Parent>
+        {/* <Parent>
             <Box>루틴예시</Box>
-        </Parent>
+        </Parent> */}
 
-        <tbody className='tableBody'></tbody>
+        <div className='Bodyr Parent'></div>
     </Container>
    
   )
@@ -114,7 +110,7 @@ const Container = styled.div`
   .parent{
     display: flex;
     text-align : center;
-    width: 90%;
+    width: 80%;
     border: 1px grey solid;
     border-radius: 10px;
     padding: 10px;
@@ -123,7 +119,9 @@ const Container = styled.div`
     min-width: 500px;
     margin: 0 auto;
     margin-bottom: 15px;
+    box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
   }
+
 `;
 
 const Parent = styled.div`
@@ -138,6 +136,7 @@ const Parent = styled.div`
     min-width: 500px;
     margin: 0 auto;
     margin-bottom: 15px;
+    box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
 `;
 
 const Box = styled.div`

@@ -1,42 +1,43 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Feedback2 = () => {
-    
-  return (
-    <Container>
-        <div className='parent'>
-            <div className='box'>
-                <p>상세 피드백 내용</p>
+const Feedback2 = (props) => {
+  {
+    props.map((it, i) =>{
+      return (
+        <Container>
+            <div className='parent'>
+                <div className='box'>
+                    <p>{it[i].part} : {it[i].feedback}</p>
+                </div>
             </div>
-        </div>
-    </Container>
-  )
+        </Container>
+      )
+    })
+  } 
 }
 
 const Container = styled.div`
 
-  .parent{
+.parent{
     display: flex;
     text-align : center;
-    width: 60%;
+    width: 80px;
     border: 1px grey solid;
     border-radius: 10px;
     padding: 10px;
-    padding-top: 50px;
     padding-bottom: 50px;
     min-width: 500px;
-    margin: 0 auto;
+    //margin: 0 auto;
     margin-bottom: 15px;
   }
 
   .box{
     float: left;
-    width: 30%;
+    width: 90%;
     margin: 10px;
     margin: 0 auto;
   }
-
 `;
 
 export default Feedback2;

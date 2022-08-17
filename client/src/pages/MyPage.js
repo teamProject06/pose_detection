@@ -64,6 +64,7 @@ const Container = styled.div`
     padding-top: 10px;
     padding-bottom: 10px;
     margin: 0 auto;
+    box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
   }
 
   .mt{

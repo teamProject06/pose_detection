@@ -121,7 +121,7 @@ const MiddleBlock = styled.div`
   }
   
   .bg-1 {
-    background-color: #b6d8f2;
+    //background-color: #b6d8f2;
     overflow: hidden;
     position: relative;
     color: white;
@@ -130,6 +130,7 @@ const MiddleBlock = styled.div`
   .b1{
     position: absolute;
     float: left;
+    left: 10%;
   }
   
   .bg-2 {
