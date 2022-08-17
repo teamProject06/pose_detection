@@ -193,14 +193,14 @@ height: 80px;
 .fix-container {
   z-index: 10;
   
-    &.scrolled {
+    /* &.scrolled {
       box-shadow: //그림자 속성;
   
       .header {
         height: 100px;
         transition: height 0.3s ease;
       }
-    }
+    } */
 
     .nav-list.fix-nav{
       position: fixed;
