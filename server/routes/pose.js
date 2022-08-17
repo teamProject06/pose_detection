@@ -59,14 +59,19 @@ router.post("/", async (req, res, next) => {
 });
 
 /*__________________poseFeedback 불러오기__________________*/
-router.get("/", async (req, res, next) => {
+router.get("/:name/mypage", async (req, res, next) => {
+    const {name} = req.params;
+    try{
     await Routine
-    .find({})
+    .find({name})
     .populate("result") // key to populate
     .then(result => {
        res.json(result); 
       //  console.log(routine);
-    });
+    });}
+    catch (e) {
+        console.log(e);
+    }
 });
 
 const timeString = () => {
