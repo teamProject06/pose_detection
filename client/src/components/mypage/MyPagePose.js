@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
-import Feedback1 from './Feedback1';
-import Feedback2 from './Feedback2';
 import $ from 'jquery';
 import axios from 'axios';
 import port from "../../data/port.json"; //url
@@ -21,24 +19,31 @@ const MyPagePose = () => {
 
   const getList = async() => { //data불러와서 myPose에 저장
       const UserName = cookies.userInfo.name; //로그인 계정 이름 
-      $(".Bodyp").empty();
 
       try {
       await axios.get(port.url+ `/pose/${UserName}/mypage`,).then((res) => {
        // console.log(res.data, '전체 데이터'); // 전체 데이터 불러오기
         getData.push(res.data);
         console.log(getData, 'getData');
+        $(".Bodyp").empty();
 
-        getData.map((data, i) => {
-            console.log("동작명:", data.poseName);
-            console.log("good피드백: ", data.result.good);
-            console.log("bad피드백: ", data.result.bad);
+        getData[0].map((data, i) => {
+            // 피드백 모두 받아오기
+            let feedbacks = "";
+            data.result.bad.map((bd, idx) => {
+                let part = bd.part;
+                let feedback = bd.feedback;
 
+                feedbacks = feedbacks + part + ' : ' + feedback + '<br/><br/>';
+            })
+
+            
             tmpTableBody = `
-            <span className='box'>${data.poseName}</span>
-
-            <Feedback1 datas={${data.result.good}} />
-            <Feedback2 datas={${data.result.bad}} />
+            <div className='parent'>
+            <span className='box posetitle'>${data.poseName} [${data.time}]</span><br/><br/>
+            <span className='box'>${feedbacks}</span>
+            <br/><br/>
+            </div>
             `;
 
             $('.Bodyp').append(tmpTableBody);
@@ -61,21 +66,19 @@ const MyPagePose = () => {
   return (
     <Container>
         <div className='head'>
-            <p className='box'>동작</p>
-            <p className='box'>GOOD</p>
-            <p className='box'>BAD</p>
+            <p className='box1'>POSE</p>
         </div>
 
-        <div className='parent Bodyp'>
-            {getData.map((data, idx) =>  {
+        <div className='Bodyp'>
+            {/* {getData[0].map((data, idx) =>  {
                 return (
                     <>
                       <span className='box'>${data[idx].poseName}</span>
                       {data.result.good.length > 0 && <Feedback1 datas={data.result.good} />}
-                      {data.result.bad.length > 0 && <Feedback2 datas={data.result.bad}/>}
+                      {data.result.bad.length > 0 && <Feedback2 datas={data.result.bad}/>} 
                     </>
                 )
-            })}
+            })} */}
         </div>
     </Container>
   
@@ -87,7 +90,7 @@ const Container = styled.div`
 .head{
     display: flex;
     text-align : center;
-  width: 100%;
+  width: 70%;
   padding: 10px;
   padding-bottom: 20px;
   min-width: 500px;
@@ -101,7 +104,7 @@ const Container = styled.div`
   .parent{
     display: flex;
     text-align : center;
-  width: 100%;
+  width: 75%;
   //border: 1px grey solid;
   //border-radius: 10px;
   padding: 10px;
@@ -113,11 +116,28 @@ const Container = styled.div`
   //box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
   }
 
-  .box{
+  .box1{
     float: left;
-    width: 50%;
+    width: 20%;
     margin: 5px;
     margin: 0 auto;
+  }
+
+  .posetitle{
+    font-weight: bold;
+    font-size: large;
+  }
+
+  /* .box2{
+    float: left;
+    width: 70%;
+  } */
+
+  .box{
+    float: left;
+    width: 20%;
+    margin: 5px;
+    //margin: 0 auto;
   }
 
   .btngroup button{

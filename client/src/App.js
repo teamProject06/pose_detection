@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
 import Routine from './pages/Routine';
 import Header from './components/Header';
+import Footer from './pages/Footer';
 import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
 
@@ -40,6 +41,7 @@ function App() {
                         <Route path="feedback" element={<Feedback />}></Route>
                     </Route>
                 </Routes>
+                <Footer />
             </BrowserRouter>
         </RecoilRoot>
     );
