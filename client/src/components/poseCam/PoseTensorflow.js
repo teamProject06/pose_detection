@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
@@ -14,9 +14,10 @@ const PoseTensorflow = () => {
     const mediaRecorderRef = useRef(null);
     const navigation = useNavigate();
     const [loading, setLoading] = useState(true)
+    const [isGuide, setIsGuide] = useState(false)
     //비디오 저장
     const recordedChunks = [];
-    const handleStartCaptureStart = React.useCallback(() => {
+    const handleStartCaptureStart = useCallback(() => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((media) => {
             webcamRef.current.stream = media;
 
@@ -28,8 +29,6 @@ const PoseTensorflow = () => {
         });
     }, [webcamRef, mediaRecorderRef]);
 
-    handleStartCaptureStart();
-
     const handleDataAvailable = ({ data }) => {
         console.log(data, 'data');
         if (data && data.size > 0) {
@@ -38,12 +37,12 @@ const PoseTensorflow = () => {
         }
     };
 
-    const handleStopCapture = React.useCallback(() => {
+    const handleStopCapture = useCallback(() => {
         mediaRecorderRef.current.stop();
     }, [mediaRecorderRef, webcamRef]);
 
     // 동영상 url 로컬에 저장
-    const handleDownload = React.useCallback(() => {
+    const handleDownload = () => {
         if (recordedChunks.length) {
             const blob = new Blob(recordedChunks, {
                 type: 'video/webm',
@@ -53,7 +52,7 @@ const PoseTensorflow = () => {
             window.localStorage.setItem('video', url);
             navigation('/posedetection/feedback');
         }
-    }, [recordedChunks]);
+    }
 
     const bodyPoint = {
         leftElbows: [],
@@ -81,74 +80,82 @@ const PoseTensorflow = () => {
         rightAnklePoint: [],
     };
 
-    const runPosenet = async () => {
-        const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
-            runtime: 'tfjs',
-        });
+    
+    useEffect(()=> {
+        if (loading) {
+            setTimeout(()=> {
+                setLoading(false)
+                setIsGuide(true)
 
-       try {
-            const interval = setInterval(() => {
-                detect(detector);
-            }, 20);
-
-            setTimeout(() => {
-                console.log(bodyPoint, 'bodyPoint');
-                console.log(pointScores, 'pointScores');
-                // console.log(count, 'cc');
-                // console.log(bodyPoint, 'bodyPoint');
-                window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
-                window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
-               
-            }, 20000);
-        } catch(e) {
-            console.log(e)
+                setTimeout(()=> {
+                    setIsGuide(false)
+                }, 10000)
+            }, 2000)
         }
-       
+
         
         
-    };
-
-    const detect = async (net) => {
-        if (
-            typeof webcamRef.current !== 'undefined' &&
-            webcamRef.current !== null &&
-            webcamRef.current.video.readyState === 4
-        ) {
-            const video = webcamRef.current.video;
-            const videoWidth = webcamRef.current.video.videoWidth;
-            const videoHeight = webcamRef.current.video.videoHeight;
-
-            webcamRef.current.video.width = videoWidth;
-            webcamRef.current.video.height = videoHeight;
-
-            try {
-                const pose = await net.estimatePoses(video);
-                console.log(pose[0].keypoints, 'pose');
+        const runPosenet = async () => {
+            const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
+                runtime: 'tfjs',
+            });
+    
+           try {
+                const interval = setInterval(() => {
+                    detect(detector);
+                }, 20);
                 
-                drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
-                findExercise(pose[0].keypoints, 'squat');
+                setTimeout(() => {
+                    clearInterval(interval)
+                    console.log(bodyPoint, 'bodyPoint');
+                    console.log(pointScores, 'pointScores');
+                    // console.log(count, 'cc');
+                    // console.log(bodyPoint, 'bodyPoint');
+                    window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
+                    window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
+                   
+                }, 20000);
             } catch(e) {
                 console.log(e)
             }
             
             
             
-        }
-    };
-    
-    useEffect(()=> {
-        if (loading) {
-            setTimeout(()=> {
-                setLoading(false)
-            }, 2000)
-        }
-
-        try {
-            window.requestAnimationFrame(runPosenet);
-        } catch(e) {
-             console.log(e)
-        }
+        };
        
+        window.requestAnimationFrame(runPosenet);
+        
+        const detect = async (net) => {
+            if (
+                typeof webcamRef.current !== 'undefined' &&
+                webcamRef.current !== null &&
+                webcamRef.current.video.readyState === 4
+            ) {
+                const video = webcamRef.current.video;
+                const videoWidth = webcamRef.current.video.videoWidth;
+                const videoHeight = webcamRef.current.video.videoHeight;
+    
+                webcamRef.current.video.width = videoWidth;
+                webcamRef.current.video.height = videoHeight;
+    
+                try {
+                    const pose = await net.estimatePoses(video);
+                  //  console.log(pose[0].keypoints, 'pose');
+                    
+                    setTimeout(()=> {
+                        drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+                        findExercise(pose[0].keypoints, 'squat');
+                        handleStartCaptureStart();
+                    },13000)
+                } catch(e) {
+                    console.log(e)
+                }
+                
+                
+                
+            }
+        };
+      
         
         setTimeout(() => {
             console.log(recordedChunks, 'recordedChunks');
@@ -281,19 +288,24 @@ const PoseTensorflow = () => {
     return (
         <>
             {loading ? <Loader /> : null}
-            <WebcamComponent>
-                <div className='rec-container'>
-                   {!loading && <div className='rec-text'>
+            {!loading && <WebcamComponent>
+                    {isGuide && 
+                        <Img src={'/img/guide_line.png'} alt="가이드라인"  />
+                    }
+                    {!isGuide && <div className='rec-container'>
+                    <div className='rec-text'>
                         <span className='rec-circle'></span>
                         REC
-                    </div>}
-                </div>
+                    </div>
+                    </div>
+                    }
+              
                 <Webcam ref={webcamRef} audio={false} height={486} width={760} videoConstraints={videoConstraints} />
                 <canvas ref={canvasRef} className="canvas"></canvas>
                 <button type="button" onClick={handleDownload}>
                     클릭
                 </button>
-            </WebcamComponent>
+            </WebcamComponent>}
         </>
     );
 };
@@ -315,7 +327,7 @@ const WebcamComponent = styled.div`
     .rec-container {
         position: absolute;
         top: 6%;
-        left: 27%;
+        left: 22%;
         transform: translate(-50%, -50%);
         .rec-text {
             position: relative;
@@ -336,6 +348,14 @@ const WebcamComponent = styled.div`
         }
         }
     }
+`;
+
+const Img = styled.img`
+    position: absolute;
+    width: 760px;
+    height: 486px;
+    top: 0;
+    left: 0;
 `;
 
 export default PoseTensorflow;
