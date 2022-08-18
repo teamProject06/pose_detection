@@ -16,11 +16,11 @@ const FeedbackComponent = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
    
     const [resultNone, setResultNone] = useState(0)
-    
+    const userName = cookies.userInfo.name
     // data 보내기 
     const resultList = []
     const [postData, setPostData] = useState({
-        name:cookies.userInfo.name,
+        name: '',
         poseName: poseName,
         result: [],
     })
@@ -54,6 +54,7 @@ const FeedbackComponent = () => {
 
         setPostData({
             ...postData,
+            name: userName ? userName: '비회원',
             result: [
                 upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
                 upperBodyResult(minUpperBodyAngle),
@@ -61,14 +62,13 @@ const FeedbackComponent = () => {
             ]
         })
 
-        window.localStorage.clear();
 
     },[])
 
     useEffect(() => {
         try {
             console.log(postData, "POSTDATA");
-            if (postData.result.length > 0) {
+            if (postData.result.length > 0 && cookies.userInfo.name !== null) {
                 sendFeedback().then((res) => {
                     alert(res.data.result);
                 }).catch(e =>{
