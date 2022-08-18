@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from "react-cookie";
-import Feedback1 from './Feedback1';
-import Feedback2 from './Feedback2';
 import $ from 'jquery';
 import axios from 'axios';
 import port from "../../data/port.json"; //url
@@ -11,19 +9,9 @@ const MyPagePose = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
 
-    const [getData, setGetData] = useState([]);
+    const getData = [];
 
     let tmpTableBody;
-  
-
-  // poses 데이터 불러오기
-  let myPose =[];
-  let tmpPose = [];
-  let poses = "";
-  let PoseName = "";
-  let score = "";
-  let ppose = "";
-  let click = false;
 
   useEffect(()=>{
       getList();
@@ -34,84 +22,33 @@ const MyPagePose = () => {
 
       try {
       await axios.get(port.url+ `/pose/${UserName}/mypage`,).then((res) => {
-        console.log(res.data, 'frrs'); // 전체 데이터 불러오기
-        setGetData([res.data]);
-
+       // console.log(res.data, '전체 데이터'); // 전체 데이터 불러오기
+        getData.push(res.data);
+        console.log(getData, 'getData');
         $(".Bodyp").empty();
 
-        getData.map((data, i) => {
-            console.log("동작명:", data.poseName);
-            console.log("good피드백: ", data[i].result.good);
-            console.log("bad피드백: ", data[i].result.bad);
-            console.log("bad part: ", data[i].result.bad.part);
+        getData[0].map((data, i) => {
+            // 피드백 모두 받아오기
+            let feedbacks = "";
+            data.result.bad.map((bd, idx) => {
+                let part = bd.part;
+                let feedback = bd.feedback;
 
+                feedbacks = feedbacks + part + ' : ' + feedback + '<br/><br/>';
+            })
+
+            
             tmpTableBody = `
-            <span className='box'>${data.poseName}</span>
-            <Feedback1 name={${data[i].result.good}} />
-            <Feedback2 name={${data[i].result.bad}} />
+            <div className='parent'>
+            <span className='box posetitle'>${data.poseName} [${data.time}]</span><br/><br/>
+            <span className='box'>${feedbacks}</span>
+            <br/><br/>
+            </div>
             `;
 
             $('.Bodyp').append(tmpTableBody);
         })
 
-          //myPose = [];
-          //tmpPose = res.data;
-          //console.log(tmpPose, 'tmpPose'); // 전체 데이터 불러오기
-
-          
-    //       for (var i in tmpPose) {
-    //           if(UserName === tmpPose[i].name){
-    //               //let results = tmpPose[i].result; 
-    //               //console.log("tmpPose[i].result :", results);
-    //               //console.log("tmpPose[0].result.bad :", tmpPose[i].result.bad.length !== 0);
-
-    //               if(tmpPose[i].result.bad.length !== 0){  // 평가가 bad이면
-    //                 score = "bad";
-    //                 for (var j in tmpPose[i].result.bad){
-    //                     poses = [];
-    //                     ppose = "";
-    //                     PoseName = "";
-    //                     let ppart = tmpPose[i].result.bad[j].part;
-    //                     let pfeedback = tmpPose[i].result.bad[j].feedback;
-    //                     let pname = tmpPose[i].poseName;
-                
-    //                     ppose = ppart +' : '+ pfeedback;
-    //                     PoseName = pname;
-
-    //                     poses.push({
-    //                         "fb": ppose
-    //                     });
-    //                 }
-    //                 console.log(myPose);
-    //               }else if(tmpPose[i].result.good.length !== 0){
-    //                 score = "bad";
-    //                 for (var j in tmpPose[i].result.good){
-    //                     poses ="";
-    //                     PoseName = "";
-    //                     let ppart = tmpPose[i].result.good[j].part;
-    //                     let pfeedback = tmpPose[i].result.good[j].feedback;
-    //                     let pname = tmpPose[i].poseName;
-
-    //                     poses = ppart +' : '+ pfeedback;
-    //                     PoseName = pname;
-    //                 }
-    //               }
-
-    //               myPose.push({
-    //                 "pose": poses,
-    //                 "name": PoseName,
-    //                 "score": score
-    //             })
-    //           }
-    //       }
-    //       myPose.map((it, index) => {
-    //           tmpTableBody = `
-    //           <span className='box'>${it.name}</span>
-    //           <span className='box'>${it.score}</span>
-    //           <span className='box'>${it.pose}</span>
-    //           `;
-    //           $('.Bodyp').append(tmpTableBody);
-    //       })
        })
       } catch (e) {
       console.log(e);
@@ -119,23 +56,29 @@ const MyPagePose = () => {
 
   }
 
-  useEffect(()=> {
-    console.log(getData, 'getData')
-    console.log(getData[0], 'getData time')
-  }, [getData])
+//  useEffect(()=> {
+//  console.log(getData, 'getData')
+// }, [getData])
+
 
 
 
   return (
     <Container>
         <div className='head'>
-            <p className='box'>동작</p>
-            <p className='box'>GOOD</p>
-            <p className='box'>BAD</p>
+            <p className='box1'>POSE</p>
         </div>
 
-        <div className='parent'>
-            <div className='bodyp'></div>
+        <div className='Bodyp'>
+            {/* {getData[0].map((data, idx) =>  {
+                return (
+                    <>
+                      <span className='box'>${data[idx].poseName}</span>
+                      {data.result.good.length > 0 && <Feedback1 datas={data.result.good} />}
+                      {data.result.bad.length > 0 && <Feedback2 datas={data.result.bad}/>} 
+                    </>
+                )
+            })} */}
         </div>
     </Container>
   
@@ -147,7 +90,7 @@ const Container = styled.div`
 .head{
     display: flex;
     text-align : center;
-  width: 100%;
+  width: 70%;
   padding: 10px;
   padding-bottom: 20px;
   min-width: 500px;
@@ -161,7 +104,7 @@ const Container = styled.div`
   .parent{
     display: flex;
     text-align : center;
-  width: 100%;
+  width: 75%;
   //border: 1px grey solid;
   //border-radius: 10px;
   padding: 10px;
@@ -173,11 +116,28 @@ const Container = styled.div`
   //box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
   }
 
-  .box{
+  .box1{
     float: left;
-    width: 50%;
+    width: 20%;
     margin: 5px;
     margin: 0 auto;
+  }
+
+  .posetitle{
+    font-weight: bold;
+    font-size: large;
+  }
+
+  /* .box2{
+    float: left;
+    width: 70%;
+  } */
+
+  .box{
+    float: left;
+    width: 20%;
+    margin: 5px;
+    //margin: 0 auto;
   }
 
   .btngroup button{
