@@ -62,6 +62,7 @@ router.post("/", async (req, res, next) => {
 router.get("/:name/mypage", async (req, res, next) => {
     const {name} = req.params;
 
+    try{
     await Pose
     .find({name})
     .populate("result") // key to populate
@@ -73,6 +74,7 @@ router.get("/:name/mypage", async (req, res, next) => {
         console.log(e);
     }
 });
+
 
 const timeString = () => {
     let date = new Date();
