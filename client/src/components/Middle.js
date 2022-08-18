@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-scroll';
 import PostureForm from './PostureForm';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaVideo } from "react-icons/fa";
+import { FaRulerHorizontal } from "react-icons/fa";
+import { FaRulerCombined } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+import { FaComment } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
+import { FaBookOpen } from "react-icons/fa";
 
 const Middle = () => {
   const [content, setContent] = useState();
@@ -48,8 +56,10 @@ const Middle = () => {
                         <div className="container">
                         <svg className="" width="100%" height="100%" xmlns="" focusable="false"><rect fill=""></rect></svg>
                         <div className="carousel-caption text-start">
-                            <h1> <p className='font'>사이트 이용방법</p><br/><br/></h1>
-                            <p> '자세 교정'으로 올바른 자세를 찾고,<br/><br/>'운동루틴'을 통해 나만의 헬스 루틴을 찾을 수 있습니다. <br/><br/></p>
+                            <h1> <p className='font'>FITBACK 이용방법</p><br/><br/></h1>
+                            <p><FaVideo />&nbsp; 반드시 웹캠을 켜주세요.&nbsp;(녹화를 통해 자세를 분석합니다.)<br/><br/></p>
+                            <p><FaRulerHorizontal/>&nbsp; 웹캠과의 거리는 2m 이상 유지해주세요. <br/><br/></p>
+                            <p><FaRulerCombined />&nbsp; 캠에 전신이 다 나오게 해주세요.&nbsp;(왼쪽 45도 방면으로 서주세요.)<br/><br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -59,8 +69,9 @@ const Middle = () => {
                         <svg className="" width="100%" height="100%" xmlns=""   focusable="false"><rect fill="#b6d8f2"></rect></svg>
                         <div className="carousel-caption text-start ">
                             <h1><p className='font'>자세교정</p><br/><br/></h1>
-                            <p>나의 자세를 분석하여 정확한 자세를 찾아줍니다.<br/></p>
-                            <p>교정하고 싶은 자세를 선택하여 자세 피드백을 받으세요.<br/><br/></p>
+                            <p>교정하고 싶은 자세를 선택하여 자세 피드백을 받으세요.<br/><br/><br/></p>
+                            <p><FaCheck />&nbsp; 교정할 자세를 선택할 수 있어요. <br/><br/></p>
+                            <p><FaComment />&nbsp; 나의 자세에 대한 피드백을 받을 수 있어요.<br/><br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -71,8 +82,9 @@ const Middle = () => {
                         <svg className="" width="100%" height="100%" xmlns=""  focusable="false"><rect fill="#b6d8f2"></rect></svg>
                         <div className="carousel-caption text-start">
                             <h1><p className='font'>운동루틴</p><br/><br/></h1>
-                            <p>나의 운동을 루틴으로 구성하여 매일매일 규칙적인 운동을 시작합니다.<br/><br/></p>
-                            <p>원하는 운동을 선택하고 나만의 운동 루틴을 기록하세요.<br/><br/></p>
+                            <p>원하는 운동을 선택하고 나만의 운동 루틴을 기록하세요.<br/><br/><br/></p>
+                            <p><FaPlus/>&nbsp;   나만의 운동루틴을 생성할 수 있어요. <br/><br/></p>
+                            <p><FaBookOpen />&nbsp; 다른 회원의 운동루틴을 볼 수 있어요. <br/><br/><br/></p>
                         </div>
                         </div>
                     </div>
@@ -140,7 +152,6 @@ const MiddleBlock = styled.div`
   }
 
   .bg-3 {
-    //background-color: black;
     background-image: url("/img/background.jpg");
     background-size: cover;
   }
@@ -176,10 +187,10 @@ const MiddleBlock = styled.div`
   border: none;
   background: none;
   color: white;
-  vertical-align: middle;
+  //vertical-align: middle;
   position: relative;
   z-index: 1;
-  -webkit-backface-visibility: hidden;
+  //-webkit-backface-visibility: hidden;
   -moz-osx-font-smoothing: grayscale;
 }
 .button:focus {
