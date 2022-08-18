@@ -43,12 +43,13 @@ const Block = styled.div`
     font-weight: bold;
     font-size: 1.2rem;
     margin: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
   }
 
   .w{
     width: 50%;
     min-width: 30%;
+    margin-bottom: 10%;
   }
 `
 

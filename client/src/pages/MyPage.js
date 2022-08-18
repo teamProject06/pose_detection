@@ -17,12 +17,12 @@ const MyPage = () => {
       <p className='subTitle'>내 운동 정보</p>
 
       <BOX>
-      <p className='subTitle2 line'>나의 루틴</p>
+      <p className='subTitle2'>나의 루틴</p>
       </BOX>
       <MyPageRoutine/>
 
       <BOX>
-        <p className='subTitle2 line mt'>나의 자세</p>
+        <p className='subTitle2 mt'>나의 자세</p>
       </BOX>
       <MypagePose/>
 
@@ -40,7 +40,7 @@ const Container = styled.div`
   .subTitle2{
   font-size : 14px;
   font-weight: 600;
-  color: white;
+  color: black;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   margin-bottom: 10%;
@@ -49,7 +49,7 @@ const Container = styled.div`
   .subTitle{
   font-size : 14px;
   font-weight: 600;
-  color: white;
+  color: black;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   margin-bottom: 3%;
@@ -59,12 +59,14 @@ const Container = styled.div`
   .line{
     /* border-bottom: 2px grey solid;
     border-top: 2px grey solid; */
-    background-color: black;
-    width: 10%;
+    background-color: white;
+    width: 20%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding-top: 10px;
     padding-bottom: 10px;
     margin: 0 auto;
-    box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
+    //box-shadow:0 3px 3px rgba(0, 0, 0, 0.7);
   }
 
   .mt{
