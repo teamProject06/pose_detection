@@ -31,20 +31,23 @@ const Routine = () => {
   return (
     <Container>
       <div className='title'>운동 루틴</div>
-      <Parent>
-        <button type="button" onClick={clickMyRoutineAdd} className="my-routine Div">
-          루틴 등록
-        </button>
-        <button type="button" onClick={clickOtherRoutine} className="other-routine Div">
-          회원 루틴
-        </button>
-        </Parent>
+     
         <Parent>
-        <RoutineContainer>
-          <Left>{isClick.myRoutine && <MyRoutine />}</Left>
-          <Right>{isClick.userRoutine && <UserRoutine />}</Right>
-        </RoutineContainer>
-      </Parent>
+            <button type="button" onClick={clickMyRoutineAdd} className="my-routine Div">
+              루틴 등록
+            </button>
+            <button type="button" onClick={clickOtherRoutine} className="other-routine Div">
+              회원 루틴
+            </button>
+          </Parent>
+     
+        <Parent>
+          <RoutineContainer>
+            <Left>{isClick.myRoutine && <MyRoutine />}</Left>
+            <Right>{isClick.userRoutine && <UserRoutine />}</Right>
+          </RoutineContainer>
+        </Parent>
+
     </Container>
   );
 }
@@ -63,6 +66,8 @@ const Container = styled.section`
   max-width: 80%;
   height: 100%;
   margin: 0 10%;
+  margin-bottom: 40%;
+
 .title{
   font-size : 20px;
   font-weight: 700;
@@ -74,7 +79,8 @@ const Container = styled.section`
 
 const Parent = styled.div`
   display: flex;
-  height: 80px;
+  margin-bottom: 3%;
+
 .Div{
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width: 50%;
