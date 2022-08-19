@@ -13,6 +13,8 @@ import Header from './components/Header';
 import Footer from './pages/Footer';
 import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
+import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback';
+import SocialSignUp from './components/user/socialLogin/SocialSignUp';
 
 // test 용
 import AtomTest from './AtomTest';
@@ -24,6 +26,10 @@ function App() {
                 {/* <AtomTest/> 테스트용 */}
                 <Header />
                 <Routes>
+                    <Route path ="/oauth">
+                        <Route path="naver" element={<NaverLoginCallback/>}></Route>
+                        <Route path="signup"element={<SocialSignUp/>}></Route>
+                    </Route>
                     <Route path="/" element={<Main />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>

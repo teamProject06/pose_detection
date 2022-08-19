@@ -13,12 +13,6 @@ router.get("/naver", async (req, res, next) => {
     const CLIENT_SECRET = "mFS_gJFSUJ";
     const STATE_STRING = "STATE";
     
-    // res.send(
-    // {
-    //     id: '-_h1qKkUSBghU3QJq3cApOvAOecdn9BcyLFTUF6uv8c',
-    //     email: 'rara9915@naver.com',
-    //     name: '이나영'
-    //   });
     try {
         getNaverToken(CLIENT_ID, CLIENT_SECRET, CODE, STATE_STRING)
             .then((tokenData) => {

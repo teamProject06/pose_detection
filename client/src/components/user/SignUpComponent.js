@@ -4,7 +4,7 @@ import $ from "jquery";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-import port from "./../../data/port.json"; //urlData
+import port from "../../data/port.json"; //urlData
 
 const SignUpComponent = () => {
   const navigate = useNavigate();
@@ -55,6 +55,18 @@ const SignUpComponent = () => {
     }
 
     if (signUpData.password !== signUpData.rePassword) {
+      alert("비밀번호는 5글자 이상으로 설정해 주세요.");
+      setSignUpData({
+        ...signUpData,
+        password: "",
+        rePassword: ""
+      });
+      
+      $("#password").focus();
+      return;
+  }
+
+    if (signUpData.password !== signUpData.rePassword) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않아요.");
       setSignUpData({
         ...signUpData,
@@ -99,10 +111,11 @@ const SignUpComponent = () => {
         <SignUpInput type="email" id="email" name="email" onChange = {changeSignUpData} defaultValue = {signUpData.email}  placeholder='이메일 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
-        <SignUpInput type="password" id="password" name="password" defaultValue = {signUpData.password} onChange = {changeSignUpData}  placeholder='비밀번호' />
+        <SignUpInput type="password" id="password" name="password" minLength={5} defaultValue = {signUpData.password} onChange = {changeSignUpData}  placeholder='비밀번호' />
       </SmallPadding>
       <BigPadding>
         <SignUpInput type="password" id="rePassword" name="rePassword" defaultValue = {signUpData.rePassword} onChange = {changeSignUpData}  placeholder='비밀번호 재확인' />
+        <LengthPwLabel>비밀번호는 최소 5자이상이여야 합니다.</LengthPwLabel>
       </BigPadding>
       <SmallPadding>
         <Label>Name</Label>
@@ -124,9 +137,10 @@ const SignUpContainer = styled.div`
 
 const SignUpTitle = styled.div`
   font-size : 20px;
+  font-weight: 800;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
-  padding: 20% 0 0;
+  padding: 0;
 `;
 
 const SignUpSubtitle = styled.div`
@@ -153,13 +167,13 @@ const SignUpInput = styled.input`
 const SignUpButton = styled.button`
   width : 300px;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 14px;
   line-height: 25px;
-  border: 0.1px solid #c3dbff;
+  border: 0.1px solid #1d1d1d;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : #1d1d1d;
   margin : 10px 0 10px;
 `;
 
@@ -167,7 +181,16 @@ const Label = styled.div`
   padding : 0 100px 5px;
   text-align : left;
   font-size : 13px;
-  color : #c3dbff;
+  font-weight: 700;
+  color : #1d1d1d;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
+`
+const LengthPwLabel = styled.div`
+  padding : 0 100px 5px;
+  text-align : right;
+  font-size : 12px;
+  color : grey;
+  margin : 10px 0;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 `
 
