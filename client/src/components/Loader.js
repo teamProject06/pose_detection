@@ -31,7 +31,7 @@ const LoaderComponent = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 100;
     background: #ffffffb7;
 `;
 

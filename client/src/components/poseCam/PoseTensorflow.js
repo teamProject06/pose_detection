@@ -1,18 +1,20 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../util/drawUtil';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const PoseTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const navigation = useNavigate();
+    const location = useLocation();
 
-
+    navigation('/posedetection/posecam')
+    
     setTimeout(()=> {
         console.log(recordedChunks, 'recordedChunks')
         if (mediaRecorderRef.current !== null) {
@@ -20,8 +22,6 @@ const PoseTensorflow = () => {
         }
     }, 20000)
 
- 
-    
 
     //비디오 저장
     const recordedChunks = [];
@@ -38,12 +38,13 @@ const PoseTensorflow = () => {
                 handleDataAvailable
               );
               mediaRecorderRef.current.start();
-        })
+        }).catch(err => {
+            console.log(err)
+        }) 
       
       }, [webcamRef, mediaRecorderRef]);
 
-
-        handleStartCaptureStart()
+    handleStartCaptureStart()
 
         const handleDataAvailable =({data}) => {
             console.log(data, 'data')
@@ -59,16 +60,17 @@ const PoseTensorflow = () => {
 
       // 동영상 url 서버로 보내기 
       const handleDownload = React.useCallback(() => {
-        if (recordedChunks.length) {
-          const blob = new Blob(recordedChunks, {
-            type: "video/webm"
-          });
-          const url = URL.createObjectURL(blob);
-          // 임시 로컬 저장 변경 예정
-          console.log(url)
-          window.localStorage.setItem("video", JSON.stringify(url))
-          navigation('/posedetection/feedback')
-        }
+        console.log('ddddd')
+            if (recordedChunks.length) {
+                const blob = new Blob(recordedChunks, {
+                  type: "video/webm"
+                });
+                const url = URL.createObjectURL(blob);
+                // 임시 로컬 저장 변경 예정
+                console.log(url)
+                window.localStorage.setItem("video", JSON.stringify(url))
+                navigation('/posedetection/feedback')
+              }
       }, [recordedChunks]);
     
 
@@ -267,6 +269,10 @@ const PoseTensorflow = () => {
     return (
         <>
             <WebcamComponent>
+                <div className='rec-container'>
+                    <span className='rec-circle'></span>
+                    <span className='rec-text'>REC</span>
+                </div>
                 <Webcam ref={webcamRef}
                 audio={false}
                 height={486}
@@ -274,7 +280,7 @@ const PoseTensorflow = () => {
                 videoConstraints={videoConstraints}
                 />
                 <canvas ref={canvasRef} className="canvas"></canvas>
-                <button type='button' onClick={handleDownload}>클릭</button>
+                <button type='button'  onClick={handleDownload} className="result-button" >결과 확인</button>
                 </WebcamComponent>
         </>
     );
@@ -286,13 +292,43 @@ const WebcamComponent = styled.div`
     justify-content: center;
     align-items: center;
     width: 1280px;
-    margin: 0 auto;
+    margin: 60px auto 0;
     z-index: 10;
+    .rec-container {
+        position: absolute;
+        top: 6%;
+        left: 27%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        .rec-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ff0f17;
+        }
+        .rec-circle {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            margin-right: 5px;
+            border-radius: 50%;
+            background-color: #ff0f17;
+        }
+    }
     .canvas {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+    .result-button {
+        position: absolute;
+        bottom: 0;
+        right: 10%;
+        border-radius: 5px;
+        background-color: black;
+        padding: .5em .7em;
+        color: #fff;
     }
 `;
 

@@ -16,11 +16,11 @@ const FeedbackComponent = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
    
     const [resultNone, setResultNone] = useState(0)
-    const userName = cookies.userInfo.name
+    
     // data 보내기 
     const resultList = []
     const [postData, setPostData] = useState({
-        name: '',
+        name:cookies.userInfo.name,
         poseName: poseName,
         result: [],
     })
@@ -54,7 +54,6 @@ const FeedbackComponent = () => {
 
         setPostData({
             ...postData,
-            name: userName ? userName: '비회원',
             result: [
                 upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
                 upperBodyResult(minUpperBodyAngle),
@@ -62,13 +61,12 @@ const FeedbackComponent = () => {
             ]
         })
 
-
     },[])
 
     useEffect(() => {
         try {
             console.log(postData, "POSTDATA");
-            if (postData.result.length > 0 && cookies.userInfo.name !== null) {
+            if (postData.result.length > 0) {
                 sendFeedback().then((res) => {
                     alert(res.data.result);
                 }).catch(e =>{
@@ -227,7 +225,7 @@ const FeedbackComponent = () => {
                         <FilterNoneComponent data={it.feedback}/>
                     </li>
                 )
-                                                                                                                     
+               
             })}
         </ul>
         <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>

@@ -1,21 +1,28 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../util/drawUtil';
-import { routineListState } from '../../atom/atomState';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../Loader';
 
 const RoutineTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
-    const routineListValue = useRecoilValue(routineListState)
+    const navigation = useNavigate();
     const routineData = []; 
-    
+    const [loading, setLoading] = useState(true)
+
+    setTimeout(() => {
+        setLoading(false) 
+     }, 2500);
+
     useEffect(()=> {
-        routineData.push(routineListValue)
-        console.log(routineData, 'routineData')
+        setTimeout(() => {
+        navigation('/')
+     }, 6000);
+     
     }, [])
 
     // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
@@ -33,29 +40,29 @@ const RoutineTensorflow = () => {
         leftKnees: [],
     };
 
-    let count = 0;
-    setInterval(() => {
-        if (tmp['leftElbowTmp'].length >= 6) {
-            bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
-            tmp['leftElbowTmp'].length = 0;
-        }
-        if (tmp['rightElbowTmp'].length >= 6) {
-            bodyPoint['rightElbows'].push(tmp['rightElbowTmp'][5]);
-            tmp['rightElbowTmp'].length = 0;
-        }
-        if (tmp['leftKneeTmp'].length >= 6) {
-            console.log(tmp['leftKneeTmp'][25], "tmp['leftKneeTmp'][25]");
-            bodyPoint['leftKnees'].push(tmp['leftKneeTmp'][5]);
-            if (tmp['leftKneeTmp'][20] <= 110) {
-                count += 1;
-            }
-            tmp['leftKneeTmp'].length = 0;
-        }
-        if (tmp['rightKneeTmp'].length >= 6) {
-            bodyPoint['rightKnees'].push(tmp['rightKneeTmp'][5]);
-            tmp['rightKneeTmp'].length = 0;
-        }
-    }, 800);
+    // let count = 0;
+    // setInterval(() => {
+    //     if (tmp['leftElbowTmp'].length >= 6) {
+    //         bodyPoint['leftElbows'].push(tmp['leftElbowTmp'][5]);
+    //         tmp['leftElbowTmp'].length = 0;
+    //     }
+    //     if (tmp['rightElbowTmp'].length >= 6) {
+    //         bodyPoint['rightElbows'].push(tmp['rightElbowTmp'][5]);
+    //         tmp['rightElbowTmp'].length = 0;
+    //     }
+    //     if (tmp['leftKneeTmp'].length >= 6) {
+    //         console.log(tmp['leftKneeTmp'][25], "tmp['leftKneeTmp'][25]");
+    //         bodyPoint['leftKnees'].push(tmp['leftKneeTmp'][5]);
+    //         if (tmp['leftKneeTmp'][20] <= 110) {
+    //             count += 1;
+    //         }
+    //         tmp['leftKneeTmp'].length = 0;
+    //     }
+    //     if (tmp['rightKneeTmp'].length >= 6) {
+    //         bodyPoint['rightKnees'].push(tmp['rightKneeTmp'][5]);
+    //         tmp['rightKneeTmp'].length = 0;
+    //     }
+    // }, 800);
 
     const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
@@ -90,7 +97,6 @@ const RoutineTensorflow = () => {
 
             drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
 
-            findExercise(pose[0].keypoints, 'squat');
 
             // console.log(leftKnee, 'leftKnee');
         }
@@ -144,44 +150,44 @@ const RoutineTensorflow = () => {
         return angle;
     };
 
-    
+    const videoConstraints = {
+        width: 760,
+        height: 486,       
+        facingMode: "user"
+      };
+      
 
     window.requestAnimationFrame(runPosenet);
 
     return (
         <>
-            <WebcamComponent>
-                <Webcam ref={webcamRef}
-            style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            height: "93vh",
-            width: "100%",
-             objectFit: 'cover'
-                }}/>
-                <canvas ref={canvasRef} style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    height: "93vh",
-                    width: "100%",
-                }}></canvas>
-                </WebcamComponent>
+         {loading && <Loader />}
+         { !loading &&   <WebcamComponent>
+            <Webcam ref={webcamRef}
+                audio={false}
+                height={486}
+                width={760}
+                videoConstraints={videoConstraints} />
+                <canvas ref={canvasRef} className="canvas"></canvas>
+                </WebcamComponent>}
         </>
     );
 };
 
 const WebcamComponent = styled.div`
     position: relative;
-    width: 100%;
-    height: 93vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1280px;
+    margin: 60px auto 0;
     z-index: 10;
-    margin-top: 7%;
+    .canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 
