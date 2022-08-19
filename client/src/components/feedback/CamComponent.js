@@ -3,10 +3,9 @@ import styled from 'styled-components';
 
 const CamComponent = () => {
     const videoUrl = window.localStorage.getItem("video")
-
   return (
     <PoseCamContainer>
-        <video src={videoUrl} controls type="video/webm" width={500} height={330}></video>
+        <video src={videoUrl.slice(1, videoUrl.length-1)} controls type="video/mp4" width={500} height={330}></video>
     </PoseCamContainer>
   )
 }

@@ -9,17 +9,17 @@ const PostureForm = () => {
 
   const ClickSquart = () =>{
     localStorage.setItem('posture', '스쿼트');
-    navigate("/posedetection/posecam")
+    navigate("/posedetection/posecamguide")
   }
 
   const ClickLunji = () =>{
     localStorage.setItem('posture', '런지');
-    navigate("/posedetection/posecam")
+    navigate("/posedetection/posecamguide")
   }
 
   const ClickOneArm = () =>{
     localStorage.setItem('posture', '원암덤벨로우');
-    navigate("/posedetection/posecam")
+    navigate("/posedetection/posecamguide")
   }
 
 

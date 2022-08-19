@@ -1,59 +1,80 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../util/drawUtil';
-import { useNavigate } from 'react-router-dom';
-import Loader from '../Loader'
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const PoseTensorflow = () => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const navigation = useNavigate();
-    const [loading, setLoading] = useState(true)
-    const [isGuide, setIsGuide] = useState(false)
+    const location = useLocation();
+
+    navigation('/posedetection/posecam')
+    
+    setTimeout(()=> {
+        console.log(recordedChunks, 'recordedChunks')
+        if (mediaRecorderRef.current !== null) {
+            handleStopCapture()
+        }
+    }, 20000)
+
+
     //비디오 저장
     const recordedChunks = [];
-    const handleStartCaptureStart = useCallback(() => {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((media) => {
-            webcamRef.current.stream = media;
+    const handleStartCaptureStart = React.useCallback(() => {
+        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        .then(media => {
+            webcamRef.current.stream = media
 
             mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-                mimeType: 'video/webm',
-            });
-            mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
-            mediaRecorderRef.current.start();
-        });
-    }, [webcamRef, mediaRecorderRef]);
+                mimeType: "video/webm"
+              });
+              mediaRecorderRef.current.addEventListener(
+                "dataavailable",
+                handleDataAvailable
+              );
+              mediaRecorderRef.current.start();
+        }).catch(err => {
+            console.log(err)
+        }) 
+      
+      }, [webcamRef, mediaRecorderRef]);
 
-    const handleDataAvailable = ({ data }) => {
-        console.log(data, 'data');
-        if (data && data.size > 0) {
-            recordedChunks.push(data);
-            console.log(recordedChunks, 'recordedChunksData');
+    handleStartCaptureStart()
+
+        const handleDataAvailable =({data}) => {
+            console.log(data, 'data')
+            if (data && data.size > 0) {
+                recordedChunks.push(data)
+                console.log(recordedChunks, 'recordedChunksData')
+            }
         }
-    };
-
-    const handleStopCapture = useCallback(() => {
+    
+    const handleStopCapture =  React.useCallback(() => {
         mediaRecorderRef.current.stop();
-    }, [mediaRecorderRef, webcamRef]);
+      }, [mediaRecorderRef, webcamRef]);
 
-    // 동영상 url 로컬에 저장
-    const handleDownload = () => {
-        if (recordedChunks.length) {
-            const blob = new Blob(recordedChunks, {
-                type: 'video/webm',
-            });
-            const url = URL.createObjectURL(blob);
-           
-            window.localStorage.setItem('video', url);
-            navigation('/posedetection/feedback');
-        }
-    }
+      // 동영상 url 서버로 보내기 
+      const handleDownload = React.useCallback(() => {
+        console.log('ddddd')
+            if (recordedChunks.length) {
+                const blob = new Blob(recordedChunks, {
+                  type: "video/webm"
+                });
+                const url = URL.createObjectURL(blob);
+                // 임시 로컬 저장 변경 예정
+                console.log(url)
+                window.localStorage.setItem("video", JSON.stringify(url))
+                navigation('/posedetection/feedback')
+              }
+      }, [recordedChunks]);
+    
 
+    // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
     const bodyPoint = {
         leftElbows: [],
         rightElbows: [],
@@ -80,92 +101,47 @@ const PoseTensorflow = () => {
         rightAnklePoint: [],
     };
 
-    
-    useEffect(()=> {
-        if (loading) {
-            setTimeout(()=> {
-                setLoading(false)
-                setIsGuide(true)
+    const runPosenet = async () => {
+        const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
+            runtime: 'tfjs',
+        });
 
-                setTimeout(()=> {
-                    setIsGuide(false)
-                }, 10000)
-            }, 2000)
-        }
+        const interval = setInterval(() => {
+            detect(detector);
+        }, 20);
 
-        
-        
-        const runPosenet = async () => {
-            const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
-                runtime: 'tfjs',
-            });
-    
-           try {
-                const interval = setInterval(() => {
-                    detect(detector);
-                }, 20);
-                
-                setTimeout(() => {
-                    clearInterval(interval)
-                    console.log(bodyPoint, 'bodyPoint');
-                    console.log(pointScores, 'pointScores');
-                    // console.log(count, 'cc');
-                    // console.log(bodyPoint, 'bodyPoint');
-                    window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
-                    window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
-                   
-                }, 20000);
-            } catch(e) {
-                console.log(e)
-            }
-            
-            
-            
-        };
-       
-        window.requestAnimationFrame(runPosenet);
-        
-        const detect = async (net) => {
-            if (
-                typeof webcamRef.current !== 'undefined' &&
-                webcamRef.current !== null &&
-                webcamRef.current.video.readyState === 4
-            ) {
-                const video = webcamRef.current.video;
-                const videoWidth = webcamRef.current.video.videoWidth;
-                const videoHeight = webcamRef.current.video.videoHeight;
-    
-                webcamRef.current.video.width = videoWidth;
-                webcamRef.current.video.height = videoHeight;
-    
-                try {
-                    const pose = await net.estimatePoses(video);
-                  //  console.log(pose[0].keypoints, 'pose');
-                    
-                    setTimeout(()=> {
-                        drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
-                        findExercise(pose[0].keypoints, 'squat');
-                        handleStartCaptureStart();
-                    },13000)
-                } catch(e) {
-                    console.log(e)
-                }
-                
-                
-                
-            }
-        };
-      
-        
         setTimeout(() => {
-            console.log(recordedChunks, 'recordedChunks');
-            if (mediaRecorderRef.current !== null) {
-                handleStopCapture();
-            }
+            clearInterval(interval);
+            console.log(bodyPoint, 'bodyPoint');
+            // console.log(count, 'cc');
+            // console.log(bodyPoint, 'bodyPoint');
+            window.localStorage.setItem('bodyAngle', JSON.stringify(bodyPoint));
+        }, 20000);
+    };
 
-            }, 30000);
-    },[])
+    const detect = async (net) => {
+        if (
+            typeof webcamRef.current !== 'undefined' &&
+            webcamRef.current !== null &&
+            webcamRef.current.video.readyState === 4
+        ) {
+            const video = webcamRef.current.video;
+            const videoWidth = webcamRef.current.video.videoWidth;
+            const videoHeight = webcamRef.current.video.videoHeight;
 
+            webcamRef.current.video.width = videoWidth;
+            webcamRef.current.video.height = videoHeight;
+
+            const pose = await net.estimatePoses(video);
+
+            console.log(pose[0].keypoints, 'pose');
+
+            drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+
+            findExercise(pose[0].keypoints, 'squat');
+
+        }
+    };
 
     const findExercise = (exercises, pose) => {
         switch (pose) {
@@ -174,6 +150,7 @@ const PoseTensorflow = () => {
                 break;
             }
             case 'oneArmLow': {
+
                 break;
             }
             case 'lunge': {
@@ -252,7 +229,8 @@ const PoseTensorflow = () => {
         pointScores['rightAnklePoint'].push(point[9]);
     };
 
-    // 발꿈치(y) 떼어져 있는지
+
+    // 발꿈치(y) 떼어져 있는지 
     // const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
     //     console.log("왼발 앞:", leftFootIndex, "왼발꿈치:", leftHeel, "오른발 앞:", rightFootIndex, "오른발꿈치: ", rightHeel);
 
@@ -274,38 +252,36 @@ const PoseTensorflow = () => {
             angle = 360 - angle;
         }
 
-        return Number(Math.floor(angle));
+        return angle;
     };
 
+    
+
+    window.requestAnimationFrame(runPosenet);
 
     const videoConstraints = {
         width: 760,
-        height: 486,
-        facingMode: 'user',
-    };
+        height: 486,       
+        facingMode: "user"
+      };
+      
 
-    //  PoseCam : 머리부터 발 끝까지 모두 화면에 담기게 서주세요.
     return (
         <>
-            {loading ? <Loader /> : null}
-            {!loading && <WebcamComponent>
-                    {isGuide && 
-                        <Img src={'/img/guide_line.png'} alt="가이드라인"  />
-                    }
-                    {!isGuide && <div className='rec-container'>
-                    <div className='rec-text'>
-                        <span className='rec-circle'></span>
-                        REC
-                    </div>
-                    </div>
-                    }
-              
-                <Webcam ref={webcamRef} audio={false} height={486} width={760} videoConstraints={videoConstraints} />
+            <WebcamComponent>
+                <div className='rec-container'>
+                    <span className='rec-circle'></span>
+                    <span className='rec-text'>REC</span>
+                </div>
+                <Webcam ref={webcamRef}
+                audio={false}
+                height={486}
+                width={760}
+                videoConstraints={videoConstraints}
+                />
                 <canvas ref={canvasRef} className="canvas"></canvas>
-                <button type="button" onClick={handleDownload}>
-                    클릭
-                </button>
-            </WebcamComponent>}
+                <button type='button'  onClick={handleDownload} className="result-button" >결과 확인</button>
+                </WebcamComponent>
         </>
     );
 };
@@ -316,46 +292,46 @@ const WebcamComponent = styled.div`
     justify-content: center;
     align-items: center;
     width: 1280px;
-    margin: 0 auto;
+    margin: 60px auto 0;
     z-index: 10;
+    .rec-container {
+        position: absolute;
+        top: 6%;
+        left: 27%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        .rec-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ff0f17;
+        }
+        .rec-circle {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            margin-right: 5px;
+            border-radius: 50%;
+            background-color: #ff0f17;
+        }
+    }
     .canvas {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
-    .rec-container {
+    .result-button {
         position: absolute;
-        top: 6%;
-        left: 22%;
-        transform: translate(-50%, -50%);
-        .rec-text {
-            position: relative;
-            color: #ff3934;
-            font-size: 16px;
-            font-weight: 600;
-            .rec-circle {
-                position: absolute;
-                display: inline-block;
-                top: 55%;
-                left: -38%;
-                transform: translateY(-50%);
-            background-color: #ff3934;
-            width: 8px;
-            height: 8px;
-            border-radius:50%;
-            margin-right: 5px;
-        }
-        }
+        bottom: 0;
+        right: 10%;
+        border-radius: 5px;
+        background-color: black;
+        padding: .5em .7em;
+        color: #fff;
     }
 `;
 
-const Img = styled.img`
-    position: absolute;
-    width: 760px;
-    height: 486px;
-    top: 0;
-    left: 0;
-`;
+
 
 export default PoseTensorflow;

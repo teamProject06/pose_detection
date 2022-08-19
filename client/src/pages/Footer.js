@@ -8,6 +8,7 @@ const Footer = () => {
     //메인 화면에서는 footer 제외
     if(location.pathname === "/routine/routinecam") return null;
     if(location.pathname === "/posedetection/posecam") return null;
+    if(location.pathname === "/posedetection/posecamguide") return null;
 
   return (
     <Container>

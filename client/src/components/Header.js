@@ -46,7 +46,7 @@ const Header = (props) => {
 
 
     useEffect(() => {
-        if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam') {
+        if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/posedetection/posecamguide') {
             setView({
                 SignIn: false
             }) 
@@ -169,7 +169,7 @@ width: 50%;
 // 메뉴
 const SideBlock = styled.div`
   width: 25%;
-  min-width: 170px;
+  min-width: 140px;
   display: inline-flex;
   margin-left: 70px;
 

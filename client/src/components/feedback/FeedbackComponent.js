@@ -61,8 +61,6 @@ const FeedbackComponent = () => {
             ]
         })
 
-        window.localStorage.clear();
-
     },[])
 
     useEffect(() => {
@@ -227,7 +225,7 @@ const FeedbackComponent = () => {
                         <FilterNoneComponent data={it.feedback}/>
                     </li>
                 )
-                                                                                                                     
+               
             })}
         </ul>
         <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>

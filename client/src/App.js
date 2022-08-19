@@ -15,15 +15,13 @@ import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
 import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback';
 import SocialSignUp from './components/user/socialLogin/SocialSignUp';
+import PoseCamGuide from './components/poseCam/PoseCamGuide';
 
-// test 용
-import AtomTest from './AtomTest';
 
 function App() {
     return (
         <RecoilRoot>
             <BrowserRouter>
-                {/* <AtomTest/> 테스트용 */}
                 <Header />
                 <Routes>
                     <Route path ="/oauth">
@@ -44,6 +42,7 @@ function App() {
                     <Route path="/posture" element={<Posture />}></Route>
                     <Route path="/posedetection" >
                         <Route path="posecam" element={<PoseCam />}></Route>
+                        <Route path="posecamguide" element={<PoseCamGuide />}></Route>
                         <Route path="feedback" element={<Feedback />}></Route>
                     </Route>
                 </Routes>

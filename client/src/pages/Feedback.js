@@ -19,8 +19,8 @@ const Container = styled.section`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   margin: 2em 4rem 0;
   border-radius: 15px;
-  padding: 2em 2.5em 2em;
-
+  padding: 3em 4em ;
+  margin-bottom: 150px;
 `
 
 const FeedbackContainer = styled.div`
