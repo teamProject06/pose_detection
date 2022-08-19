@@ -1,41 +1,46 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
 import $ from "jquery";
 import axios from 'axios';
+import port from "../../data/port.json"; //url
 
-import port from "./../../data/port.json"; //url
 
 
 const SignInComponent = () => {
   const navigate = useNavigate();
+  
+  const CLIENT_ID = "h5d4QFUelFHA4__18dV1";
+  const CALLBACK_URL = "http://localhost:3000/auth/naver/callback";
+  const STATE_STRING = "STATE";
+  const NAVER_URL_CREATE = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${CALLBACK_URL}`
 
   const [signInData, setSignInData] = useState({
-    email : "",
-    password : "",
+    email: "",
+    password: "",
   });
   const [cookies, setCookie] = useCookies(["userInfo"]);
 
   const onClickSignInButton = () => {
-    if(signInData.email === ""){
+    if (signInData.email === "") {
       alert("이메일을 입력해주세요");
       $("#email").focus();
       return;
     }
 
-    if(signInData.password === ""){
+    if (signInData.password === "") {
       alert("비밀번호를 입력해주세요");
       $("#password").focus();
       return;
     }
 
-    sendSignInData().then((res)=> {
+    sendSignInData().then((res) => {
       setCookie("userInfo", res.data, { path: "/" });
       console.log("___cookies___ ", cookies);
       alert("로그인이 완료되었습니다. 루틴을 만들어보세요!");
       navigate("/")
-    }).catch((e)=>{
+    }).catch((e) => {
       console.log(e.response);
       alert(e.response.data.message);
     })
@@ -44,12 +49,12 @@ const SignInComponent = () => {
   const changeSignInData = (e) => {
     setSignInData({
       ...signInData,
-      [e.target.name] : e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
   /*________________connect to server_________________ */
-  const sendSignInData =  async () => {
+  const sendSignInData = async () => {
     return await axios.post(port.url + "/user/signin", signInData);
   }
 
@@ -58,25 +63,25 @@ const SignInComponent = () => {
       <SignInTitle>Start with FITBACK!</SignInTitle>
       <SignInSubtitle>이메일과 비밀번호를 입력하여 로그인해주세요</SignInSubtitle>
       <SmallPadding>
-        <SignInInput type='email' id='email' name='email' value = {signInData.email} onChange={changeSignInData} placeholder='이메일 입력 (ex. health@gmail.com)' />
+        <SignInInput type='email' id='email' name='email' value={signInData.email} onChange={changeSignInData} placeholder='이메일 입력 (ex. health@gmail.com)' />
       </SmallPadding>
       <SmallPadding>
-        <SignInInput type='password' id='password' name='password' value = {signInData.password} onChange={changeSignInData} placeholder='비밀번호 입력' />
+        <SignInInput type='password' id='password' name='password' value={signInData.password} onChange={changeSignInData} placeholder='비밀번호 입력' />
       </SmallPadding>
-      <SignInButton onClick = {onClickSignInButton}>로그인</SignInButton>
+      <SignInButton onClick={onClickSignInButton}>로그인</SignInButton>
       <BigPadding>
-        <OtherButton href='/signup'>회원가입</OtherButton>
+        <OtherButton onClick={() => navigate("/signup")}>회원가입</OtherButton>
         <OtherButton onClick={() => navigate("/findpw")}>아이디 및 비밀번호 찾기</OtherButton>
       </BigPadding>
-      <a>
+      <a href= {NAVER_URL_CREATE}>
         <SocialButton src={'/img/naver_login_button.png'} />
       </a>
-      <a>
+      {/* <a> */}
         <SocialButton src={'/img/kakao_login_button.png'} />
-      </a>
-      <a>
+      {/* </a> */}
+      {/* <a> */}
         <SocialButton src={'/img/google_login_button.png'} />
-      </a>
+      {/* </a> */}
     </SignInContainer>
   )
 }
@@ -92,9 +97,10 @@ const SignInContainer = styled.div`
 
 const SignInTitle = styled.div`
   font-size : 20px;
+  font-weight: 800;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-  padding: 20% 0 0;
+  padding : 0;
 `;
 
 const SignInSubtitle = styled.div`
@@ -123,23 +129,23 @@ const SignInButton = styled.button`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
   width : 300px;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 14px;
   line-height: 25px;
   border: 0.1px solid #c3dbff;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : #1d1d1d;
   margin : 10px 0 10px;
 `;
 
 //회원가입 | 아이디 및 비밀번호 찾기
-const OtherButton = styled.a`
+const OtherButton = styled.button`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;;
-  margin : 10px 6% ;
+  margin : 5px 6% ;
   font-weight: 200;
   font-size: 12px;
-  line-height: 25px;
+  line-height: 10px;
   border: 2px solid #ffffff;
 `;
 

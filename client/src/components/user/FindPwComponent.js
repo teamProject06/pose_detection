@@ -4,7 +4,7 @@ import $ from "jquery";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-import port from "./../../data/port.json"; //urlData
+import port from "../../data/port.json"; //urlData
 
 const FindPwComponent = () => {
 
@@ -78,7 +78,8 @@ const sendUserData = async () => {
         <Label>가입했던 이메일</Label>
         <SignUpInput type="email" id="email" name="email" onChange = {changePWData} defaultValue = {userData.email}  placeholder='이메일 (ex. health@gmail.com)' />
       </SmallPadding>
-
+      <SmallPadding/>
+      <SmallPadding/>
       <SmallPadding>
         <Label>변경할 비밀번호</Label>
         <SignUpInput type="password" id="password" name="password" defaultValue = {userData.password} onChange = {changePWData}  placeholder='새 비밀번호' />
@@ -107,7 +108,7 @@ const Title = styled.div`
   font-size : 20px;
   text-size-adjust: none;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
-  padding: 20% 0 0;
+  padding: 0;
 `;
 
 const Subtitle = styled.div`
@@ -120,7 +121,7 @@ const Subtitle = styled.div`
 const SignUpInput = styled.input`
   text-size-adjust: none;
   font-size: 13px; 
-  font-weight: 500;
+  font-weight: 800;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
   width: 300px; 
@@ -134,21 +135,22 @@ const SignUpInput = styled.input`
 const Button = styled.button`
   width : 300px;
   height : 45px;
-  color: #1d1d1d;
+  color: white;
   font-weight: 600;
   font-size: 14px;
   line-height: 25px;
-  border: 0.1px solid #c3dbff;
+  border: 0.1px solid #1d1d1d;
   border-radius: 8px;
-  background-color : #c3dbff;
+  background-color : #1d1d1d;
   margin : 10px 0 10px;
 `;
 
 const Label = styled.div`
   padding : 0 100px 5px;
   text-align : left;
+  font-weight: 700;
   font-size : 13px;
-  color : #c3dbff;
+  color : #1d1d1d;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 `
 

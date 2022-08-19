@@ -1,22 +1,36 @@
-import { React, useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import $ from "jquery";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
-import port from "../../data/port.json"; //urlData
+import port from "./../../../data/port.json"; //urlData
 
-const SignUpComponent = () => {
-  const navigate = useNavigate();
+const SocialSignUp = () => {
+    const navigate = useNavigate();
+    const [cookiesAuth, setCookieAuth, removeCookieAuth] = useCookies(["auth"]);
+    
+    const [signUpData, setSignUpData] = useState({
+        email: "",
+        password: "",
+        rePassword: "",
+        name: ""
+    });
 
-  const [signUpData, setSignUpData] = useState({
-    email: "",
-    password: "",
-    rePassword: "",
-    name: ""
-  });
+    useEffect(() => {
+        console.log(cookiesAuth.auth);
+    
+        setSignUpData({
+            ...signUpData,
+            email: cookiesAuth.auth.email,
+            name: cookiesAuth.auth.name,
+        });
+    
+    }, []);
 
-  const onClickSignUpButton = () => {
+    
+    const onClickSignUpButton = () => {
 
     /*________________check input_________________ */
     if (signUpData.email === "") {
@@ -203,4 +217,4 @@ padding:  0 0 50px`
   ;
 
 
-export default SignUpComponent;
+export default SocialSignUp;
