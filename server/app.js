@@ -11,6 +11,7 @@ const port = 5500;
 const userRouter = require('./routes/user');
 const routineRouter = require('./routes/routine');
 const poseRouter = require('./routes/pose');
+const authRouter = require('./routes/auth')
 
 
 /*________________mongoDB and server_________________ */
@@ -30,3 +31,4 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/routine", routineRouter);
 app.use("/pose", poseRouter);
+app.use("/Oauth",authRouter);
