@@ -81,6 +81,12 @@ const SignUpComponent = () => {
     navigate("/signin");
   }).catch((e) => {
     alert(e.response.data.fail);
+    if(e.response.data.target == "email")
+      navigate("/signin");
+    else {
+      $("#name").focus();
+    }
+
   });
 }
 
