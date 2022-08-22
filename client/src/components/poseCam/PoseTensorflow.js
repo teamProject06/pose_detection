@@ -4,29 +4,61 @@ import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../../util/drawUtil';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const PoseTensorflow = () => {
+const PoseTensorflow = ({video}) => {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const navigation = useNavigate();
-    const location = useLocation();
+    const posture = window.localStorage.getItem("posture")
 
-    navigation('/posedetection/posecam')
+    // 필요한 관절 부분 배열에 저장
+    const bodyPoint = {
+        leftElbows: [],
+        rightElbows: [],
+        rightKnees: [],
+        leftWrists: [],
+        rightWrists: [],
+        leftKnees: [],
+        knees: [],
+        leftShouldersMove: [],
+        rightShouldersMove: [],
+        kneeProtrusion: [],
+    };
+
+    // 몸이 제대로 나오는지 스코어 점수 확인 전신이 나오는지 확인용 
+    const pointScores = {
+        leftElbowPoints: [],
+        rightElbowPoints: [],
+        rightKneePoints: [],
+        leftWristPoints: [],
+        rightWristPoints: [],
+        leftKneePoints: [],
+        leftShoulderPoints: [],
+        rightShoulderPoints: [],
+        leftAnklePoint: [],
+        rightAnklePoint: [],
+    };
+
+
+    // 녹화 새로 고침 문제 전역에서 비디오 녹화 저장하기 navigation('/posedetection/posecam')
     
+    // 비디오 캠이 있으면 녹화 시작
     setTimeout(()=> {
-        console.log(recordedChunks, 'recordedChunks')
         if (mediaRecorderRef.current !== null) {
             handleStopCapture()
         }
-    }, 20000)
+    }, 15000)
 
 
-    //비디오 저장
-    const recordedChunks = [];
+    //실시간 캠을 비디오로 변환
     const handleStartCaptureStart = React.useCallback(() => {
-        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        navigator.mediaDevices.getUserMedia({video: {
+            facingMode: 'user',
+            width: webcamRef.width,
+            height: webcamRef.height,
+        }, audio: false})
         .then(media => {
             webcamRef.current.stream = media
 
@@ -46,61 +78,34 @@ const PoseTensorflow = () => {
 
     handleStartCaptureStart()
 
-        const handleDataAvailable =({data}) => {
-            console.log(data, 'data')
-            if (data && data.size > 0) {
-                recordedChunks.push(data)
-                console.log(recordedChunks, 'recordedChunksData')
-            }
+    // 비디오 데이터 배열에 저장 
+    const handleDataAvailable =({data}) => {
+        console.log(data, 'data')
+        if (data && data.size > 0) {
+            video.push(data)
+            console.log(video, 'recordedChunksData')
         }
-    
+    }
+
     const handleStopCapture =  React.useCallback(() => {
         mediaRecorderRef.current.stop();
       }, [mediaRecorderRef, webcamRef]);
 
       // 동영상 url 서버로 보내기 
-      const handleDownload = React.useCallback(() => {
+      const handleDownload = () => {
         console.log('ddddd')
-            if (recordedChunks.length) {
-                const blob = new Blob(recordedChunks, {
+            if (video.length) {
+                const blob = new Blob(video, {
                   type: "video/webm"
                 });
                 const url = URL.createObjectURL(blob);
-                // 임시 로컬 저장 변경 예정
-                console.log(url)
+                //console.log(url)
                 window.localStorage.setItem("video", JSON.stringify(url))
                 navigation('/posedetection/feedback')
               }
-      }, [recordedChunks]);
-    
+      }
 
-    // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
-    const bodyPoint = {
-        leftElbows: [],
-        rightElbows: [],
-        rightKnees: [],
-        leftWrists: [],
-        rightWrists: [],
-        leftKnees: [],
-        knees: [],
-        leftShouldersMove: [],
-        rightShouldersMove: [],
-        kneeProtrusion: [],
-    };
-
-    const pointScores = {
-        leftElbowPoints: [],
-        rightElbowPoints: [],
-        rightKneePoints: [],
-        leftWristPoints: [],
-        rightWristPoints: [],
-        leftKneePoints: [],
-        leftShoulderPoints: [],
-        rightShoulderPoints: [],
-        leftAnklePoint: [],
-        rightAnklePoint: [],
-    };
-
+    // 텐서플로우 모델 불러움
     const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
             runtime: 'tfjs',
@@ -115,7 +120,8 @@ const PoseTensorflow = () => {
             console.log(bodyPoint, 'bodyPoint');
             // console.log(count, 'cc');
             // console.log(bodyPoint, 'bodyPoint');
-            window.localStorage.setItem('bodyAngle', JSON.stringify(bodyPoint));
+            window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
+            window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
         }, 20000);
     };
 
@@ -126,8 +132,8 @@ const PoseTensorflow = () => {
             webcamRef.current.video.readyState === 4
         ) {
             const video = webcamRef.current.video;
-            const videoWidth = webcamRef.current.video.videoWidth;
-            const videoHeight = webcamRef.current.video.videoHeight;
+            const videoWidth = video.videoWidth;
+            const videoHeight = video.videoHeight;
 
             webcamRef.current.video.width = videoWidth;
             webcamRef.current.video.height = videoHeight;
@@ -136,24 +142,27 @@ const PoseTensorflow = () => {
 
             console.log(pose[0].keypoints, 'pose');
 
-            drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+            drawCanvas(pose, videoWidth, videoHeight, canvasRef);
 
-            findExercise(pose[0].keypoints, 'squat');
+            findExercise(pose[0].keypoints, posture);
+            console.log(videoWidth, videoHeight, 'vvvvv')
 
         }
     };
 
+    // 어떤 운동인지 파악
     const findExercise = (exercises, pose) => {
+        console.log(pose, '운')
         switch (pose) {
-            case 'squat': {
+            case '스쿼트': {
                 divisionBodySquat(exercises);
                 break;
             }
-            case 'oneArmLow': {
+            case '원암덤벨로우': {
 
                 break;
             }
-            case 'lunge': {
+            case '런지': {
                 //divisionBodyLunge(exercises);
                 break;
             }
@@ -162,6 +171,7 @@ const PoseTensorflow = () => {
         }
     };
 
+    // 스쿼트 올바른 자세 판단을 위한 각도, 움직임 함수 호출 
     const divisionBodySquat = (body) => {
         // bodyPoint['leftElbowbodyPoint'].push(
         //     calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
@@ -261,10 +271,9 @@ const PoseTensorflow = () => {
 
     const videoConstraints = {
         width: 760,
-        height: 486,       
+        height: 600,       
         facingMode: "user"
       };
-      
 
     return (
         <>
@@ -275,8 +284,8 @@ const PoseTensorflow = () => {
                 </div>
                 <Webcam ref={webcamRef}
                 audio={false}
-                height={486}
                 width={760}
+                height={600}
                 videoConstraints={videoConstraints}
                 />
                 <canvas ref={canvasRef} className="canvas"></canvas>
