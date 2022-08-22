@@ -17,6 +17,7 @@ const FeedbackComponent = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
     const [postData, setPostData] = useRecoilState(getDataState) 
     const [resultNone, setResultNone] = useState(0)
+    const [isFullBody, setIsFull] = useState(true)
 
     const localData = () => {
             const upperBodyAngle = new Set(resultData['rightWrists']) 
@@ -45,17 +46,30 @@ const FeedbackComponent = () => {
         const minUpperBodyMove = window.localStorage.getItem("minUpperBodyMove")
         const maxUpperBodyMove = window.localStorage.getItem("maxUpperBodyMove")
 
-        setPostData({
-            name:cookies.userInfo.name,
-            poseName: poseName,
-            result: [
-                upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
-                upperBodyResult(minUpperBodyAngle),
-                kneeDapthResult(minKneeDepth)
-            ]
-        })
+        fullBodyCheckScore()
 
+        if(isFullBody) {
+            setPostData({
+                name:cookies.userInfo.name,
+                poseName: poseName,
+                result: [
+                    upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
+                    upperBodyResult(minUpperBodyAngle),
+                    kneeDapthResult(minKneeDepth)
+                ]
+            })
+    
+        }
     },[])
+
+    const fullBodyCheckScore = () => {
+        const rightAnklePoint = resultScoreData['rightAnklePoint'].filter(it => it >= 0.9)
+        console.log(rightAnklePoint, 'rightAnklePoint')
+
+        if (rightAnklePoint.length <  1) {
+            setIsFull(false)
+        }
+    }
 
         const upperBodyMoveResult =  (max, min) =>  {
             let posedetectionResult = {
@@ -98,11 +112,6 @@ const FeedbackComponent = () => {
 
         if (angle >= 150) {
             setResultNone(resultNone + 1)
-            posedetectionResult = {
-                    part: '상체 각도',
-                    feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                    state: 'None',
-                }
         } else if (angle >= 120) {
             posedetectionResult = {
                 part: '상체 각도',
@@ -129,7 +138,9 @@ const FeedbackComponent = () => {
 
     
         
-    const kneeDapthResult = (angle) => {
+    const kneeDapthResult =(angle) => {
+        // 컴포넌트 확인용 
+        //const angle = 60;
         let posedetectionResult = {
             part: '',
             feedback: '',
@@ -137,12 +148,7 @@ const FeedbackComponent = () => {
         }
 
         if (angle >= 150) {
-            setResultNone(resultNone + 1)
-            posedetectionResult = {
-                part: '무릎 각도',
-                feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                state: 'None',
-            }
+            setResultNone(resultNone + 2)
         } else if (angle >= 80) {
             posedetectionResult = {
                 part: '무릎 각도',
@@ -183,9 +189,9 @@ const FeedbackComponent = () => {
             // console.log(tmpData, "TMPDATA");
             return await axios.post(port.url + "/pose", postData,{
                 headers: {
-                  accessToken: cookies.userInfo.accessToken,
+                    accessToken: cookies.userInfo.accessToken,
                 }
-              })
+            })
         }
 
 
@@ -200,7 +206,7 @@ const FeedbackComponent = () => {
   return (
     <FeedbackContainer>
         <ul>
-            {resultNone !== 2 && postData.result.map((it,index) => {
+            {resultNone !== 2 && isFullBody && postData.result.map((it,index) => {
                 if (it.state === 'Good') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
@@ -210,7 +216,7 @@ const FeedbackComponent = () => {
                 }
                
             })}
-            {resultNone !== 2 && postData.result.map((it,index) => {
+            {resultNone !== 2 && isFullBody && postData.result.map((it,index) => {
                 if (it.state === 'Bad') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
@@ -220,14 +226,12 @@ const FeedbackComponent = () => {
                 }
                
             })}
-            {resultNone === 2 && postData.result.map((it,index) => {
-                return (
-                    <li key={index}>
-                        <FilterNoneComponent data={it.feedback}/>
-                    </li>
-                )
-               
-            })}
+            {resultNone >= 2 && 
+                <FilterNoneComponent result={'none'}/>
+            }
+             {isFullBody === false && 
+                <FilterNoneComponent result={'fullbody'}/>
+            }
         </ul>
         <ButtonContainer>
             <button type="button" className='button home' onClick={onClickButton}>{resultNone === 2 ? 'Home' : '저장하기'}</button>
@@ -247,6 +251,9 @@ const FeedbackContainer = styled.article`
     .list {
         box-sizing: border-box;
         
+    }
+    ul {
+        margin-bottom: 2em;
     }
 `;
 

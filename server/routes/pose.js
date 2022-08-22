@@ -13,7 +13,6 @@ router.post("/", async (req, res, next) => {
         let serverResult = {
             "Good":[],
             "Bad" :[],
-            "None" : []
         };
         for (let i in result) {
             let part = result[i].part;
@@ -26,12 +25,6 @@ router.post("/", async (req, res, next) => {
             }
             else if (result[i].state === 'Bad') {
                 serverResult.Bad.push({
-                    "part": part,
-                    "feedback": feedback,
-                })
-            }
-            else if (result[i].state === 'None') {
-                serverResult.None.push({
                     "part": part,
                     "feedback": feedback,
                 })

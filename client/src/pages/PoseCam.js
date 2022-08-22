@@ -11,6 +11,7 @@ const PoseCam = () => {
 
   const recordedChunks = [];
 
+
   return (
     <>
       <PoseTensorflow video={recordedChunks}/>

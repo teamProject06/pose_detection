@@ -54,7 +54,11 @@ const PoseTensorflow = ({video}) => {
 
     //실시간 캠을 비디오로 변환
     const handleStartCaptureStart = React.useCallback(() => {
-        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        navigator.mediaDevices.getUserMedia({video: {
+            facingMode: 'user',
+            width: webcamRef.width,
+            height: webcamRef.height,
+        }, audio: false})
         .then(media => {
             webcamRef.current.stream = media
 
@@ -117,6 +121,7 @@ const PoseTensorflow = ({video}) => {
             // console.log(count, 'cc');
             // console.log(bodyPoint, 'bodyPoint');
             window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
+            window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
         }, 20000);
     };
 
@@ -127,8 +132,8 @@ const PoseTensorflow = ({video}) => {
             webcamRef.current.video.readyState === 4
         ) {
             const video = webcamRef.current.video;
-            const videoWidth = webcamRef.current.video.videoWidth;
-            const videoHeight = webcamRef.current.video.videoHeight;
+            const videoWidth = video.videoWidth;
+            const videoHeight = video.videoHeight;
 
             webcamRef.current.video.width = videoWidth;
             webcamRef.current.video.height = videoHeight;
@@ -137,9 +142,10 @@ const PoseTensorflow = ({video}) => {
 
             console.log(pose[0].keypoints, 'pose');
 
-            drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+            drawCanvas(pose, videoWidth, videoHeight, canvasRef);
 
             findExercise(pose[0].keypoints, posture);
+            console.log(videoWidth, videoHeight, 'vvvvv')
 
         }
     };
@@ -263,13 +269,11 @@ const PoseTensorflow = ({video}) => {
 
     window.requestAnimationFrame(runPosenet);
 
-    // 비디오 사이즈 설정 
     const videoConstraints = {
-        width: 600,
-        height: 520,       
+        width: 760,
+        height: 600,       
         facingMode: "user"
       };
-    
 
     return (
         <>
@@ -280,8 +284,8 @@ const PoseTensorflow = ({video}) => {
                 </div>
                 <Webcam ref={webcamRef}
                 audio={false}
-                height={486}
                 width={760}
+                height={600}
                 videoConstraints={videoConstraints}
                 />
                 <canvas ref={canvasRef} className="canvas"></canvas>

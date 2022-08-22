@@ -31,7 +31,7 @@ const STATE = {
     model: {},
 };
 
-export const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
+export const drawCanvas = (pose, videoWidth, videoHeight, canvas) => {
     const ctx = canvas.current.getContext('2d');
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
