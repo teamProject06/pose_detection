@@ -14,16 +14,17 @@ export const isRoutineCheckedState = atom({
 })
 
 export const editIdFilterState = atom({
-  key: 'editIdFilterState',
-  default: []
-})
+    key: 'editIdFilterState',
+    default: []
+  })
 
-
-export const poseImproveState = atom({
-    key: 'poseImproveState',
-    default: {
-        pose: '',
-    }
+export const getDataState = atom({
+  key: 'getDataState',
+  default: {
+    name: '',
+    poseName: '',
+    result: [],
+  }
 })
 
 export const onOffComponentState = atom({

@@ -9,9 +9,11 @@ const PoseCam = () => {
     console.log("posture: ", posture);
 }, []);
 
+  const recordedChunks = [];
+
   return (
     <>
-      <PoseTensorflow/>
+      <PoseTensorflow video={recordedChunks}/>
     </>
   )
 }

@@ -6,7 +6,8 @@ import FilterDataComponent from './FilterDataComponent';
 import FilterNoneComponent from './FilterNoneComponent';
 import axios from 'axios';
 import port from "./../../data/port.json";
-
+import { useRecoilState } from 'recoil';
+import { getDataState } from '../../atom/atomState';
 
 const FeedbackComponent = () => {
     const resultData = JSON.parse(window.localStorage.getItem("bodyData")) 
@@ -14,18 +15,10 @@ const FeedbackComponent = () => {
     const poseName = window.localStorage.getItem("posture")
     const naviation = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
-   
+    const [postData, setPostData] = useRecoilState(getDataState) 
     const [resultNone, setResultNone] = useState(0)
-    
-    // data 보내기 
-    const resultList = []
-    const [postData, setPostData] = useState({
-        name:cookies.userInfo.name,
-        poseName: poseName,
-        result: [],
-    })
-    
-    const localData = async () => {
+
+    const localData = () => {
             const upperBodyAngle = new Set(resultData['rightWrists']) 
             const kneeAngle = new Set(resultData['rightKnees'])
             const upperBodyMove = new Set(resultData['rightShouldersMove'])
@@ -44,7 +37,7 @@ const FeedbackComponent = () => {
         }
 
     useEffect(()=> {
-        
+
         localData()
         
         const minUpperBodyAngle = window.localStorage.getItem("minUpperBodyAngle")
@@ -53,7 +46,8 @@ const FeedbackComponent = () => {
         const maxUpperBodyMove = window.localStorage.getItem("maxUpperBodyMove")
 
         setPostData({
-            ...postData,
+            name:cookies.userInfo.name,
+            poseName: poseName,
             result: [
                 upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
                 upperBodyResult(minUpperBodyAngle),
@@ -62,32 +56,6 @@ const FeedbackComponent = () => {
         })
 
     },[])
-
-    useEffect(() => {
-        try {
-            console.log(postData, "POSTDATA");
-            if (postData.result.length > 0) {
-                sendFeedback().then((res) => {
-                    alert(res.data.result);
-                }).catch(e =>{
-                    alert(e.response.data.message);
-                })
-            }
-        }
-        catch (e) {
-            alert("피드백 저장에 실패했습니다.");
-        }
-    }, [postData])
-
-
-    const sendFeedback = async () => {
-        // console.log(tmpData, "TMPDATA");
-        return await axios.post(port.url + "/pose", postData,{
-            headers: {
-              accessToken: cookies.userInfo.accessToken,
-            }
-          })
-    }
 
         const upperBodyMoveResult =  (max, min) =>  {
             let posedetectionResult = {
@@ -191,10 +159,43 @@ const FeedbackComponent = () => {
             
             console.log(posedetectionResult, 'posedetectionResult')
             return posedetectionResult
-          
         }
         
-        console.log(resultList, 'resultListresultList')
+
+        const onClickPostData = () => {
+            try {
+                console.log(postData, "POSTDATA");
+                if (postData.result.length > 0) {
+                    sendFeedback().then((res) => {
+                        console.log(res)
+                        alert(res.data.result);
+                    }).catch(e =>{
+                        alert(e.response.data.message);
+                    })
+                }
+            }
+            catch (e) {
+                alert("피드백 저장에 실패했습니다.");
+            }
+        }
+
+        const sendFeedback = async () => {
+            // console.log(tmpData, "TMPDATA");
+            return await axios.post(port.url + "/pose", postData,{
+                headers: {
+                  accessToken: cookies.userInfo.accessToken,
+                }
+              })
+        }
+
+
+        const onClickButton = (e) => {
+            if (e.target.textContent === 'Home') {
+                naviation('/')
+            } else if (e. target.textContent === '저장하기') {
+                onClickPostData()
+            }
+        }
 
   return (
     <FeedbackContainer>
@@ -228,31 +229,35 @@ const FeedbackComponent = () => {
                
             })}
         </ul>
-        <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>
-        <button type="button" className='button back' onClick={()=> {
-            window.localStorage.setItem("posture", poseName)
-            naviation('/posedetection/posecam')
-        }}>다시하기</button>
+        <ButtonContainer>
+            <button type="button" className='button home' onClick={onClickButton}>{resultNone === 2 ? 'Home' : '저장하기'}</button>
+            <button type="button" className='button back' onClick={()=> {
+                window.localStorage.setItem("posture", poseName)
+                naviation('/posedetection/posecam')
+            }}>다시하기</button>
+        </ButtonContainer>
     </FeedbackContainer>
   )
 }
 
 const FeedbackContainer = styled.article`
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .list {
         box-sizing: border-box;
         
     }
+`;
+
+const ButtonContainer = styled.div`
     .button {
-        position: absolute;
         display: inline-block;
         width: 50%;
-        bottom: 2%;
         padding: .5em 1em;
         border-radius: 10px;
     }
     .button.back{
-        right: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         background-color: #fff;
@@ -266,7 +271,12 @@ const FeedbackContainer = styled.article`
         background-color: black;
         color: #f5f5f5;
     }
-   
+    .button.save{
+        width: 100%;
+        margin-top: 1em;
+        background-color: black;
+        color: #f5f5f5;
+    }
 `;
 
 export default FeedbackComponent

@@ -15,7 +15,7 @@ const PoseCamGuide = () => {
     }, 2500);
 
     useEffect(() => {
-        if (textIdx !== 2) {
+    if (textIdx < 2) {
             setInterval(() => {
                 setTextIdx(textIdx+1)
             },5000)
@@ -24,9 +24,10 @@ const PoseCamGuide = () => {
         if (textIdx === 2) {
             setTextIdx(2)
             setTimeout(() => {
-                navigation('/posedetection/posecam')
+                return navigation('/posedetection/posecam')
             }, 5000)
         } 
+        console.log(textIdx, 'textIdx')
     }, [textIdx])
     
 

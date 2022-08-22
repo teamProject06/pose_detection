@@ -11,27 +11,27 @@ router.post("/", async (req, res, next) => {
         let now = timeString();
         /*___________________function____________________ */
         let serverResult = {
-            "good":[],
-            "bad" :[],
-            "none" : []
+            "Good":[],
+            "Bad" :[],
+            "None" : []
         };
-        for (var i in result) {
+        for (let i in result) {
             let part = result[i].part;
             let feedback = result[i].feedback;
-            if (result[i].state == 'good') {
-                serverResult.good.push({
+            if (result[i].state === 'Good') {
+                serverResult.Good.push({
                     "part": part,
                     "feedback": feedback,
                 })
             }
-            else if (result[i].state == 'bad') {
-                serverResult.bad.push({
+            else if (result[i].state === 'Bad') {
+                serverResult.Bad.push({
                     "part": part,
                     "feedback": feedback,
                 })
             }
-            else if (result[i].state == 'none') {
-                serverResult.none.push({
+            else if (result[i].state === 'None') {
+                serverResult.None.push({
                     "part": part,
                     "feedback": feedback,
                 })
@@ -77,16 +77,16 @@ router.get("/:name/mypage", async (req, res, next) => {
 
 
 const timeString = () => {
-    let date = new Date();
-    let time = {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1, 
-      date: date.getDate(),
-      // hours: date.getHours(),
-      // minutes: date.getMinutes(),
-    }
-    let now = `${time.year}년 ${time.month}월 ${time.date}일`;
-    return now;
+    let date = new Date().getTime();
+    // let time = {
+    //   year: date.getFullYear(),
+    //   month: date.getMonth() + 1, 
+    //   date: date.getDate(),
+    //   // hours: date.getHours(),
+    //   // minutes: date.getMinutes(),
+    // }
+    // let now = `${time.year}년 ${time.month}월 ${time.date}일`;
+    return date;
   }
 
 //   const serverResult = (result) => {
