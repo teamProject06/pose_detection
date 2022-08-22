@@ -18,13 +18,11 @@ const SocialSignUp = () => {
         name: ""
     });
 
-    useEffect(() => {
-        console.log(cookiesAuth.auth);
-    
+    useEffect(() => {  
         setSignUpData({
             ...signUpData,
-            email: cookiesAuth.auth.email,
-            name: cookiesAuth.auth.name,
+            email: cookiesAuth.auth.kakao_account.email,
+            name: cookiesAuth.auth.kakao_account.profile.nickname,
         });
     
     }, []);
@@ -68,7 +66,7 @@ const SocialSignUp = () => {
       return;
     }
 
-    if (signUpData.password !== signUpData.rePassword) {
+    if (signUpData.password.length < 5) {
       alert("비밀번호는 5글자 이상으로 설정해 주세요.");
       setSignUpData({
         ...signUpData,

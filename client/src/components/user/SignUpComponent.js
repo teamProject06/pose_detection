@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import styled from "styled-components";
 import $ from "jquery";
 import axios from "axios";
@@ -21,7 +21,6 @@ const SignUpComponent = () => {
     /*________________check input_________________ */
     if (signUpData.email === "") {
       alert("이메일을 입력해주세요.");
-      // emailRef.current.focus();
       $("#email").focus();
       return;
     }
@@ -54,7 +53,7 @@ const SignUpComponent = () => {
       return;
     }
 
-    if (signUpData.password !== signUpData.rePassword) {
+    if (signUpData.password.length < 5) {
       alert("비밀번호는 5글자 이상으로 설정해 주세요.");
       setSignUpData({
         ...signUpData,

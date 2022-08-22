@@ -6,25 +6,43 @@ const jwt = require("jsonwebtoken");
 const jwtConfig = require("./../config/jwtConfig.json");
 
 /*_________________________NAVER SOCIAL LOGIN___________________________*/
-// https://developers.naver.com/docs/login/devguide/devguide.md#3-4-2-%EB%84%A4%EC%9D%B4%EB%B2%84-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%97%B0%EB%8F%99-url-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0
 router.get("/naver", async (req, res, next) => {
     const CODE = req.query.code;
     const CLIENT_ID = "h5d4QFUelFHA4__18dV1";
     const CLIENT_SECRET = "mFS_gJFSUJ";
     const STATE_STRING = "STATE";
-    
+
     try {
         getNaverToken(CLIENT_ID, CLIENT_SECRET, CODE, STATE_STRING)
             .then((tokenData) => {
-                // console.log(tokenData,"tokenData");//ok
                 getNaverUserdata(tokenData.data.access_token)
-                .then((data) => {
-                checkUserData(data.data, res);
+                    .then((data) => {
+                        checkNaverUserData(data.data, res);
+                    })
             })
-            
-        })
     } catch (e) {
         console.log(e, "ERROR in naver router");
+        next(e);
+    }
+});
+
+/*_________________________KAKAO SOCIAL LOGIN___________________________*/
+router.get("/kakao", async (req, res, next) => {
+    const frontURL = 'http://localhost:3000';
+    const CODE = req.query.code;
+    const REST_API_KEY = '0009f476f7116da5e583fa0fc84ff1a3';
+    const REDIRECT_URI = frontURL + '/oauth/kakao/callback';
+
+    try {
+        getKakaoToken(REST_API_KEY, REDIRECT_URI, CODE)
+            .then((tokenData) => {
+                getKakaoUserdata(tokenData.data.access_token)
+                .then((data) => {
+                        checkKakaoUserData(data.data, res);
+                    })
+            })
+    } catch (e) {
+        console.log(e, "ERROR in kakao router");
         next(e);
     }
 });
@@ -35,10 +53,25 @@ const getNaverToken = async (CLIENT_ID, CLIENT_SECRET, CODE, STATE_STRING) => {
     return await axios.get(NAVER_URL + '/token', {
         params: {
             grant_type: 'authorization_code',
-            client_id: CLIENT_ID,//'h5d4QFUelFHA4__18dV1',
+            client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
-            state: STATE_STRING,//'hello',
+            state: STATE_STRING,
             code: CODE,
+        }
+    })
+}
+
+const getKakaoToken = async (REST_API_KEY, REDIRECT_URI, CODE) => {
+    const KAKAO_URL = "https://kauth.kakao.com/oauth";
+    return await axios.get(KAKAO_URL + '/token', {
+        params: {
+            grant_type: 'authorization_code',
+            client_id: REST_API_KEY,
+            redirect_uri : REDIRECT_URI,
+            code: CODE,
+        },
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         }
     })
 }
@@ -51,20 +84,24 @@ const getNaverUserdata = async (TOKEN) => {
     })
 }
 
-const checkUserData = async (userData,res) => {
-    console.log(userData,"userData");
-    const checkEmail = await User.find({ email: userData.response.email });
-    console.log(checkEmail,"checkEmail");
+const getKakaoUserdata = async (TOKEN) => {
+    return await axios.get("https://kapi.kakao.com/v2/user/me", {
+        headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        }
+    })
+}
+
+const checkNaverUserData = async (userData, res) => {
+    const checkEmail = await User.findOne({ email: userData.response.email });
     try {
-
-        if (checkEmail.length>0) {    //checkEmail이 존재한다면? 가입이되어있다면?
-            //로그인 진행
-
+        if (checkEmail) {
             jwt.sign({
                 email: checkEmail.email,
                 name: checkEmail.name
             }, jwtConfig.secret, {
-                expiresIn: '1d' //1y,1d,2h,1m,5s
+                expiresIn: '1d'
             }, (err, token) => {
                 if (err) {
                     res.status(401).json({ status: false, message: "로그인을 해주세요." });
@@ -78,15 +115,41 @@ const checkUserData = async (userData,res) => {
                     });
                 }
             })
-
-
         } else {
-            //회원가입 페이지로 보내줌
-            // userData.login = false;
-            console.log("else here ok")
-            console.log(typeof(userData), "userDATA TYPE")
             userData.response.login = false;
             res.json(userData.response)
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const checkKakaoUserData = async (userData, res) => {
+    const checkEmail = await User.findOne({ email: userData.kakao_account.email });
+    try {
+        if (checkEmail) {
+            jwt.sign({
+                email: checkEmail.email,
+                name: checkEmail.name
+            }, jwtConfig.secret, {
+                expiresIn: '1d'
+            }, (err, token) => {
+                if (err) {
+                    res.status(401).json({ status: false, message: "로그인을 해주세요." });
+                } else {
+                    res.json({
+                        login: true,
+                        status: true,
+                        accessToken: token,
+                        email: checkEmail.email,
+                        name: checkEmail.name
+                    });
+                }
+            })
+        } else {
+            userData.kakao_account.login = false;
+            res.json(userData.kakao_account)
         }
 
     } catch (e) {

@@ -10,11 +10,18 @@ import port from "../../data/port.json"; //url
 
 const SignInComponent = () => {
   const navigate = useNavigate();
-  
+  const frontURL = "http://localhost:3000" //frontURL변경_here and server/.../auth KKO
+
+  /*___________________NAVER_URL_CREATE(social login)______________________ */
   const CLIENT_ID = "h5d4QFUelFHA4__18dV1";
-  const CALLBACK_URL = "http://localhost:3000/auth/naver/callback";
+  const CALLBACK_URL = frontURL + '/oauth/naver/callback';
   const STATE_STRING = "STATE";
-  const NAVER_URL_CREATE = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${CALLBACK_URL}`
+  const NAVER_URL_CREATE = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${CALLBACK_URL}`;
+
+  /*___________________KAKAO_URL_CREATE(social login)______________________ */
+  const REST_API_KEY = '0009f476f7116da5e583fa0fc84ff1a3';
+  const REDIRECT_URI = frontURL +'/oauth/kakao/callback';
+  const KAKAO_URL_CREATE = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -37,7 +44,6 @@ const SignInComponent = () => {
 
     sendSignInData().then((res) => {
       setCookie("userInfo", res.data, { path: "/" });
-      console.log("___cookies___ ", cookies);
       alert("로그인이 완료되었습니다. 루틴을 만들어보세요!");
       navigate("/")
     }).catch((e) => {
@@ -76,9 +82,9 @@ const SignInComponent = () => {
       <a href= {NAVER_URL_CREATE}>
         <SocialButton src={'/img/naver_login_button.png'} />
       </a>
-      {/* <a> */}
+      <a href= {KAKAO_URL_CREATE}>
         <SocialButton src={'/img/kakao_login_button.png'} />
-      {/* </a> */}
+      </a>
       {/* <a> */}
         <SocialButton src={'/img/google_login_button.png'} />
       {/* </a> */}

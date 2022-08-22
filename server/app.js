@@ -3,10 +3,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors"); //middleware쓰는 모듈
 const corsOptions = {
-  origin: ["http://localhost:5500", "http://localhost:3000"], 
+  origin: ["http://localhost:5500", "http://localhost:3000", "http://118.67.128.231"], 
   credentials: true,
 };
 const port = 5500;
+
 
 const userRouter = require('./routes/user');
 const routineRouter = require('./routes/routine');
@@ -31,4 +32,4 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/routine", routineRouter);
 app.use("/pose", poseRouter);
-app.use("/Oauth",authRouter);
+app.use("/oauth",authRouter);
