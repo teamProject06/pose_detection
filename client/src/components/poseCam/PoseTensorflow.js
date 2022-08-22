@@ -49,7 +49,7 @@ const PoseTensorflow = ({video}) => {
         if (mediaRecorderRef.current !== null) {
             handleStopCapture()
         }
-    }, 20000)
+    }, 15000)
 
 
     //실시간 캠을 비디오로 변환

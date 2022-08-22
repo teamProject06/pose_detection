@@ -11,6 +11,8 @@ const CamComponent = () => {
 }
 
 const PoseCamContainer = styled.article`
+  width: 640px;
+  height: 450px;
 `;
 
 export default CamComponent

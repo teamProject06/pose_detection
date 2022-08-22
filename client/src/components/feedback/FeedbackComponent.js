@@ -50,7 +50,7 @@ const FeedbackComponent = () => {
 
         if(isFullBody) {
             setPostData({
-                name:cookies.userInfo.name,
+                name:cookies.userInfo?.name,
                 poseName: poseName,
                 result: [
                     upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
@@ -68,6 +68,7 @@ const FeedbackComponent = () => {
 
         if (rightAnklePoint.length <  1) {
             setIsFull(false)
+            setResultNone(2)
         }
     }
 
@@ -226,7 +227,7 @@ const FeedbackComponent = () => {
                 }
                
             })}
-            {resultNone >= 2 && 
+            {resultNone >= 2 && isFullBody &&
                 <FilterNoneComponent result={'none'}/>
             }
              {isFullBody === false && 
@@ -234,15 +235,15 @@ const FeedbackComponent = () => {
             }
         </ul>
         <ButtonContainer>
-            <button type="button" className='button home' onClick={onClickButton}>{resultNone === 2 ? 'Home' : '저장하기'}</button>
+            <button type="button" className='button home' onClick={onClickButton}>{resultNone === 2 || !cookies ? 'Home' : '저장하기'}</button>
             <button type="button" className='button back' onClick={()=> {
                 window.localStorage.setItem("posture", poseName)
-                naviation('/posedetection/posecam')
+                naviation('/posedetection/posecamguide')
             }}>다시하기</button>
         </ButtonContainer>
     </FeedbackContainer>
   )
-}
+} 
 
 const FeedbackContainer = styled.article`
     display: flex;

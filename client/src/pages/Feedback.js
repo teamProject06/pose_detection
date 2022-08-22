@@ -38,7 +38,7 @@ const Container = styled.section`
 const FeedbackContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
 `;
 
 const H2 = styled.h2`
