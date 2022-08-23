@@ -28,7 +28,7 @@ router.get("/naver", async (req, res, next) => {
 
 /*_________________________KAKAO SOCIAL LOGIN___________________________*/
 router.get("/kakao", async (req, res, next) => {
-    const frontURL = 'http://localhost:3000';
+    const frontURL = 'https://fitback.site';
     const CODE = req.query.code;
     const REST_API_KEY = '0009f476f7116da5e583fa0fc84ff1a3';
     const REDIRECT_URI = frontURL + '/oauth/kakao/callback';
