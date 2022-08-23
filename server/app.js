@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors"); //middleware쓰는 모듈
 const corsOptions = {
-  origin: ["http://localhost:5500", "http://localhost:3000", "http://118.67.128.231"], 
+  origin: ["http://localhost:5500", "http://localhost:3000", "http://118.67.128.231", "https://fitback.site"], 
   credentials: true,
 };
 const port = 5500;
