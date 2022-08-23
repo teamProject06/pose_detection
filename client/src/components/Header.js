@@ -7,7 +7,6 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const Header = (props) => {
     const navigate = useNavigate();
-
     const location = useLocation();
 
     // 1. useState로 scrolled 상태 관리.
@@ -16,7 +15,6 @@ const Header = (props) => {
   
     // 주의: 빌드할 때 window is not defined 오류를 해결하려면 useEffect
     useEffect(() => {
-  
       // 2. 현재 state 값과 scrollY > 30 을 기준으로 state값 변경하는 함수
       const handleScroll = () => {
         if (!scrolled && window.scrollY > 30) {
@@ -34,6 +32,7 @@ const Header = (props) => {
       };
     }, [scrolled]);
     
+
     //-----------------------------------------------------------------
 
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
@@ -42,36 +41,44 @@ const Header = (props) => {
      const [view, setView] = useState({
         SignIn: false
     });
-    
 
+    const [pathname, setPathname] = useState(true)
 
     useEffect(() => {
-        if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/posedetection/posecamguide') {
-            setView({
-                SignIn: false
-            }) 
-            navigate("/");
-        }else{
-            setView({
-                SignIn: true
-            }) 
-        }
+      if (location.pathname === '/') setPathname(false)
+    }, [])
 
-    console.log("Cookies >> ", cookies.userInfo);
-    console.log("SignIn : ", view.SignIn);
-    }, [cookies]);
+
+    // home 화면으로 가기
+    useEffect(() => {
+      if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/' ) {
+        setView({
+            SignIn: false
+        }) 
+        navigate("/home");
+    }else{
+        setView({
+            SignIn: true
+        }) 
+    }
+
+console.log("Cookies >> ", cookies.userInfo);
+console.log("SignIn : ", view.SignIn);
+  }, [cookies]);
+    
   
 
   
     return (
-    <Block>
+      <>
+    {pathname && <Block>
               <header className={scrolled ? 'fix-container scrolled' : 'fix-container'}>
                   <nav>
                   <ul className={(location.pathname.length === 1) ? "nav-list fix-nav" : "nav-list"}>
                               <Headerb>
                               <div className='boxtool'>
                                   <Logo>
-                                  <Link to="/">
+                                  <Link to="/home">
                                     <h1 className='font'>FITBACK</h1>
                                   </Link>
                                   </Logo>
@@ -115,6 +122,7 @@ const Header = (props) => {
                                                  setView({
                                                     SignIn: false
                                                 }) 
+                                                //oauth도 삭제하기
                                                 removeCookie("userInfo", { path: "/" });
                                                 navigate("/");
                                             }}>로그아웃</Menuli>
@@ -126,7 +134,8 @@ const Header = (props) => {
                   </ul>
                   </nav>
               </header>
-      </Block>
+      </Block>}
+      </>
     );
   };
 
