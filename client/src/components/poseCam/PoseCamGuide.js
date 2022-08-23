@@ -15,24 +15,23 @@ const PoseCamGuide = () => {
     }, 2500);
 
     useEffect(() => {
-        if (textIdx !== 2) {
-            setInterval(() => {
-                setTextIdx(textIdx+1)
-            },5000)
-        }
-        
+        setInterval(() => {
+            setTextIdx(textIdx+1)
+        },5000)
+    
         if (textIdx === 2) {
             setTextIdx(2)
             setTimeout(() => {
-                navigation('/posedetection/posecam')
+                return navigation('/posedetection/posecam')
             }, 5000)
         } 
+        console.log(textIdx, 'textIdx')
     }, [textIdx])
     
 
     const videoConstraints = {
         width: 760,
-        height: 486,
+        height: 600,
         facingMode: "user"
       };
 

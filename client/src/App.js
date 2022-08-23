@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Main from './pages/Main';
+import Home from './pages/Home';
 import RoutineCam from './pages/RoutineCam';
 import PoseCam from './pages/PoseCam';
 import Feedback from './pages/Feedback';
@@ -20,6 +21,7 @@ import PoseCamGuide from './components/poseCam/PoseCamGuide';
 
 
 function App() {
+
     return (
         <RecoilRoot>
             <BrowserRouter>
@@ -30,7 +32,8 @@ function App() {
                         <Route path="kakao/callback" element={<KakaoLoginCallback/>}></Route>
                         <Route path="signup"element={<SocialSignUp/>}></Route>
                     </Route>
-                    <Route path="/" element={<Main />}></Route>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/home" element={<Main />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
                     <Route path="/findpw" element={<FindPW />}></Route>

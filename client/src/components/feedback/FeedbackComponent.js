@@ -6,7 +6,8 @@ import FilterDataComponent from './FilterDataComponent';
 import FilterNoneComponent from './FilterNoneComponent';
 import axios from 'axios';
 import port from "./../../data/port.json";
-
+import { useRecoilState } from 'recoil';
+import { getDataState } from '../../atom/atomState';
 
 const FeedbackComponent = () => {
     const resultData = JSON.parse(window.localStorage.getItem("bodyData")) 
@@ -14,18 +15,11 @@ const FeedbackComponent = () => {
     const poseName = window.localStorage.getItem("posture")
     const naviation = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
-   
+    const [postData, setPostData] = useRecoilState(getDataState) 
     const [resultNone, setResultNone] = useState(0)
-    
-    // data 보내기 
-    const resultList = []
-    const [postData, setPostData] = useState({
-        name:cookies.userInfo.name,
-        poseName: poseName,
-        result: [],
-    })
-    
-    const localData = async () => {
+    const [isFullBody, setIsFull] = useState(true)
+
+    const localData = () => {
             const upperBodyAngle = new Set(resultData['rightWrists']) 
             const kneeAngle = new Set(resultData['rightKnees'])
             const upperBodyMove = new Set(resultData['rightShouldersMove'])
@@ -44,7 +38,7 @@ const FeedbackComponent = () => {
         }
 
     useEffect(()=> {
-        
+
         localData()
         
         const minUpperBodyAngle = window.localStorage.getItem("minUpperBodyAngle")
@@ -52,41 +46,30 @@ const FeedbackComponent = () => {
         const minUpperBodyMove = window.localStorage.getItem("minUpperBodyMove")
         const maxUpperBodyMove = window.localStorage.getItem("maxUpperBodyMove")
 
-        setPostData({
-            ...postData,
-            result: [
-                upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
-                upperBodyResult(minUpperBodyAngle),
-                kneeDapthResult(minKneeDepth)
-            ]
-        })
+        fullBodyCheckScore()
 
+        if(isFullBody) {
+            setPostData({
+                name:cookies.userInfo?.name,
+                poseName: poseName,
+                result: [
+                    upperBodyMoveResult(maxUpperBodyMove, minUpperBodyMove),
+                    upperBodyResult(minUpperBodyAngle),
+                    kneeDapthResult(minKneeDepth)
+                ]
+            })
+    
+        }
     },[])
 
-    useEffect(() => {
-        try {
-            console.log(postData, "POSTDATA");
-            if (postData.result.length > 0) {
-                sendFeedback().then((res) => {
-                    alert(res.data.result);
-                }).catch(e =>{
-                    alert(e.response.data.message);
-                })
-            }
-        }
-        catch (e) {
-            alert("피드백 저장에 실패했습니다.");
-        }
-    }, [postData])
+    const fullBodyCheckScore = () => {
+        const rightAnklePoint = resultScoreData['rightAnklePoint'].filter(it => it >= 0.9)
+        console.log(rightAnklePoint, 'rightAnklePoint')
 
-
-    const sendFeedback = async () => {
-        // console.log(tmpData, "TMPDATA");
-        return await axios.post(port.url + "/pose", postData,{
-            headers: {
-              accessToken: cookies.userInfo.accessToken,
-            }
-          })
+        if (rightAnklePoint.length <  1) {
+            setIsFull(false)
+            setResultNone(2)
+        }
     }
 
         const upperBodyMoveResult =  (max, min) =>  {
@@ -130,11 +113,6 @@ const FeedbackComponent = () => {
 
         if (angle >= 150) {
             setResultNone(resultNone + 1)
-            posedetectionResult = {
-                    part: '상체 각도',
-                    feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                    state: 'None',
-                }
         } else if (angle >= 120) {
             posedetectionResult = {
                 part: '상체 각도',
@@ -161,7 +139,9 @@ const FeedbackComponent = () => {
 
     
         
-    const kneeDapthResult = (angle) => {
+    const kneeDapthResult =(angle) => {
+        // 컴포넌트 확인용 
+        //const angle = 60;
         let posedetectionResult = {
             part: '',
             feedback: '',
@@ -169,12 +149,7 @@ const FeedbackComponent = () => {
         }
 
         if (angle >= 150) {
-            setResultNone(resultNone + 1)
-            posedetectionResult = {
-                part: '무릎 각도',
-                feedback: '움직임이 느껴지지 않아 측정이 되지 않았습니다. 운동을 다시 해주세요',
-                state: 'None',
-            }
+            setResultNone(resultNone + 2)
         } else if (angle >= 80) {
             posedetectionResult = {
                 part: '무릎 각도',
@@ -191,15 +166,48 @@ const FeedbackComponent = () => {
             
             console.log(posedetectionResult, 'posedetectionResult')
             return posedetectionResult
-          
         }
         
-        console.log(resultList, 'resultListresultList')
+
+        const onClickPostData = () => {
+            try {
+                console.log(postData, "POSTDATA");
+                if (postData.result.length > 0) {
+                    sendFeedback().then((res) => {
+                        console.log(res)
+                        alert(res.data.result);
+                    }).catch(e =>{
+                        alert(e.response.data.message);
+                    })
+                }
+            }
+            catch (e) {
+                alert("피드백 저장에 실패했습니다.");
+            }
+        }
+
+        const sendFeedback = async () => {
+            // console.log(tmpData, "TMPDATA");
+            return await axios.post(port.url + "/pose", postData,{
+                headers: {
+                    accessToken: cookies.userInfo.accessToken,
+                }
+            })
+        }
+
+
+        const onClickButton = (e) => {
+            if (e.target.textContent === 'Home') {
+                naviation('/')
+            } else if (e. target.textContent === '저장하기') {
+                onClickPostData()
+            }
+        }
 
   return (
     <FeedbackContainer>
         <ul>
-            {resultNone !== 2 && postData.result.map((it,index) => {
+            {resultNone !== 2 && isFullBody && postData.result.map((it,index) => {
                 if (it.state === 'Good') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
@@ -209,7 +217,7 @@ const FeedbackComponent = () => {
                 }
                
             })}
-            {resultNone !== 2 && postData.result.map((it,index) => {
+            {resultNone !== 2 && isFullBody && postData.result.map((it,index) => {
                 if (it.state === 'Bad') {
                     return (
                         <li key={index} className="list neumorphic--pressed">
@@ -219,40 +227,45 @@ const FeedbackComponent = () => {
                 }
                
             })}
-            {resultNone === 2 && postData.result.map((it,index) => {
-                return (
-                    <li key={index}>
-                        <FilterNoneComponent data={it.feedback}/>
-                    </li>
-                )
-               
-            })}
+            {resultNone >= 2 && isFullBody &&
+                <FilterNoneComponent result={'none'}/>
+            }
+             {isFullBody === false && 
+                <FilterNoneComponent result={'fullbody'}/>
+            }
         </ul>
-        <button type="button" className='button home' onClick={()=> naviation('/')}>Home</button>
-        <button type="button" className='button back' onClick={()=> {
-            window.localStorage.setItem("posture", poseName)
-            naviation('/posedetection/posecam')
-        }}>다시하기</button>
+        <ButtonContainer>
+            <button type="button" className='button home' onClick={onClickButton}>{resultNone === 2 || !cookies ? 'Home' : '저장하기'}</button>
+            <button type="button" className='button back' onClick={()=> {
+                window.localStorage.setItem("posture", poseName)
+                naviation('/posedetection/posecamguide')
+            }}>다시하기</button>
+        </ButtonContainer>
     </FeedbackContainer>
   )
-}
+} 
 
 const FeedbackContainer = styled.article`
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .list {
         box-sizing: border-box;
         
     }
+    ul {
+        margin-bottom: 2em;
+    }
+`;
+
+const ButtonContainer = styled.div`
     .button {
-        position: absolute;
         display: inline-block;
         width: 50%;
-        bottom: 2%;
         padding: .5em 1em;
         border-radius: 10px;
     }
     .button.back{
-        right: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         background-color: #fff;
@@ -266,7 +279,12 @@ const FeedbackContainer = styled.article`
         background-color: black;
         color: #f5f5f5;
     }
-   
+    .button.save{
+        width: 100%;
+        margin-top: 1em;
+        background-color: black;
+        color: #f5f5f5;
+    }
 `;
 
 export default FeedbackComponent

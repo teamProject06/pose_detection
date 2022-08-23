@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CamComponent from '../components/feedback/CamComponent';
 import FeedbackComponent from '../components/feedback/FeedbackComponent';
 import styled from 'styled-components'
+import Loader from '../components/Loader';
 
 const Feedback = () => {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(()=> {
+      return setIsLoading(false)
+    }, 2500)
+  }, [])
+
   return (
-    <Container>
+    <>
+    {isLoading && <Loader />}
+    {!isLoading &&<Container>
     <H2>Feedback</H2>
     <FeedbackContainer>
       <CamComponent />
       <FeedbackComponent />
     </FeedbackContainer>
-    </Container>
+    </Container>}
+    </>
   )
 }
 
@@ -26,6 +38,7 @@ const Container = styled.section`
 const FeedbackContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 `;
 
 const H2 = styled.h2`

@@ -45,7 +45,7 @@ const SignInComponent = () => {
     sendSignInData().then((res) => {
       setCookie("userInfo", res.data, { path: "/" });
       alert("로그인이 완료되었습니다. 루틴을 만들어보세요!");
-      navigate("/")
+      navigate("/home")
     }).catch((e) => {
       console.log(e.response);
       alert(e.response.data.message);
