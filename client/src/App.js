@@ -15,6 +15,7 @@ import Footer from './pages/Footer';
 import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
 import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback';
+import KakaoLoginCallback from './components/user/socialLogin/KakaoLoginCallback';
 import SocialSignUp from './components/user/socialLogin/SocialSignUp';
 import PoseCamGuide from './components/poseCam/PoseCamGuide';
 
@@ -27,7 +28,8 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path ="/oauth">
-                        <Route path="naver" element={<NaverLoginCallback/>}></Route>
+                        <Route path="naver/callback" element={<NaverLoginCallback/>}></Route>
+                        <Route path="kakao/callback" element={<KakaoLoginCallback/>}></Route>
                         <Route path="signup"element={<SocialSignUp/>}></Route>
                     </Route>
                     <Route path="/" element={<Home />}></Route>
@@ -56,3 +58,6 @@ function App() {
 }
 
 export default App;
+// {
+//     "url" : "http://118.67.128.231:5500"
+// }

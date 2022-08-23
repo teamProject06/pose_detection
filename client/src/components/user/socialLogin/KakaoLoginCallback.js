@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import port from "./../../../data/port.json";
 
-const NaverLoginCallback = () => {
+const KakaoLoginCallback = () => {
     
     const navigate = useNavigate();
     const [cookiesAuth, setCookieAuth, removeCookieAuth] = useCookies(["auth"]);
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
     
-    const NAVER_CODE = new URL(window.location.href).searchParams.get("code");
+    const KAKAO_CODE = new URL(window.location.href).searchParams.get("code");
     useEffect(() => {
         sendCode().then((res)=>{
             if (res.data.login) {
@@ -22,15 +22,15 @@ const NaverLoginCallback = () => {
             }
         }).catch(e => {
             console.log(e);
-        });
+        })
     },[]);
     
     const sendCode= async() =>{
-        return await axios.get(port.url + '/oauth/naver',{
+        return await axios.get(port.url + '/oauth/kakao',{
             params: {
-                code: NAVER_CODE
+                code: KAKAO_CODE
             }
         })}
 }
 
-export default NaverLoginCallback;
+export default KakaoLoginCallback;

@@ -17,13 +17,15 @@ router.post("/signup", async (req, res, next) => {
     const userName = await User.findOne({ name });
     if (userEmail) {
       res.status(500).json({
-        fail: "이미 가입된 이메일입니다.",
+        fail: "이미 가입된 이메일입니다. 로그인을 해주세요!",
+        target : "email",
       });
       return;
     }
     if (userName) {
       res.status(500).json({
-        fail: "중복된 이름입니다.",
+        fail: "중복된 이름입니다. 다른 이름으로 등록해주세요!",
+        terget : "name",
       });
       return;
     }
@@ -41,6 +43,28 @@ router.post("/signup", async (req, res, next) => {
       result: "회원가입이 완료되었습니다. 로그인을 해주세요!",
     });
   });
+
+/*________________ check duplication of email and name _________________ */
+router.get("/check/email", async(req,res,next)=>{
+  const dbEmail = await User.findOne({ email: req.email });
+  if (dbEmail) {
+    res.status(401).json({
+      message: "이미 가입된 이메일입니다.",
+    });
+    return;
+  }
+})
+
+router.get("/check/name", async(req,res,next)=>{
+  const dbName = await User.findOne({ name: req.name });
+  if (dbName) {
+    res.status(401).json({
+      message: "중복된 이름입니다.",
+    });
+    return;
+  }
+  
+})
 
 /*________________ 로그인 _________________ */
 router.post("/signin", async (req, res, next) => {
