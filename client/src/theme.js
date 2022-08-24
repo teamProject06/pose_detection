@@ -4,8 +4,11 @@ const colors = {
     black: '#0e0e0e',
     grey: '#f6f8fa',
     pointColor: '#061673',
-    green: '#2c7c35'
+    green: '#2c7c35',
+    yellow: '#3d4e88'
   };
+
+  
   
   const common = {
     feedbackBoxStyle: `

@@ -8,6 +8,7 @@ import axios from 'axios';
 import port from "./../../data/port.json";
 import { useRecoilState } from 'recoil';
 import { getDataState } from '../../atom/atomState';
+import { theme } from '../../theme';
 
 const FeedbackComponent = () => {
     const resultData = JSON.parse(window.localStorage.getItem("bodyData")) 
@@ -46,7 +47,7 @@ const FeedbackComponent = () => {
         const minUpperBodyMove = window.localStorage.getItem("minUpperBodyMove")
         const maxUpperBodyMove = window.localStorage.getItem("maxUpperBodyMove")
 
-        fullBodyCheckScore()
+        //fullBodyCheckScore()
 
         if(isFullBody) {
             setPostData({
@@ -246,6 +247,7 @@ const FeedbackComponent = () => {
 } 
 
 const FeedbackContainer = styled.article`
+    background-color: ${theme.colors.yellow};
     display: flex;
     flex-direction: column;
     justify-content: space-between;
