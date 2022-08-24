@@ -32,4 +32,4 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/routine", routineRouter);
 app.use("/pose", poseRouter);
-app.use("/oauth",authRouter);
+app.use("/oauth", authRouter);

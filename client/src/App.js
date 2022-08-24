@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Main from './pages/Main';
@@ -9,6 +9,8 @@ import Feedback from './pages/Feedback';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
+import MyCalendar from './pages/MyCalendar';
+import MyFeedback from './pages/MyFeedback';
 import Routine from './pages/Routine';
 import Header from './components/Header';
 import Footer from './pages/Footer';
@@ -21,11 +23,13 @@ import PoseCamGuide from './components/poseCam/PoseCamGuide';
 
 
 function App() {
+    const [pathname, setPathname] = useState(true)
+
 
     return (
         <RecoilRoot>
             <BrowserRouter>
-                <Header />
+                <Header isPath={pathname} setIsPath={setPathname} />
                 <Routes>
                     <Route path ="/oauth">
                         <Route path="naver/callback" element={<NaverLoginCallback/>}></Route>
@@ -34,6 +38,8 @@ function App() {
                     </Route>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/home" element={<Main />}></Route>
+                    <Route path="/mycalendar" element={<MyCalendar />}></Route>
+                    <Route path="/myfeedback" element={<MyFeedback />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
                     <Route path="/findpw" element={<FindPW />}></Route>

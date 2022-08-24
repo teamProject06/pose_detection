@@ -3,11 +3,15 @@ import styled from 'styled-components';
 import { useCookies } from "react-cookie";
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-
-
-const Header = (props) => {
+const Header = ({isPath, setIsPath}) => {
     const navigate = useNavigate();
     const location = useLocation();
+
+    useEffect(() => {
+      if (location.pathname === '/') return setIsPath(false)
+      if (location.pathname !== '/') return setIsPath(true)
+    }, [location.pathname])
+
 
     // 1. useState로 scrolled 상태 관리.
     // 처음은 scrollY값이 0일테니, false를 기본값으로 한다.
@@ -42,13 +46,7 @@ const Header = (props) => {
         SignIn: false
     });
 
-    const [pathname, setPathname] = useState(true)
-
-    useEffect(() => {
-      if (location.pathname === '/') setPathname(false)
-    }, [])
-
-
+  
     // home 화면으로 가기
     useEffect(() => {
       if (cookies.userInfo === undefined && location.pathname !== '/posedetection/posecam' && location.pathname !== '/' ) {
@@ -71,7 +69,7 @@ console.log("SignIn : ", view.SignIn);
   
     return (
       <>
-    {pathname && <Block>
+    {isPath && <Block>
               <header className={scrolled ? 'fix-container scrolled' : 'fix-container'}>
                   <nav>
                   <ul className={(location.pathname.length === 1) ? "nav-list fix-nav" : "nav-list"}>
@@ -102,7 +100,16 @@ console.log("SignIn : ", view.SignIn);
                                              </Link>
                                               
                                               <Link to="/routine/routinecreate" >
-                                                운동루틴
+                                                운동루틴&nbsp;&nbsp;&nbsp;&#124;
+                                              </Link>
+
+
+                                              <Link to="/mycalendar">
+                                              &nbsp;&nbsp;루틴캘린더&nbsp;&nbsp;&nbsp;
+                                              </Link>
+
+                                              <Link to="/myfeedback" >
+                                                자세피드백
                                               </Link>
                                           
                                           </SideBlock>
@@ -124,7 +131,7 @@ console.log("SignIn : ", view.SignIn);
                                                 }) 
                                                 //oauth도 삭제하기
                                                 removeCookie("userInfo", { path: "/" });
-                                                navigate("/");
+                                                navigate("/home");
                                             }}>로그아웃</Menuli>
                                               <Menuli className="span" onClick={() => navigate(`/${cookies.userInfo.email}/mypage`)}>마이페이지</Menuli>
                                           </div>)

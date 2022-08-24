@@ -26,8 +26,3 @@ export const getDataState = atom({
     result: [],
   }
 })
-
-export const onOffComponentState = atom({
-    key: 'onOffComponentState',
-    default: false
-})
