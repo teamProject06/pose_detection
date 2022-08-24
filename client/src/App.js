@@ -20,6 +20,7 @@ import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback
 import KakaoLoginCallback from './components/user/socialLogin/KakaoLoginCallback';
 import SocialSignUp from './components/user/socialLogin/SocialSignUp';
 import PoseCamGuide from './components/poseCam/PoseCamGuide';
+// import TUICalendar from './pages/TUICalendar';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/home" element={<Main />}></Route>
                     <Route path="/mycalendar" element={<MyCalendar />}></Route>
                     <Route path="/myfeedback" element={<MyFeedback />}></Route>
+                    {/* <Route path="/test" element={<TUICalendar />}></Route> */}
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
                     <Route path="/findpw" element={<FindPW />}></Route>

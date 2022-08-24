@@ -41,8 +41,7 @@ const PoseTensorflow = ({video}) => {
         rightAnklePoint: [],
     };
 
-
-    // 녹화 새로 고침 문제 전역에서 비디오 녹화 저장하기 navigation('/posedetection/posecam')
+    window.requestAnimationFrame(runPosenet);
     
     // 비디오 캠이 있으면 녹화 시작
     setTimeout(()=> {
@@ -106,7 +105,7 @@ const PoseTensorflow = ({video}) => {
       }
 
     // 텐서플로우 모델 불러움
-    const runPosenet = async () => {
+    async function runPosenet(){
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
             runtime: 'tfjs',
         });
@@ -264,10 +263,6 @@ const PoseTensorflow = ({video}) => {
 
         return angle;
     };
-
-    
-
-    window.requestAnimationFrame(runPosenet);
 
     const videoConstraints = {
         width: 760,

@@ -12,65 +12,53 @@ const Footer = () => {
     if(location.pathname === "/") return null;
 
   return (
-    <Container>
-         <div className='wrap'>
+        <FooterContainer className={location.pathname === '/home' ? 'main-footer' : ''}>
+          <footer className={location.pathname === '/routine/routinecreate' ? 'routine-footer' : '' }>
+            <nav>
+                <a href='https://github.com/vteamProject06/pose_detection' target='_blank'>Github</a>&#124;
+                <a href='https://www.notion.so/2022-AI-6-6c72c19b3cb349fabef7fd339660072e' target='_blank'>Notion</a>
+            </nav>
+            <br/>
 
-                <footer>
-                    <nav>
-                        <a href='https://github.com/teamProject06/pose_detection' target='_blank'>Github</a>&#124;
-                        <a href='https://www.notion.so/2022-AI-6-6c72c19b3cb349fabef7fd339660072e' target='_blank'>Notion</a>
-                    </nav>
-                    <br/>
-
-                    <p>
-                        <span>Developer : Seungyeon Lee &#124; Nayoung Lee &#124; Yurim Choi</span><br/><br/>
-                        <span>&copy;2022Team6</span><br/>
-                        <span>Copyright 2022. All Rights Reserved.</span><br/>
-                    </p>
-                    <br/> 
-                </footer>
-         
-        </div>
-    </Container>
+            <p>
+                <span>Developer : Seungyeon Lee &#124; Nayoung Lee &#124; Yurim Choi</span><br/><br/>
+                <span>&copy;2022Team6</span><br/>
+                <span>Copyright 2022. All Rights Reserved.</span><br/>
+            </p>
+            <br/> 
+          </footer>
+        </FooterContainer>
   )
 }
 
-const Container = styled.div`
-
-.wrap {
-    position: relative;
-  min-height: 100%;
+const FooterContainer = styled.div`
   width: 100%;
-  padding-bottom: 114px;
-}
-
-
-footer {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  border-top: 1px solid #c4c4c4;
-  padding-top: 15px;
+  padding-top: 100px;
   color: #808080;
   font-size: 11px;
-}
-
-footer a {
+  &.main-footer {
+    padding-top: 0;
+  }
+  nav {
+    border-top: 1px solid #c4c4c4;
+    padding-top: 15px;
+  }
+  a {
   display: inline-block;
   margin: 0 20px 10px 20px;
   color: #808080; font-size: 11px;
 }
 
-footer a:visited {
+ a:visited {
   color: #808080;
 }
 
-footer p {
+ p {
   margin-top: 0; 
   margin-bottom: 0;   
 }
 
-footer p span {
+ p span {
   display: inline-block;
   margin-left: 20px;
 }
