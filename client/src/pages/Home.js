@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import DropDown from '../components/DropDown';
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
-import { theme } from "../../src/theme";
 
-const Home = () => {
+const Home = ({isPath, setIsPath}) => {
     const navigate = useNavigate();
 
 const [dropdownVisibility, setDropdownVisibility] = useState(false);
@@ -30,6 +29,10 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
   return (
             <Block>
+                
+                <button className='menubox1' onClick={() => navigate("/signin")}>로그인</button>
+                <button className='menubox2' onClick={() => navigate("/home")}>홈으로</button>
+                
             <h1 className='font'><button className='font' onClick={() => navigate("/signin")}>FITBACK</button></h1>
             <div className='boxm'>
                 <button className='downbox' onClick={e => setDropdownVisibility(!dropdownVisibility)}>
@@ -80,6 +83,28 @@ const Block = styled.div`
   margin: 0 auto;
   margin-top: 8%;
   }
+
+  
+  .menubox1{
+    font-weight: bold;
+    font-size: 1.0rem;
+    color: white;
+    position: absolute;
+    top: 0; right: 0;
+    margin: 30px 110px;
+    background: none;
+  }
+
+  .menubox2{
+    font-weight: bold;
+    font-size: 1.0rem;
+    color: white;
+    position: absolute;
+    top: 0; right: 0;
+    margin: 30px 40px;
+    background: none;
+  }
+
 
     
 
