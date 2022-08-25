@@ -171,9 +171,19 @@ margin: 10px 10px 20px 10px;
 `
 
 const Menuli = styled.button`
-min-width: 100px;
+width:32%;
+min-width: 90px;
 text-align: center;
-font-size: 15px;
+font-size: 14px;
+
+.span {
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .span:hover{
+    color: grey;
+  }
 `
 
 const Box = styled.div`
@@ -184,8 +194,9 @@ width: 50%;
 
 // 메뉴
 const SideBlock = styled.div`
-  width: 25%;
-  min-width: 140px;
+  width: 32%;
+  min-width: 355px;
+  font-size: 14px;
   display: inline-flex;
   margin-left: 70px;
 
