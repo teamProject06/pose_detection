@@ -41,8 +41,6 @@ const PoseTensorflow = ({video}) => {
         rightAnklePoint: [],
     };
 
-    window.requestAnimationFrame(runPosenet);
-    
     // 비디오 캠이 있으면 녹화 시작
     setTimeout(()=> {
         if (mediaRecorderRef.current !== null) {
@@ -105,7 +103,7 @@ const PoseTensorflow = ({video}) => {
       }
 
     // 텐서플로우 모델 불러움
-    async function runPosenet(){
+    const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
             runtime: 'tfjs',
         });
@@ -269,6 +267,8 @@ const PoseTensorflow = ({video}) => {
         height: 600,       
         facingMode: "user"
       };
+
+      window.requestAnimationFrame(runPosenet);
 
     return (
         <>
