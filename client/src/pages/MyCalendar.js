@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import RoutineCalendar from '../components/RoutineCalendar';
 
 const MyCalendar = () => {
   return (
-    <div>
-    </div>
+    <>
+      <RoutineCalendar />
+    </>
   )
 }
 
