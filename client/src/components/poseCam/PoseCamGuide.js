@@ -4,23 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Webcam from "react-webcam";
 
-const PoseCamGuide = () => {
+const PoseCamGuide = ({videoConstraints}) => {
     const navigation = useNavigate();
     const [loading, setLoading] = useState(true)
     const[textIdx, setTextIdx] = useState(0)
     const camRef = useRef(null)
+    console.log(videoConstraints)
 
     setTimeout(() => {
        setLoading(false) 
     }, 2500);
 
+    setInterval(() => {
+        setTextIdx(textIdx+1)
+    },5000)
+
     useEffect(() => {
-        setInterval(() => {
-            setTextIdx(textIdx+1)
-        },5000)
-    
-        if (textIdx === 2) {
-            setTextIdx(2)
+       
+        if (textIdx >= 2) {
+            setTextIdx(3)
             setTimeout(() => {
                 return navigation('/posedetection/posecam')
             }, 5000)
@@ -29,12 +31,7 @@ const PoseCamGuide = () => {
     }, [textIdx])
     
 
-    const videoConstraints = {
-        width: 760,
-        height: 600,
-        facingMode: "user"
-      };
-
+   
 
     return (
         <>
@@ -50,8 +47,8 @@ const PoseCamGuide = () => {
                 </div>
             </LeftGuideContainer>
             <RightGuideContainer>
-            {textIdx === 2 && <p>잠시 후 측정이 시작됩니다!</p>}
-                <Webcam
+            {textIdx >= 1 && <p>잠시 후 측정이 시작됩니다!</p>}
+                <Webcam 
                 videoConstraints={videoConstraints} />
             </RightGuideContainer>
         </Container>}
@@ -63,7 +60,6 @@ const Container = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 60px;
 `;
 
 const LeftGuideContainer = styled.article`
