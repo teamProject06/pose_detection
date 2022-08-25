@@ -160,7 +160,6 @@ const PoseTensorflow = ({video}) => {
                 break;
             }
             case '런지': {
-                divisionBodySquat(exercises);
                 break;
             }
             default:
