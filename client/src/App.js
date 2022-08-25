@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Main from './pages/Main';
 import Home from './pages/Home';
 import RoutineCam from './pages/RoutineCam';
-import PoseCam from './pages/PoseCam';
 import Feedback from './pages/Feedback';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -20,15 +19,23 @@ import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback
 import KakaoLoginCallback from './components/user/socialLogin/KakaoLoginCallback';
 import SocialSignUp from './components/user/socialLogin/SocialSignUp';
 import PoseCamGuide from './components/poseCam/PoseCamGuide';
-
+import Loader from './components/Loader';
 
 function App() {
     const [pathname, setPathname] = useState(true)
-
+    const recordedChunks = [];
+    const PoseCam = lazy(()=> import('./pages/PoseCam'))
+    
+    const videoConstraints = {
+        width: 760,
+        height: 600,
+        facingMode: "user"
+      };
 
     return (
         <RecoilRoot>
             <BrowserRouter>
+            <Suspense fallback={<Loader />}>
                 <Header isPath={pathname} setIsPath={setPathname} />
                 <Routes>
                     <Route path ="/oauth">
@@ -52,12 +59,13 @@ function App() {
                     </Route>
                     <Route path="/posture" element={<Posture />}></Route>
                     <Route path="/posedetection" >
-                        <Route path="posecam" element={<PoseCam />}></Route>
-                        <Route path="posecamguide" element={<PoseCamGuide />}></Route>
+                        <Route path="posecam" element={<PoseCam video={recordedChunks} videoConstraints={videoConstraints} />}></Route>
+                        <Route path="posecamguide" element={<PoseCamGuide videoConstraints={videoConstraints}/>}></Route>
                         <Route path="feedback" element={<Feedback />}></Route>
                     </Route>
                 </Routes>
                 <Footer />
+                </Suspense>
             </BrowserRouter>
         </RecoilRoot>
     );

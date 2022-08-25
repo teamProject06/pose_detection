@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const pose = new Schema(
     {
         name: String,
-        time: String,
+        time: Number,
         poseName: String,
         result:
         {
@@ -13,10 +13,6 @@ const pose = new Schema(
                 feedback: String,
             },],
             Bad: [{
-                part: String,
-                feedback: String,
-            },],
-            None: [{
                 part: String,
                 feedback: String,
             },],
