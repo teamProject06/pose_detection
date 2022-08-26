@@ -247,7 +247,6 @@ const FeedbackComponent = () => {
 } 
 
 const FeedbackContainer = styled.article`
-    background-color: ${theme.colors.yellow};
     display: flex;
     flex-direction: column;
     justify-content: space-between;

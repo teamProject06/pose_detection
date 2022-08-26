@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 
@@ -40,11 +40,13 @@ const initialEvents = [
   },
 ];
 
+const calendars = [{ id: 'cal1'}];
 
 const RoutineCalendar = () => {
-  const calendars = [{ id: 'cal1'}];
+  const calendarRef = useRef(null)
   const [selectedDateRangeText, setSelectedDateRangeText] = useState('');
- 
+  const getCalInstance = useCallback(() => calendarRef.current?.getInstance?.(), []);
+
 
   const onAfterRenderEvent = (event) => {
     console.log(event.title);
@@ -73,33 +75,46 @@ const RoutineCalendar = () => {
     updateRenderRangeText()
   }, [])
 
+  const onClickNavi = (ev) => {
+    if (ev.target.tagName === 'BUTTON') {
+      const button = ev.target;
+      const actionName = (button.getAttribute('data-action') ?? 'month').replace('move-', '');
+      getCalInstance()[actionName]();
+      updateRenderRangeText();
+    }
+  };
+
     return (
       <Container>
           <span>
           <button
             type="button"
+            className="btn btn-default btn-sm move-day"
+            data-action="move-prev"
+            onClick={onClickNavi}
+          >
+            Prev
+          </button>
+          <button
+            type="button"
             className="btn btn-default btn-sm move-today"
             data-action="move-today"
+            onClick={onClickNavi}
           >
             Today
           </button>
           <button
             type="button"
             className="btn btn-default btn-sm move-day"
-            data-action="move-prev"
-          >
-            Prev
-          </button>
-          <button
-            type="button"
-            className="btn btn-default btn-sm move-day"
             data-action="move-next"
+            onClick={onClickNavi}
           >
             Next
           </button>
         </span>
         <span className="render-range">{selectedDateRangeText}</span>
           <Calendar
+          ref={calendarRef}
         height="500px"
         view="month"
         month={{
