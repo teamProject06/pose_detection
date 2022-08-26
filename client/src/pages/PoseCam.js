@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import '@tensorflow/tfjs-backend-webgl';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { drawCanvas } from '../util/drawUtil';
 import { useNavigate } from 'react-router-dom';
+import {theme} from '../theme'
 
 const PoseCam = ({video, videoConstraints}) => {
     const webcamRef = useRef(null);
@@ -12,7 +13,6 @@ const PoseCam = ({video, videoConstraints}) => {
     const mediaRecorderRef = useRef(null);
     const navigation = useNavigate();
     const posture = window.localStorage.getItem("posture")
-    const [done, setDone] = useState(false)
 
     // 필요한 관절 부분 배열에 저장
     const bodyPoint = {
@@ -91,7 +91,6 @@ const PoseCam = ({video, videoConstraints}) => {
 
       // 동영상 url 서버로 보내기 
       const handleDownload = () => {
-        console.log('ddddd')
             if (video.length) {
                 const blob = new Blob(video, {
                   type: "video/webm"
@@ -115,7 +114,6 @@ const PoseCam = ({video, videoConstraints}) => {
 
         setTimeout(() => {
             clearInterval(interval);
-            setDone(true)
             console.log(bodyPoint, 'bodyPoint');
             // console.log(count, 'cc');
             // console.log(bodyPoint, 'bodyPoint');
@@ -280,8 +278,10 @@ const PoseCam = ({video, videoConstraints}) => {
                 videoConstraints={videoConstraints}
                 />
                 <canvas ref={canvasRef} className="canvas"></canvas>
-                {done && <p className='result-text'>측정이 끝났습니다. 결과확인 버튼을 눌러주세요.</p>}
-                {done && <button type='button'  onClick={handleDownload} className="result-button" >결과 확인</button>}
+                <TextContainer>
+                <p className='result-text'>측정이 끝났습니다. 결과확인 버튼을 눌러주세요.</p>
+                <button type='button'  onClick={handleDownload} className="result-button" >결과 확인</button>
+                </TextContainer>
             </WebcamComponent>
         </>
     );
@@ -306,7 +306,7 @@ const WebcamComponent = styled.div`
         .rec-text {
             font-size: 16px;
             font-weight: 600;
-            color: #ff0f17;
+            color: ${theme.colors.red};
         }
         .rec-circle {
             display: inline-block;
@@ -314,7 +314,7 @@ const WebcamComponent = styled.div`
             height: 9px;
             margin-right: 5px;
             border-radius: 50%;
-            background-color: #ff0f17;
+            background-color:  ${theme.colors.red};
         }
     }
     .canvas {
@@ -323,14 +323,43 @@ const WebcamComponent = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
     }
+   
+`;
+
+const TextContainer = styled.div`
+    @keyframes opacityText {
+        0% {
+            opacity: 0;
+        } 100% {
+            opacity: 1;
+        }
+    }
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 760px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: translateX(-50%);
+    animation: opacityText ease forwards;
+    animation-delay: 22s;
+    animation-duration: 1s;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.6);
     .result-button {
         border-radius: 5px;
         background-color: black;
         padding: .5em .7em;
-        color: #fff;
+        color: ${theme.colors.white};
     }
     .result-text {
-      margin: 2em 0;
+        margin-bottom: 1em;
+        font-size: 24px;
+        font-weight: 600;
+        color: ${theme.colors.black};
     }
 `;
 
