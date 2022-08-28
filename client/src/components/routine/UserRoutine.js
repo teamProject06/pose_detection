@@ -14,6 +14,20 @@ const UserRoutine = () => {
   let click = false;
   const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
 
+   //현재 시간 function : 2022년 8월 15일
+  //  const timeString = (date) => {
+  //   // let date = new Date();
+  //   let time = {
+  //     year: date.getFullYear(),  //현재 년도
+  //     month: date.getMonth() + 1, // 현재 월
+  //     date: date.getDate(), // 현재 날짜
+  //     // hours: date.getHours(), //현재 시간
+  //     // minutes: date.getMinutes(), //현재 분
+  //   }
+  //   let now = `${time.year}년 ${time.month}월 ${time.date}일`;
+  //   return now;
+  // }
+
   useEffect(()=>{
     getList();
   },[])
@@ -33,12 +47,16 @@ const UserRoutine = () => {
         $(".tableBody").empty();
         console.log(tmpRoutine, 'tmpRoutine'); //배열
         for (var i in tmpRoutine) {
+          let date = new Date(tmpRoutine[i].time);
           let name = tmpRoutine[i].name;
-          let time = tmpRoutine[i].time;
+          let time = date.toLocaleDateString();
           let routine ="";
           for (var j in tmpRoutine[i].routine){
             let count = tmpRoutine[i].routine[j].count;
             let excercise = tmpRoutine[i].routine[j].name;
+            if(!tmpRoutine[i].isActive)
+              count = count + '회'
+            else count = count + '초';
             let oneRoutine = `${excercise}(${count})`;
             if (j==0) routine = routine + oneRoutine;
             else routine = routine + ' - '+ oneRoutine;

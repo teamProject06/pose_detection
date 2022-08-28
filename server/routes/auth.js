@@ -34,10 +34,13 @@ router.get("/kakao", async (req, res, next) => {
     const REDIRECT_URI = frontURL + '/oauth/kakao/callback';
 
     try {
+        console.log(CODE,"CODE");
         getKakaoToken(REST_API_KEY, REDIRECT_URI, CODE)
             .then((tokenData) => {
+                console.log(tokenData.data.access_token,"tokenData.data.access_token");
                 getKakaoUserdata(tokenData.data.access_token)
                 .then((data) => {
+                    console.log(data.data,"data.data");
                         checkKakaoUserData(data.data, res);
                     })
             })
