@@ -5,7 +5,7 @@ const colors = {
     grey: '#f6f8fa',
     pointColor: '#061673',
     green: '#2c7c35',
-    yellow: '#3d4e88'
+    red: '#ff0f17'
   };
 
   

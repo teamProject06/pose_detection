@@ -13,13 +13,56 @@ const MyPagePose = () => {
 
     const getData = [];
 
-    let tmpTableBody;
+    let datebody;
+    let badBody;
+    let goodBody;
+    let id = 0;
 
-  useEffect(()=>{
-      getList();
-  },[])
+  //현재 시간 function
+  const timeString = () => {
+    const now = new Date().getTime();
+    return now;
+  }
 
-  const getList = async(id) => { //data불러와서 myPose에 저장
+  // 상단 동작 체크 버튼
+  const GetClick = (e) => {
+    //console.log(e.target.id)
+    let current = document.getElementById(e.target.id);
+
+      if( e.target.id === "3"){
+        id = e.target.id;
+        let othercurrent = document.getElementById("4");
+        let othercurrent2 = document.getElementById("5");
+    
+        current.style.borderBottom = '3px solid #061673';
+        othercurrent.style.borderBottomColor = '#f6f8fa';
+        othercurrent2.style.borderBottomColor = '#f6f8fa';
+        getList();
+      }
+      if( e.target.id === "4"){
+        id = e.target.id;
+        let othercurrent = document.getElementById("3");
+        let othercurrent2 = document.getElementById("5");
+    
+        current.style.borderBottomColor = '#061673';
+        othercurrent.style.borderBottomColor = '#f6f8fa';
+        othercurrent2.style.borderBottomColor = '#f6f8fa';
+        getList();
+      }
+      if( e.target.id === "5"){
+        id = e.target.id;
+        let othercurrent = document.getElementById("3");
+        let othercurrent2 = document.getElementById("4");
+    
+        current.style.borderBottomColor = '#061673';
+        othercurrent.style.borderBottomColor = '#f6f8fa';
+        othercurrent2.style.borderBottomColor = '#f6f8fa';
+        getList();
+      }
+};
+
+ //DB 데이터 가져오기
+  const getList = async() => { //data불러와서 myPose에 저장
       const UserName = cookies.userInfo.name; //로그인 계정 이름 
 
       try {
@@ -27,55 +70,179 @@ const MyPagePose = () => {
        // console.log(res.data, '전체 데이터'); // 전체 데이터 불러오기
         getData.push(res.data);
         console.log(getData, 'getData');
-        $(".Bodyp").empty();
+        $(".BodyDate").empty();
+        $(".Bodyb").empty();
+        $(".Bodyg").empty();
+        //console.log("id:", id);
+        //console.log("id비교:", id==3);
+        // console.log("index0 : ", getData[0]);
 
-        if( id === "3" ){ // 스쿼트 선택
+        if(id==3){ // 스쿼트 선택
           getData[0].map((data, i) => {
-            if( data.poseName === "스쿼트" && data.result.bad !== null){
-              // 피드백 모두 받아오기
-              let badfeedbacks = "";
-              data.result.bad.map((bd, idx) => {
-                  let part = bd.part;
-                  let feedback = bd.feedback;
+              if( data.poseName === "스쿼트" && data.result.Bad !== null){
+                console.log("poseName:", data.poseName);
+                console.log("result: ", data.result);
+                console.log("result: ", data.result.Bad);
 
-                  badfeedbacks = badfeedbacks + part + ' : ' + feedback + '<br/><br/>';
-            })
+                // 피드백 모두 받아오기
+                let badfeedbacks = "";
+                data.result.Bad.map((bd, idx) => {
+                    let part = bd.part;
+                    let feedback = bd.feedback;
 
-            
-              tmpTableBody = `
-              <div className='parent'>
-              <span className='box posetitle'>${data.poseName} [${data.time}]</span><br/><br/>
-              <span className='box'>${badfeedbacks}</span>
-              <br/><br/>
-              </div>
+                    badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+              })
+
+              //날짜
+              const time = new Date(Number(data.time)).toLocaleDateString();
+              console.log("time: ", time);
+
+              datebody = `
+               <h2>최근 교정 ${time}</h2><br/>
               `;
+              $('.BodyDate').append(datebody);
+              
+                badBody = `
+                <p>${badfeedbacks}</p>
+                `;
 
-              $('.Bodyp').append(tmpTableBody);
-          }
-        })
-        }
-
-        getData[0].map((data, i) => {
-            // 피드백 모두 받아오기
-            let feedbacks = "";
-            data.result.bad.map((bd, idx) => {
-                let part = bd.part;
-                let feedback = bd.feedback;
-
-                feedbacks = feedbacks + part + ' : ' + feedback + '<br/><br/>';
-            })
-
+                $('.Bodyb').append(badBody);
             
-            tmpTableBody = `
-            <div className='parent'>
-            <span className='box posetitle'>${data.poseName} [${data.time}]</span><br/><br/>
-            <span className='box'>${feedbacks}</span>
-            <br/><br/>
-            </div>
-            `;
+            }
 
-            $('.Bodyp').append(tmpTableBody);
-        })
+            if(data.poseName === "스쿼트" && data.result.Good !== null){
+               // 피드백 모두 받아오기
+               let badfeedbacks = "";
+               data.result.Good.map((bd, idx) => {
+                   let part = bd.part;
+                   let feedback = bd.feedback;
+
+                   badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+                })
+
+                 //날짜
+                 const time = new Date(Number(data.time)).toLocaleDateString();
+                 console.log("time: ", time);
+             
+               goodBody = `
+               <p>${badfeedbacks}</p>
+               `;
+
+               $('.Bodyg').append(goodBody);
+            }
+
+          })
+        } else if(id==4){ // 런지 선택
+          getData[0].map((data, i) => {
+              if( data.poseName === "런지" && data.result.Bad !== null){
+                console.log("poseName:", data.poseName);
+                console.log("result: ", data.result);
+                console.log("result: ", data.result.Bad);
+
+                // 피드백 모두 받아오기
+                let badfeedbacks = "";
+                data.result.Bad.map((bd, idx) => {
+                    let part = bd.part;
+                    let feedback = bd.feedback;
+
+                    badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+              })
+
+              //날짜
+              const time = new Date(Number(data.time)).toLocaleDateString();
+              console.log("time: ", time);
+
+              datebody = `
+               <h2>최근 교정 ${time}</h2><br/>
+              `;
+              $('.BodyDate').append(datebody);
+              
+                badBody = `
+                <p>${badfeedbacks}</p>
+                `;
+
+                $('.Bodyb').append(badBody);
+            
+            }
+
+            if(data.poseName === "런지" && data.result.Good !== null){
+               // 피드백 모두 받아오기
+               let badfeedbacks = "";
+               data.result.Good.map((bd, idx) => {
+                   let part = bd.part;
+                   let feedback = bd.feedback;
+
+                   badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+                })
+
+                 //날짜
+                 const time = new Date(Number(data.time)).toLocaleDateString();
+                 console.log("time: ", time);
+             
+               goodBody = `
+               <p>${badfeedbacks}</p>
+               `;
+
+               $('.Bodyg').append(goodBody);
+            }
+
+          })
+        }else  if(id==5){ // 원암 선택
+          getData[0].map((data, i) => {
+              if( data.poseName === "원암덤벨로우" && data.result.Bad !== null){
+                console.log("poseName:", data.poseName);
+                console.log("result: ", data.result);
+                console.log("result: ", data.result.Bad);
+
+                // 피드백 모두 받아오기
+                let badfeedbacks = "";
+                data.result.Bad.map((bd, idx) => {
+                    let part = bd.part;
+                    let feedback = bd.feedback;
+
+                    badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+              })
+
+              //날짜
+              const time = new Date(Number(data.time)).toLocaleDateString();
+              console.log("time: ", time);
+
+              datebody = `
+               <h2>최근 교정 ${time}</h2><br/>
+              `;
+              $('.BodyDate').append(datebody);
+              
+                badBody = `
+                <p>${badfeedbacks}</p>
+                `;
+
+                $('.Bodyb').append(badBody);
+            
+            }
+
+            if(data.poseName === "원암덤벨로우" && data.result.Good !== null){
+               // 피드백 모두 받아오기
+               let badfeedbacks = "";
+               data.result.Good.map((bd, idx) => {
+                   let part = bd.part;
+                   let feedback = bd.feedback;
+
+                   badfeedbacks = badfeedbacks + part+'<br/><br/>'+feedback+'<br/><br/><br/>';
+                })
+
+                 //날짜
+                 const time = new Date(Number(data.time)).toLocaleDateString();
+                 console.log("time: ", time);
+             
+               goodBody = `
+               <p>${badfeedbacks}</p>
+               `;
+
+               $('.Bodyg').append(goodBody);
+            }
+
+          })
+        }
 
        })
       } catch (e) {
@@ -84,39 +251,6 @@ const MyPagePose = () => {
   };
 
 
-  // 상단 동작 체크 버튼
-  const GetClick = (e) => {
-    console.log(e.target.id)
-    let current = document.getElementById(e.target.id);
-
-      if( e.target.id === "3"){
-        let othercurrent = document.getElementById("4");
-        let othercurrent2 = document.getElementById("5");
-    
-        current.style.borderBottom = '3px solid #061673';
-        othercurrent.style.borderBottomColor = '#f6f8fa';
-        othercurrent2.style.borderBottomColor = '#f6f8fa';
-        getList(e.target.id);
-      }
-      if( e.target.id === "4"){
-        let othercurrent = document.getElementById("3");
-        let othercurrent2 = document.getElementById("5");
-    
-        current.style.borderBottomColor = '#061673';
-        othercurrent.style.borderBottomColor = '#f6f8fa';
-        othercurrent2.style.borderBottomColor = '#f6f8fa';
-        getList(e.target.id);
-      }
-      if( e.target.id === "5"){
-        let othercurrent = document.getElementById("3");
-        let othercurrent2 = document.getElementById("4");
-    
-        current.style.borderBottomColor = '#061673';
-        othercurrent.style.borderBottomColor = '#f6f8fa';
-        othercurrent2.style.borderBottomColor = '#f6f8fa';
-        getList(e.target.id);
-      }
-};
 
 
   return (
@@ -125,61 +259,30 @@ const MyPagePose = () => {
         <button className='pmenu' id="3" onClick={GetClick}>스쿼트</button>
         <button className='pmenu' id="4" onClick={GetClick}>런지</button>
         <button className='pmenu' id="5" onClick={GetClick}>원암로우</button>
-
-        <div className='Bodyp'>
-            {/* {getData[0].map((data, idx) =>  {
-                return (
-                    <>
-                      <span className='box'>${data[idx].poseName}</span>
-                      {data.result.good.length > 0 && <Feedback1 datas={data.result.good} />}
-                      {data.result.bad.length > 0 && <Feedback2 datas={data.result.bad}/>} 
-                    </>
-                )
-            })} */}
-        </div>
-
         
-    <main className="main">
-        <section className="card-area">
 
-            {/* Card: Beach */}
-            <section className="card-section">
-                <div className="card">
-                    <div className="flip-card">
-                        <div className="flip-card__container">
-                            <div className="card-front">
-                                <div className="card-front__tp card-front__tp--beach">
-                                               <h2 className="card-front__heading">
-                                                   GOOD
-                                               </h2>
-                                </div>
-                                <div className="card-front__bt">
-                                    <p className="card-front__text-view card-front__text-view--beach">
-                                        상세보기
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="card-back">
-                               
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="inside-page">
-                        <div className="inside-page__container">
-                            <h3 className="inside-page__heading inside-page__heading--beach">
-                                상체 각도
-                            </h3>
-                            <p className="inside-page__text">
-                               상체가 적절하게 굽혀졌습니다.(예시)
-                            </p>
-                        </div>
-                    </div>
+        <div className='BodyDate pmargin'></div>
+        <div className="container">
+              <div className="box">
+                <div className="box__img">
+                  <div className='box_good box_good_font'>GOOD</div>
                 </div>
-            </section>
 
-        </section>
-      </main>
+                <div className="box__details">
+                  <div className='Bodyg'></div>
+                </div>
+              </div>
+              
+              <div className="box">
+                <div className="box__img">
+                  <div className='box_bad box_good_font'>BAD</div>
+                </div>
+
+                <div className="box__details">
+                  <div className='Bodyb'></div>
+                </div>
+              </div>
+          </div>
 
     </Container>
   
@@ -192,7 +295,8 @@ margin-top: 5%;
 
 .pmenu {
     display: inline-block;
-    width: 6%;
+    width: 8%;
+    min-width: 68px;
     height: 30px;
     line-height: 22px;
     text-align: center;
@@ -202,233 +306,71 @@ margin-top: 5%;
     margin-right: 10px;
 }
 
-
-/* 카드 */
-
-/* Headings */
-
-/* Main heading for card's front cover */
-.card-front__heading {
-  font-size: 1.5rem;
-  margin-top: .25rem;
-}
-
-/* Main heading for inside page */
-.inside-page__heading { 
-  padding-bottom: 1rem; 
-  width: 100%;
-}
-
-/* Mixed */
-
-/* For both inside page's main heading and 'view me' text on card front cover */
-.inside-page__heading,
-.card-front__text-view {
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-top: .2rem;
+.pmargin{
+  margin-top: 3%;
 }
 
 
-.inside-page__heading--beach,
-.card-front__text-view--beach { color: #fa7f67; }
-
-/* Front cover */
-.card-front__tp { color: #fafbfa; }
-
-/* Back cover */
-
-/* For inside page's body text */
-.inside-page__text {
-  color: #333;
-}
-
-/* Icons ===========================================*/
-
-.card-front__icon {
-  fill: #fafbfa;
-  font-size: 3vw;
-  height: 3.25rem;
-  margin-top: -.5rem;
-  width: 3.25rem;
-}
-
-
-/* Layout Structure=========================================*/
-
-.main {
+// 카드
+.container{
+  margin: 0;
+  padding: 0;   
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 60vh;
-  width: 100%;
+  margin-top: 1%;
+  margin-left: 28%;
 }
 
-/* Container to hold all cards in one place */
-.card-area {
-  align-items: center;
-  display: flex;
-  flex-wrap: nowrap;
-  height: 100%;
-  justify-content: space-evenly;
-  padding: 1rem;
-}
-
-/* Card ============================================*/
-
-/* Area to hold an individual card */
-.card-section {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
-}
-
-/* A container to hold the flip card and the inside page */
-.card {
-  background-color: rgba(0,0,0, .05);
-  box-shadow: -.1rem 1.7rem 6.6rem -3.2rem rgba(0,0,0,0.5);
-  height: 15rem;
+.box {
   position: relative;
-  transition: all 1s ease;
-  width: 15rem;
+  width: 300px;
+  height: 420px;
+  background: #262626;
+  //margin: 0 auto;
+  margin-right: 10px;
+  overflow: hidden;
 }
 
-/* Flip card - covering both the front and inside front page */
-
-/* An outer container to hold the flip card. This excludes the inside page */
-.flip-card {
-  height: 15rem;
-  perspective: 100rem;
+.box__img {
   position: absolute;
-  right: 0;
-  transition: all 1s ease;
-  visibility: hidden;
-  width: 15rem;
-  z-index: 100;
+  top:0;
+  left:0;
+  transition: transform .5s linear;
 }
 
-/* The outer container's visibility is set to hidden. This is to make everything within the container NOT set to hidden  */
-/* This is done so content in the inside page can be selected */
-.flip-card > * {
-  visibility: visible;
+.box_good{
+  width: 300px;
+  height: 420px;
+  background-color: #9fc5e8;
 }
 
-/* An inner container to hold the flip card. This excludes the inside page */
-.flip-card__container {
-  height: 100%;
-  position: absolute;
-  right: 0;
-  transform-origin: left;
-  transform-style: preserve-3d;
-  transition: all 1s ease;
-  width: 100%;
+.box_good_font{
+  font-size : 25px;
+  font-weight: 600;
+  color: black;
+  text-size-adjust: none;
+  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 }
 
-.card-front,
-.card-back {
-  backface-visibility: hidden;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-/* Styling for the front side of the flip card */
-
-/* container for the front side */
-.card-front {
-  background-color: #fafbfa;
-  height: 15rem;
-  width: 15rem;
-}
-
-/* Front side's top section */
-.card-front__tp {
-  align-items: center;
-  clip-path: polygon(0 0, 100% 0, 100% 90%, 57% 90%, 50% 100%, 43% 90%, 0 90%);
-  display: flex;
-  flex-direction: column;
-  height: 12rem;
-  justify-content: center;
-  padding: .75rem;
+.box_bad{
+  width: 300px;
+  height: 420px;
+  background-color: #ff877e;
 }
 
 
-.card-front__tp--beach {
-  background: linear-gradient(
-    to bottom,
-    #fb9b88,
-    #f86647
-  );
+.box__details{
+  color: #fff;
+  padding: 10px 25px;
+  margin-top: 50px;
 }
 
-
-/* Front card's bottom section */
-.card-front__bt {
-  align-items: center;
-  display: flex;
-  justify-content: center;
+.box__details h2 {
+  text-align: center;
+  color: #ccc;
 }
 
-/* Styling for the back side of the flip card */
-
-.card-back {
-  background-color: #fafbfa;
-  transform: rotateY(180deg);
-}
-
-/* Specifically targeting the <video> element */
-.video__container {
-  clip-path: polygon(0% 0%, 100% 0%, 90% 50%, 100% 100%, 0% 100%);
-  height: auto;
-  min-height: 100%;
-  object-fit: cover;
-  width: 100%;
-}
-
-/* Inside page */
-
-.inside-page {
-  background-color: #fafbfa;
-  box-shadow: inset 20rem 0px 5rem -2.5rem rgba(0,0,0,0.25);
-  height: 100%;
-  padding: 1rem;
-  position: absolute;
-  right: 0;
-  transition: all 1s ease;
-  width: 15rem;
-  z-index: 1;
-}
-
-.inside-page__container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-align: center; 
-  width: 100%;
-}
-
-/* Functionality ====================================*/
-
-/* This is to keep the card centered (within its container) when opened */
-.card:hover {
-  box-shadow:
-  -.1rem 1.7rem 6.6rem -3.2rem rgba(0,0,0,0.75);
-  width: 30rem;
-}
-
-/* When the card is hovered, the flip card container will rotate */
-.card:hover .flip-card__container {
-  transform: rotateY(-180deg);
-}
-
-/* When the card is hovered, the shadow on the inside page will shrink to the left */
-.card:hover .inside-page {
-  box-shadow: inset 1rem 0px 5rem -2.5rem rgba(0,0,0,0.1);
+.box:hover .box__img {
+  transform: translateX(-100%);  
 }
 
 `;

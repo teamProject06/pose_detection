@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const routine = new Schema(
     {
         name: String,
-        time: String,
+        time: Number,
         routine: [{
             id : Number,
             isActive : false,
