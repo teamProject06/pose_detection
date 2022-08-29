@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DropDown from '../components/DropDown';
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 
 const Home = ({isPath, setIsPath}) => {
     const navigate = useNavigate();
@@ -35,13 +36,13 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
                   //window.location.reload();
                   //window.location.replace("/signin");
                 }}>로그인</button> */}
-                <button className='menubox2' type="button" onClick={() => { 
-                  navigate("/home");
-                }}>홈으로</button>
+                <button className='menubox2' type="buuton" onClick={() => { 
+                  window.location.replace("/home");
+                }}><FaHome size="30"/></button>
                 
-            <h1 className='font'><button className='font' type="button" onClick={() => navigate("/signin")}>FITBACK</button></h1>
+            <h1 className='font'><button type="buuton" className='font' onClick={() =>  window.location.replace("/home")}>FITBACK</button></h1>
             <div className='boxm'>
-                <button className='downbox' onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                <button className='downbox' type="buuton" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                     {
                         dropdownVisibility? <FaAngleUp />: <FaAngleDown />
                     }
@@ -53,9 +54,9 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
             <div className='boxm'>
                 <DropDown visibility={dropdownVisibility}>
                     <ul className='txt'>
-                        <li className='m' onClick={ClickSquart}><button>스쿼트</button></li>
-                        <li className='m' onClick={ClickLunji}><button>런지</button></li>
-                        <li className='m' onClick={ClickOneArm}><button>원암덤벨로우</button></li>
+                        <li className='m' type="buuton" onClick={ClickSquart}><button>스쿼트</button></li>
+                        <li className='m' type="buuton" onClick={ClickLunji}><button>런지</button></li>
+                        <li className='m' type="buuton" onClick={ClickOneArm}><button>원암덤벨로우</button></li>
                     </ul>
                 </DropDown>
             </div>
@@ -65,7 +66,7 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
 const Block = styled.div`
 
-    background-image: url("/img/background2.jpg");
+    background-image: url("/img/home_image2.jpg");
     background-size: cover; 
     background-repeat: no-repeat;
     height: 100vh;
