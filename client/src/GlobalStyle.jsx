@@ -30,6 +30,7 @@ body {
     line-height: 1;
     font-family: "Elice Digital Baeum", sans-serif; 
     font-weight: 700;
+    position: relative;
 }
 ol, ul {
     list-style: none;

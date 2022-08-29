@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../../theme';
 
 const NoInputModal = ({ isAdd }) => {
     return (
-        <ModalWrapper>
+        <ModalWrapper onClick={isAdd}>
             <Modal>
                 <div>
                     <p className="modal-txt">동작을 입력해주세요.</p>
@@ -18,12 +19,9 @@ const NoInputModal = ({ isAdd }) => {
 
 const ModalWrapper = styled.div`
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
     top: 0;
     bottom: 0;
     left: 0;
@@ -32,19 +30,26 @@ const ModalWrapper = styled.div`
 `;
 
 const Modal = styled.div`
-    width: 348px;
-    background-color: #fff;
+    width: 100%;
+    position: relative;
+    max-width: 348px;
+    height: 130px;
     padding: 30px 24px 24px;
     box-sizing: border-box;
-    border-bottom: 3px solid #07f;
+    font-weight: 400;
+    border-radius: 6px;
+    top: 25%;
+    background-color: ${theme.colors.grey};
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     .modal-check-btn {
-        width: 50px;
-        height: 32px;
-        margin-top: 15px;
-        float: right;
-        font-size: 12px;
-        color: #fff;
-        background-color: #07f;
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+        font-size: 16px;
+        color: ${theme.colors.pointColor};
+    }
+    .modal-txt {
+        text-align: left;
     }
 `;
 
