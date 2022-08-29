@@ -171,8 +171,8 @@ margin: 10px 10px 20px 10px;
 `
 
 const Menuli = styled.button`
-width:32%;
-min-width: 90px;
+width: 100%;
+min-width: 80px;
 text-align: center;
 font-size: 14px;
 
