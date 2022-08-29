@@ -29,10 +29,10 @@ const Feedback = () => {
 
 const Container = styled.section`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  margin: 2em 4rem 0;
+  margin: 50px 4rem 0;
   border-radius: 15px;
-  padding: 3em 4em ;
-  margin-bottom: 150px;
+  padding: 3em 4em;
+  box-sizing: border-box;
 `
 
 const FeedbackContainer = styled.div`
@@ -45,9 +45,7 @@ const H2 = styled.h2`
   display: inline-block;
   margin-bottom: 1em;
   padding-bottom: .4em;
-  font-size: 22px;
-  font-weight: 600;
-  border-bottom: 1px solid black;
+  font-size: 20px;
 `;
 
 export default Feedback

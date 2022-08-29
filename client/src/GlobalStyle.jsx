@@ -27,7 +27,7 @@ footer, header, hgroup, menu, nav, section {
     display: block; 
 }
 body {
-    line-height: 1;
+    line-height: 1.5;
     font-family: "Elice Digital Baeum", sans-serif; 
     font-weight: 700;
     position: relative;

@@ -164,7 +164,7 @@ const Logo = styled.div`
     margin: 10px 10px 20px 10px;
 
     .font {
-        font-size: 2.5rem;
+        font-size: 2.1rem;
         letter-spacing: -3px;
     }
 `;

@@ -12,7 +12,7 @@ import MyCalendar from './pages/MyCalendar';
 import MyFeedback from './pages/MyFeedback';
 import Routine from './pages/Routine';
 import Header from './components/Header';
-import Footer from './pages/Footer';
+import Footer from './components/Footer';
 import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
 import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback';
@@ -29,7 +29,7 @@ function App() {
     
     const videoConstraints = {
         width: 760,
-        height: 600,
+        height: 480,
         facingMode: "user"
       };
 

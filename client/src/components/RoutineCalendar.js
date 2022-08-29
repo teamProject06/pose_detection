@@ -95,10 +95,18 @@ const RoutineCalendar = () => {
   const updateRenderRangeText = () => {
     let dateRangeText = ''
     const date = getCalInstance().getDate();
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
+    const rangeStart = getCalInstance().getDateRangeStart();
+    const rangeEnd = getCalInstance().getDateRangeEnd();
+    let startYear = rangeStart.getFullYear();
+    let startMonth = rangeStart.getMonth() + 1;
+    let startDay = rangeStart.getDate();
+    let endYear = rangeEnd.getFullYear();
+    let endMonth = rangeEnd.getMonth() + 1;
+    let endDay = rangeEnd.getDate();
+
+
     
-    dateRangeText = `${year}-${month}`;
+    dateRangeText = `${startYear}-${startMonth}-${startDay} ~ ${endYear}-${endMonth}-${endDay}`;
         
     setSelectedDateRangeText(dateRangeText);
   }
@@ -132,14 +140,20 @@ const RoutineCalendar = () => {
             data-action="move-prev"
             className='button move'
           >
-            <FaAngleLeft />
+            <FaAngleLeft onClick={()=>{
+              getCalInstance()['prev']();
+              updateRenderRangeText();
+            }}/>
           </button>
           <button
             type="button"
             data-action="move-next"
             className='button move'
           >
-            <FaAngleRight />
+            <FaAngleRight onClick={()=>{
+              getCalInstance()['next']();
+              updateRenderRangeText();
+            }} />
           </button>
         </MenuContainer>
           <Calendar
@@ -162,7 +176,7 @@ const RoutineCalendar = () => {
 const Container = styled.div`
   position: relative;
   width: 80%;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 5em 2em 0;
   .toastui-calendar-detail-container .toastui-calendar-section-button {
     display: none;

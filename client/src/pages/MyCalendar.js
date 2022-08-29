@@ -15,8 +15,7 @@ const Container = styled.section`
   margin-top: 3em;
   h1 {
     text-align: center;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 20px;
   }
 `;
 
