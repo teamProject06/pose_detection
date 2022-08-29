@@ -56,18 +56,10 @@ const Header = ({ isPath, setIsPath }) => {
             });
             navigate('/home');
         } 
-        // else {
-        //     setView({
-        //         SignIn: true,
-        //     });
-        // }
-
+      
         console.log('Cookies >> ', cookies.userInfo);
         console.log('SignIn : ', view.SignIn);
     }, [cookies]);
-
-    console.log(cookies.userInfo, 'cookies.userInfo', view.SignIn, 'view')
-    console.log(isPath, 'path')
 
     useEffect(() => {
 
@@ -90,14 +82,12 @@ const Header = ({ isPath, setIsPath }) => {
 
                                         {
                                             // 로그인 확인
-                                            cookies.userInfo == undefined && view.SignIn === false && 
+                                            cookies.userInfo === undefined ? ( 
                                                 <SideBlock>
                                                     <Link to="/posture">자세교정</Link>
                                                 </SideBlock>
-                                            
-                                        }
-                                        {cookies.userInfo != undefined && view.SignIn === true  && 
-                                            <SideBlock>
+                                            ) : 
+                                            ( <SideBlock>
                                                 <Link to="/posture">자세교정&nbsp;&nbsp;&nbsp;</Link>
 
                                                 <Link to="/routine/routinecreate">
@@ -107,14 +97,14 @@ const Header = ({ isPath, setIsPath }) => {
                                                 <Link to="/mycalendar">&nbsp;&nbsp;루틴캘린더&nbsp;&nbsp;&nbsp;</Link>
 
                                                 <Link to="/myfeedback">자세피드백</Link>
-                                            </SideBlock>
+                                            </SideBlock>)
                                         }
 
                                         <Box />
 
                                         {
                                             // 로그인 확인
-                                            cookies.userInfo == undefined && view.SignIn === false && 
+                                            cookies.userInfo === undefined ? (
                                                 <div>
                                                     <Menuli className="span" onClick={() => navigate('/signin')}>
                                                         로그인
@@ -122,11 +112,8 @@ const Header = ({ isPath, setIsPath }) => {
                                                     <Menuli className="span" onClick={() => navigate('/signup')}>
                                                         회원가입
                                                     </Menuli>
-                                                </div>
-                                            
-                                        }
-                                        {cookies.userInfo != undefined && view.SignIn === true && 
-                                            <div>
+                                                </div>):
+                                           ( <div>
                                                 <Menuli
                                                     className="span"
                                                     onClick={() => {
@@ -146,7 +133,7 @@ const Header = ({ isPath, setIsPath }) => {
                                                 >
                                                     마이페이지
                                                 </Menuli>
-                                            </div>
+                                            </div>)
                                         }
                                     </div>
                                 </Headerb>
