@@ -35,11 +35,11 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
                   //window.location.reload();
                   //window.location.replace("/signin");
                 }}>로그인</button> */}
-                <button className='menubox2' onClick={() => { 
-                  window.location.replace("/home");
+                <button className='menubox2' type="button" onClick={() => { 
+                  navigate("/home");
                 }}>홈으로</button>
                 
-            <h1 className='font'><button className='font' onClick={() => navigate("/signin")}>FITBACK</button></h1>
+            <h1 className='font'><button className='font' type="button" onClick={() => navigate("/signin")}>FITBACK</button></h1>
             <div className='boxm'>
                 <button className='downbox' onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                     {
