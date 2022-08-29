@@ -74,9 +74,10 @@ const AddRoutineItem = () => {
                 name: e.target.value
             })
         } else if (e.target.name === 'countOrTime') {
+            const onlyNumber = e.target.value.replace(/[^0-9]/g, "");
             setInputValue({
                 ...inputValue,
-                count: e.target.value
+                count: onlyNumber
             })
         }
     }
