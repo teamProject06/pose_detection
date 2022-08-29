@@ -30,8 +30,14 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
   return (
             <Block>
                 
-                <button className='menubox1' onClick={() => navigate("/signin")}>로그인</button>
-                <button className='menubox2' onClick={() => navigate("/home")}>홈으로</button>
+                {/* <button className='menubox1' onClick={() => {
+                  navigate("/signin");
+                  //window.location.reload();
+                  //window.location.replace("/signin");
+                }}>로그인</button> */}
+                <button className='menubox2' onClick={() => { 
+                  window.location.replace("/home");
+                }}>홈으로</button>
                 
             <h1 className='font'><button className='font' onClick={() => navigate("/signin")}>FITBACK</button></h1>
             <div className='boxm'>
@@ -39,11 +45,8 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
                     {
                         dropdownVisibility? <FaAngleUp />: <FaAngleDown />
                     }
-                    &nbsp; 운동 선택 시 자세교정이 시작됩니다.  &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;운동 선택 시 자세교정이 시작됩니다.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </button>
-                {/* <video loop autoPlay="autoPlay" muted="muted">
-                    <source src="./img/run.mp4" type="video/mp4"></source>
-                </video> */}
             </div>
     
     
@@ -76,12 +79,12 @@ const Block = styled.div`
 
     .font{
     font-weight: bold;
-    font-size: 2.1rem;
+    font-size: 4rem;
     color: white;
     justify-content: center;
   text-align: center;
   margin: 0 auto;
-  margin-top: 8%;
+  margin-top: 7%;
   }
 
   
@@ -171,9 +174,8 @@ const Block = styled.div`
 }
 
 .boxm{
-    justify-content: center;
   text-align: center;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 
@@ -182,9 +184,9 @@ const Block = styled.div`
     //width: 20%;
     padding-left: 10px;
     padding-top: 10px;
-    padding-right: 10px;
-    margin-left: 39%;
-    margin-right: 39%;
+    padding-right: 8px;
+    margin-left: 38%;
+    margin-right: 38%;
     background-color: white;
   border-radius: 20px; 
 }
