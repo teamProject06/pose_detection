@@ -144,11 +144,11 @@ const RoutineCalendar = () => {
         </MenuContainer>
           <Calendar
           ref={calendarRef}
-        height="550px"
+        height="350px"
         view="month"
         month={{
           dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-          visibleWeeksCount: 0, 
+          visibleWeeksCount: 3, 
         }}
         isReadOnly="true"
         useDetailPopup="true"

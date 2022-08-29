@@ -28,7 +28,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
-    font-family: ‘SUIT’, sans-serif;
+    font-family: "Elice Digital Baeum", sans-serif; 
+    font-weight: 700;
 }
 ol, ul {
     list-style: none;
