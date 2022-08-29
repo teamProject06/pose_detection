@@ -14,12 +14,12 @@ const PostureForm = () => {
 
   const ClickLunji = () =>{
     localStorage.setItem('posture', '런지');
-    navigate("/posedetection/posecamguide")
+    navigate("/not")
   }
 
   const ClickOneArm = () =>{
     localStorage.setItem('posture', '원암덤벨로우');
-    navigate("/posedetection/posecamguide")
+    navigate("/not")
   }
 
 

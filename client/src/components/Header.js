@@ -49,7 +49,8 @@ const Header = ({ isPath, setIsPath }) => {
         if (
             cookies.userInfo === undefined &&
             location.pathname !== '/posedetection/posecam' &&
-            location.pathname !== '/'
+            location.pathname !== '/' &&
+            location.pathname !== '/not'
         ) {
             setView({
                 SignIn: false,
