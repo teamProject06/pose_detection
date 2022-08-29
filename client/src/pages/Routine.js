@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MyRoutine from '../components/routine/MyRoutine';
 import UserRoutine from '../components/routine/UserRoutine';
-import Sidebar from '../components/routine/Sidebar';
+import Sidebar2 from '../components/routine/Sidebar2';
 import AddRoutineItem from '../components/routine/AddRoutineItem';
 
 const Routine = () => {
@@ -11,19 +11,20 @@ const Routine = () => {
     <Container>
       <div className='title'>운동 루틴</div>
       <RoutineContainer>
-        <Sidebar />
-        <Left>
-          <MyRoutine />
-          <UserRoutine/>
-        </Left>
-        <Right>
-          < AddRoutineItem />
-        </Right>
+        <Sidebar2 />
+        <Center>
+        < AddRoutineItem />
+        <MyRoutine />
+        </Center>
       </RoutineContainer>
     </Container>
   );
 }
 
+const Center = styled.div`
+  width : 80%;
+  margin : 0 auto;
+  `
 const Left = styled.div`
     width : 50%;
     float :left
@@ -39,7 +40,7 @@ const Container = styled.section`
   height: 100%;
   margin: 0 10%;
   margin-bottom: 40%;
-
+  
   .title{
     font-size : 20px;
     font-weight: 700;
@@ -70,10 +71,11 @@ height: 100%;
   </button>
 </Parent> */}
 
-// const Center = styled.div`
-//   width : 70%;
-//   margin : 0 auto;
-//   `
+{/* <Left>
+  <UserRoutine/>
+</Left>
+<Right>
+</Right> */}
 
 // useEffect(() => {
   //   console.log(isClick)
