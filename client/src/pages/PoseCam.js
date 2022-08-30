@@ -338,7 +338,7 @@ const TextContainer = styled.div`
     left: 50%;
     top: 0%;
     width: 760px;
-    height: 600px;
+    height: 480px;
     display: flex;
     justify-content: center;
     align-items: center;

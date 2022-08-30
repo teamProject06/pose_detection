@@ -60,6 +60,7 @@ const Container = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 50px 0;
 `;
 
 const LeftGuideContainer = styled.article`
@@ -69,7 +70,7 @@ const LeftGuideContainer = styled.article`
     line-height: 1.8;
     max-width: 250px;
     h2 {
-        font-size: 22px;
+        font-size: 20px;
     }
     p {
         line-height: 1.6;
@@ -92,7 +93,6 @@ const RightGuideContainer = styled.article`
         transform: translate(-50%, -50%);
         font-size: 25px;
         color: #fff;
-        font-weight: 700;
         letter-spacing: -1px;
     }
 `;

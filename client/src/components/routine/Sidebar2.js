@@ -43,7 +43,7 @@ const Sidebar2 = () => {
                     <Userhide class = "hide">
                     <UserRoutine/>
                     </Userhide>
-                    <div class="menu-button" style = {{"backgroundColor" : `${theme.colors.green}`}} onClick={menuButton}>
+                    <div class="menu-button" onClick={menuButton}>
                         <a href="#">Other Routine</a>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const Sidebar2 = () => {
 const Userhide = styled.div`
     float : left;
     margin : 0;
-    background-color:  ${theme.colors.green};
+    background-color:  ${theme.colors.grey};
     height: 50%;
     width: 500px;
     padding : 20px;
@@ -121,7 +121,7 @@ const Container = styled.section`
   position: absolute;
   top: 40%;
   left: auto;
-  color: #fff;
+  color: black;
   font-size:14px;
   font-weight:600;
 	text-decoration: none;

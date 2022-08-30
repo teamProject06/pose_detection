@@ -35,7 +35,7 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
                   //window.location.reload();
                   //window.location.replace("/signin");
                 }}>로그인</button> */}
-                <button className='menubox2' type="button" onClick={() => { 
+                <button className='menubox2' type="buuton" onClick={() => { 
                   navigate("/home");
                 }}><FaHome size="30"/></button>
                 

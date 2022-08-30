@@ -12,7 +12,7 @@ import MyCalendar from './pages/MyCalendar';
 import MyFeedback from './pages/MyFeedback';
 import Routine from './pages/Routine';
 import Header from './components/Header';
-import Footer from './pages/Footer';
+import Footer from './components/Footer';
 import FindPW from './pages/FindPW';
 import Posture from './pages/Posture';
 import NaverLoginCallback from './components/user/socialLogin/NaverLoginCallback';
@@ -20,6 +20,7 @@ import KakaoLoginCallback from './components/user/socialLogin/KakaoLoginCallback
 import SocialSignUp from './components/user/socialLogin/SocialSignUp';
 import PoseCamGuide from './components/poseCam/PoseCamGuide';
 import Loader from './components/Loader';
+import ErrPage from './pages/ErrPage';
 
 function App() {
     const [pathname, setPathname] = useState(true)
@@ -28,7 +29,7 @@ function App() {
     
     const videoConstraints = {
         width: 760,
-        height: 600,
+        height: 480,
         facingMode: "user"
       };
 
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/signup" element={<SignUp />}></Route>
                     <Route path="/findpw" element={<FindPW />}></Route>
+                    <Route path="/not" element={<ErrPage setIsPath={setPathname} />}></Route>
                     <Route path="/routine">
                         <Route path="routinecam" element={<RoutineCam />}></Route>
                         <Route path="routinecreate" element={<Routine />}></Route>

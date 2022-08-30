@@ -10,6 +10,7 @@ const Footer = () => {
     if(location.pathname === "/posedetection/posecam") return null;
     if(location.pathname === "/posedetection/posecamguide") return null;
     if(location.pathname === "/") return null;
+    if(location.pathname === "/not") return null;
 
   return (
         <FooterContainer className={location.pathname === '/home' ? 'main-footer' : ''}>
