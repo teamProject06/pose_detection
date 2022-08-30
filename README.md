@@ -1,18 +1,18 @@
-#FITBACK
+# FITBACK
 tensorflow.js의 blazepose model을 활용하여 실시간 자세 감지로 운동 자세 교정과 운동루틴을 기록할 수 있는 웹페이지.
 
 ---------------------
 
-##프로젝트 계획의도
+## 프로젝트 계획의도
 팬데믹 시대에 온라인으로 헬스 트레이닝 지도를 받을 수 있는 교정 웹 서비스가 있다면 유용할 것이라는 생각을 기반으로 개발하게 되었습니다. 
 
-##실행
-###client
+## 실행
+### client
 ```
 npm install
 npm start
 ```
-###server
+### server
 ```
 nodemon app.js
 ```
