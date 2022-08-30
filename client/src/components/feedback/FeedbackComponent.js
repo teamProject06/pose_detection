@@ -65,7 +65,7 @@ const FeedbackComponent = () => {
 
     const fullBodyCheckScore = () => {
         const rightAnklePoint = resultScoreData['rightAnklePoint'].filter(it => it >= 0.9)
-        console.log(rightAnklePoint, 'rightAnklePoint')
+     //   console.log(rightAnklePoint, 'rightAnklePoint')
 
         if (rightAnklePoint.length <  1) {
             setIsFull(false)
@@ -80,7 +80,7 @@ const FeedbackComponent = () => {
                 state: '',
             }
     
-            console.log('upperBodyMoveResult')
+           // console.log('upperBodyMoveResult')
             const range = max - min
 
             
@@ -99,7 +99,7 @@ const FeedbackComponent = () => {
             }
         } 
 
-        console.log(posedetectionResult, 'posedetectionResult')
+      //  console.log(posedetectionResult, 'posedetectionResult')
         
         return posedetectionResult
     
@@ -133,7 +133,7 @@ const FeedbackComponent = () => {
                 state: "Bad"
             }
         } 
-        console.log(posedetectionResult, 'posedetectionResult')
+       // console.log(posedetectionResult, 'posedetectionResult')
         
         return posedetectionResult
     } 
@@ -165,17 +165,17 @@ const FeedbackComponent = () => {
             }
         }
             
-            console.log(posedetectionResult, 'posedetectionResult')
+          //  console.log(posedetectionResult, 'posedetectionResult')
             return posedetectionResult
         }
         
 
         const onClickPostData = () => {
             try {
-                console.log(postData, "POSTDATA");
+              //  console.log(postData, "POSTDATA");
                 if (postData.result.length > 0) {
                     sendFeedback().then((res) => {
-                        console.log(res)
+                       // console.log(res)
                         alert(res.data.result);
                     }).catch(e =>{
                         alert(e.response.data.message);

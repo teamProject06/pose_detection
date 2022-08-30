@@ -19,9 +19,9 @@ const EditRoutineItem = ({ item }) => {
     })
 
     useEffect(()=> {
-        console.log(editCheck)
-        console.log(changeInput, 'changeInput')
-        console.log(editCheck.filter(it => parseInt(it) !== parseInt(item.id)))
+        // console.log(editCheck)
+        // console.log(changeInput, 'changeInput')
+        // console.log(editCheck.filter(it => parseInt(it) !== parseInt(item.id)))
     },[editCheck, changeInput])
 
 
@@ -92,18 +92,18 @@ const EditRoutineItem = ({ item }) => {
 
     return (
             <tr>
-            {isEdit.edit ? (
+            {/* {isEdit.edit ? (
                 <td><RoutineInput type="text" name="name" defaultValue={item.name} onChange={editItemChange} />
                     <RoutineInput type="text" name="count" defaultValue={item.count} onChange={editItemChange} /></td>
             ) :
-                // (<RoutineList>{item.name} {item.count}</RoutineList>)
+                // (<RoutineList>{item.name} {item.count}</RoutineList>) */}
                 (<td>{item.name} / {item.count}</td>)
-            }
-            {
+            {/* } */}
+            {/* {
                 editCheck.filter(it => parseInt(it) === parseInt(item.id)).length === 0 ?
                     <td><EditorDelete onClick={(e) => onClickEdit(e, item.id)}>edit</EditorDelete></td>
                     : <td><EditorDelete onClick={(e) => onClickEdit(e, item.id)}>ok</EditorDelete></td>
-            }
+            } */}
             <td><EditorDelete onClick={deleteItem}> delete </EditorDelete></td>
             </tr>
     )
@@ -115,7 +115,6 @@ const EditorDelete = styled.span`
     text-align: center;
     `
 const RoutineInput = styled.input`
-font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
 font-size: 12px; 
 font-weight: 500;
 border: 1px solid #d4d4d4;

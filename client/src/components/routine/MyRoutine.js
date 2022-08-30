@@ -16,14 +16,14 @@ const MyRoutine = () => {
   let myRoutine = {};
 
   const startRoutine = () => {
-    console.log(routineList,"routineList");
+    //console.log(routineList,"routineList");
     let date = new Date();
     myRoutine = {
       "routine" : routineList,
       "name" : cookies.userInfo.name,
       "time" : date.getTime(),
     };
-    console.log(myRoutine,"myRoutine");
+   // console.log(myRoutine,"myRoutine");
     return sendMyRoutine().then((res) => {
       alert(res.data.result);
       naviation('/routine/routinecam', { replace: true });

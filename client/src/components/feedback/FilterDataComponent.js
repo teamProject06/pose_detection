@@ -3,11 +3,8 @@ import styled from 'styled-components';
 import { theme } from '../../theme';
 
 const FilterDataComponent = ({data, idx}) => {
-    console.log(data)
     let none = 0;
     if (data.state === 'None') none++
-
-    console.log(none)
 
   return (
     <>

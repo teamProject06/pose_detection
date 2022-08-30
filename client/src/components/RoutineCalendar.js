@@ -45,7 +45,7 @@ const RoutineCalendar = () => {
   }, [])
 
   const makeData = (data, name) => {
-    console.log(data.length)
+   // console.log(data.length)
     for (let i = 0; i < data.length; i++) {
       const timeToString = new Date(data[i].time).toISOString()
       const routineTime = timeToString.split('.')
@@ -84,9 +84,9 @@ const RoutineCalendar = () => {
         }
   
         setCalendarInitialList([...calendarInitialList, myCalendarObj])
-        console.log(myCalendarObj, 'eeeeeeeeeeeeeeeeeeeeeeee')
+      //  console.log(myCalendarObj, 'eeeeeeeeeeeeeeeeeeeeeeee')
       }
-      console.log(calendarInitialList)
+     // console.log(calendarInitialList)
   }
 
 

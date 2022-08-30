@@ -58,8 +58,6 @@ const Header = ({ isPath, setIsPath }) => {
             navigate('/home');
         } 
       
-        console.log('Cookies >> ', cookies.userInfo);
-        console.log('SignIn : ', view.SignIn);
     }, [cookies]);
 
     useEffect(() => {
