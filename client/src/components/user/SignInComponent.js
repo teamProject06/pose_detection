@@ -8,8 +8,20 @@ import port from "./../../data/port.json"; //5500
 import front from "./../../data/front.json"; //3000
 
 
+
 const SignInComponent = () => {
   const navigate = useNavigate();
+
+  /*___________________NAVER_URL_CREATE(social login)______________________ */
+  const CLIENT_ID = "h5d4QFUelFHA4__18dV1";
+  const CALLBACK_URL = front.url + '/oauth/naver/callback';
+  const STATE_STRING = "STATE";
+  const NAVER_URL_CREATE = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${CALLBACK_URL}`;
+
+  /*___________________KAKAO_URL_CREATE(social login)______________________ */
+  const REST_API_KEY = '0009f476f7116da5e583fa0fc84ff1a3';
+  const REDIRECT_URI = front.url +'/oauth/kakao/callback';
+  const KAKAO_URL_CREATE = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const [signInData, setSignInData] = useState({
     email: "",
@@ -52,26 +64,26 @@ const SignInComponent = () => {
     return await axios.post(port.url + "/user/signin", signInData);
   }
   
-  const naverLogin= async() =>{
-    return await axios.get(port.url + '/oauth/naver').then((res)=>{
-      loginNavigate(res);
-    }).catch(err => console.log(err, 'naver')) 
-  }
-  const kakaoLogin= async() =>{
-    return await axios.get(port.url + '/oauth/kakao').then((res)=>{
-      loginNavigate(res);
-    }).catch(err => console.log(err,'kakao'))
-  }
+  // const naverLogin= async() =>{
+  //   return await axios.get(port.url + '/oauth/naver').then((res)=>{
+  //     loginNavigate(res);
+  //   }).catch(err => console.log(err, 'naver')) 
+  // }
+  // const kakaoLogin= async() =>{
+  //   return await axios.get(port.url + '/oauth/kakao').then((res)=>{
+  //     loginNavigate(res);
+  //   }).catch(err => console.log(err,'kakao'))
+  // }
 
-    const loginNavigate = (res) =>{
-      if (res.data.login) {
-        setCookie("userInfo", res.data, { path: "/" });
-        navigate("/home");
-    } else {
-        setCookie("auth", res.data, { path: "/" });
-        navigate("/oauth/signUp");
-    }
-  }
+  //   const loginNavigate = (res) =>{
+  //     if (res.data.login) {
+  //       setCookie("userInfo", res.data, { path: "/" });
+  //       navigate("/home");
+  //   } else {
+  //       setCookie("auth", res.data, { path: "/" });
+  //       navigate("/oauth/signUp");
+  //   }
+  // }
 
   return (
     <SignInContainer>
@@ -88,12 +100,12 @@ const SignInComponent = () => {
         <OtherButton onClick={() => navigate("/signup")}>회원가입</OtherButton>
         <OtherButton onClick={() => navigate("/findpw")}>아이디 및 비밀번호 찾기</OtherButton>
       </BigPadding>
-      {/* <a href= {NAVER_URL_CREATE}> */}
-        <SocialButton src={'/img/naver_login_button.png'} onClick={naverLogin}/>
-      {/* </a> */}
-      {/* <a href= {KAKAO_URL_CREATE}> */}
-        <SocialButton src={'/img/kakao_login_button.png'} onClick={kakaoLogin} />
-      {/* </a> */}
+      <a href= {NAVER_URL_CREATE}>
+        <SocialButton src={'/img/naver_login_button.png'} />
+      </a>
+      <a href= {KAKAO_URL_CREATE}>
+        <SocialButton src={'/img/kakao_login_button.png'} />
+      </a>
       {/* <a> */}
         <SocialButton src={'/img/google_login_button.png'} />
       {/* </a> */}
@@ -128,7 +140,7 @@ const SignInSubtitle = styled.div`
 const SignInInput = styled.input`
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
   text-size-adjust: none;
-  font-size: 12px; 
+  font-size: 13px; 
   font-weight: 500;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
