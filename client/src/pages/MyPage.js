@@ -15,7 +15,7 @@ const MyPage = () => {
   }else{
   }
 
-console.log("Cookies >> ", cookies.userInfo);
+//console.log("Cookies >> ", cookies.userInfo);
 }, [cookies]);
  
 
