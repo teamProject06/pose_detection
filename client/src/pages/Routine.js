@@ -25,21 +25,13 @@ const Center = styled.div`
   width : 80%;
   margin : 0 auto;
   `
-const Left = styled.div`
-    width : 50%;
-    float :left
-    `
-    const Right = styled.div`
-      width : 50%;
-      float :right
-      `
 
 const Container = styled.section`
   text-align : center;
   max-width: 80%;
   height: 100%;
   margin: 0 10%;
-  margin-bottom: 40%;
+  padding-top: 0%;
   
   .title{
     font-size : 20px;

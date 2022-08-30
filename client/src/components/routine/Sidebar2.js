@@ -43,18 +43,18 @@ const Sidebar2 = () => {
                     <Userhide class = "hide">
                     <UserRoutine/>
                     </Userhide>
-                    <div class="menu-button" style = {{"backgroundColor" : `${theme.colors.green}`,"marginTop" : "180px"}} onClick={menuButton}>
+                    <div class="menu-button" style = {{"backgroundColor" : `${theme.colors.green}`}} onClick={menuButton}>
                         <a href="#">Other Routine</a>
                     </div>
                 </div>
-            <div class="panel2">
+            {/* <div class="panel2">
                     <Myhide class = "hide">
                     <MyRoutineSide/>
                     </Myhide>
                     <div class="menu-button" onClick={menuButton2}>
                         <a href="#">My Routine </a>
                     </div>
-                </div>
+                </div> */}
                 
                         {/* <TmpButton/> */}
                 
@@ -64,13 +64,6 @@ const Sidebar2 = () => {
 };
 
 /*__________________________________________________________________________ */
-const TmpButton = styled.div`
-width:70px;
-        height:200px;
-        background-color: black;
-        z-index: 10;
-`
-
 
 const Userhide = styled.div`
     float : left;
@@ -118,7 +111,7 @@ const Container = styled.section`
         height:200px;
         float:left;
         /* background: linear-gradient(0deg, ${theme.colors.grey} 0%, #e22232 100%); */
-        background-color: ${theme.colors.pointColor};
+        background-color: ${theme.colors.grey};
         position:relative;
         cursor:pointer;
         border-radius: 0 10px 50px 0;
@@ -129,7 +122,7 @@ const Container = styled.section`
   top: 40%;
   left: auto;
   color: #fff;
-  font-size:1em;
+  font-size:14px;
   font-weight:600;
 	text-decoration: none;
     /* -ms-transform: rotate(-90deg); */
