@@ -11,6 +11,7 @@ const KakaoLoginCallback = () => {
     const [cookies, setCookie, removeCookie] = useCookies(["userInfo"]);
     
     const KAKAO_CODE = new URL(window.location.href).searchParams.get("code");
+    console.log(KAKAO_CODE,"KAKAO_CODE");
     useEffect(() => {
         sendCode().then((res)=>{
             if (res.data.login) {

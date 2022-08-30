@@ -5,21 +5,29 @@ const { User } = require("./../models/schemas/userSchema");
 const jwt = require("jsonwebtoken");
 const jwtConfig = require("./../config/jwtConfig.json");
 
+
+
+
 /*_________________________NAVER SOCIAL LOGIN___________________________*/
 router.get("/naver", async (req, res, next) => {
-    const CODE = req.query.code;
     const CLIENT_ID = "h5d4QFUelFHA4__18dV1";
     const CLIENT_SECRET = "mFS_gJFSUJ";
     const STATE_STRING = "STATE";
-
+    const CALLBACK_URL = port.url + '/oauth/naver';
+    const NAVER_URL_CREATE = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE_STRING}&redirect_uri=${CALLBACK_URL}`;
+    
+    
     try {
-        getNaverToken(CLIENT_ID, CLIENT_SECRET, CODE, STATE_STRING)
+        await axios.get(NAVER_URL_CREATE).then((res) =>{
+            const CODE = req.query.code;
+            getNaverToken(CLIENT_ID, CLIENT_SECRET, CODE, STATE_STRING)
             .then((tokenData) => {
                 getNaverUserdata(tokenData.data.access_token)
                     .then((data) => {
                         checkNaverUserData(data.data, res);
                     })
             })
+        })
     } catch (e) {
         console.log(e, "ERROR in naver router");
         next(e);
@@ -28,19 +36,27 @@ router.get("/naver", async (req, res, next) => {
 
 /*_________________________KAKAO SOCIAL LOGIN___________________________*/
 router.get("/kakao", async (req, res, next) => {
-    const frontURL = 'https://fitback.site';
-    const CODE = req.query.code;
+    // const frontURL = 'https://fitback.site';
     const REST_API_KEY = '0009f476f7116da5e583fa0fc84ff1a3';
-    const REDIRECT_URI = frontURL + '/oauth/kakao/callback';
+    const REDIRECT_URI = port.url + '/oauth/kakao';
+    const KAKAO_URL_CREATE = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+
 
     try {
-        getKakaoToken(REST_API_KEY, REDIRECT_URI, CODE)
-            .then((tokenData) => {
-                getKakaoUserdata(tokenData.data.access_token)
-                .then((data) => {
-                        checkKakaoUserData(data.data, res);
-                    })
-            })
+        await axios.get(KAKAO_URL_CREATE).then((res) => {
+            const CODE = res.query.code;
+            console.log(CODE, "CODE");
+            getKakaoToken(REST_API_KEY, REDIRECT_URI, CODE)
+                .then((tokenData) => {
+                    console.log(tokenData.data.access_token, "tokenData.data.access_token");
+                    getKakaoUserdata(tokenData.data.access_token)
+                        .then((data) => {
+                            console.log(data.data, "data.data");
+                            checkKakaoUserData(data.data, res);
+                        })
+                })
+        })
+
     } catch (e) {
         console.log(e, "ERROR in kakao router");
         next(e);
@@ -67,7 +83,7 @@ const getKakaoToken = async (REST_API_KEY, REDIRECT_URI, CODE) => {
         params: {
             grant_type: 'authorization_code',
             client_id: REST_API_KEY,
-            redirect_uri : REDIRECT_URI,
+            redirect_uri: REDIRECT_URI,
             code: CODE,
         },
         headers: {

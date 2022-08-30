@@ -70,7 +70,6 @@ const UserRoutine = () => {
         userRoutine.map((it, index) => {
           tmpTableBody = `<tr>
             <td scope="row">${index + 1}</td> 
-            <td>${it.name}</td>
             <td>${it.routine}</td>
             <td>${it.time}</td>
           </tr>`;
@@ -95,7 +94,6 @@ const UserRoutine = () => {
         <thead>
           <tr>
             <th scope="col"></th>
-            <th scope="col">Name</th>
             <th scope="col">Routine</th>
             <th scope="col">Date</th>
           </tr>
