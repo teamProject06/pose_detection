@@ -26,7 +26,7 @@ const MyRoutine = () => {
    // console.log(myRoutine,"myRoutine");
     return sendMyRoutine().then((res) => {
       alert(res.data.result);
-      naviation('/routine/routinecam', { replace: true });
+      naviation('/not');
     }).catch((e) => {
       alert(e.response.data.message);
     })
