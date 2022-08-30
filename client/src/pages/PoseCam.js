@@ -81,8 +81,8 @@ const PoseCam = ({video, videoConstraints}) => {
         console.log(data, 'data')
         if (data && data.size > 0) {
             video.push(data)
-            console.log(video, 'recordedChunksData')
         }
+
     }
 
     const handleStopCapture =  React.useCallback(() => {
@@ -114,9 +114,8 @@ const PoseCam = ({video, videoConstraints}) => {
 
         setTimeout(() => {
             clearInterval(interval);
-            console.log(bodyPoint, 'bodyPoint');
+           // console.log(bodyPoint, 'bodyPoint');
             // console.log(count, 'cc');
-            // console.log(bodyPoint, 'bodyPoint');
             window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
             window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
         }, 20000);
@@ -137,19 +136,18 @@ const PoseCam = ({video, videoConstraints}) => {
 
             const pose = await net.estimatePoses(video);
 
-            console.log(pose[0].keypoints, 'pose');
+           // console.log(pose[0].keypoints, 'pose');
 
             drawCanvas(pose, videoWidth, videoHeight, canvasRef);
 
             findExercise(pose[0].keypoints, posture);
-            console.log(videoWidth, videoHeight, 'vvvvv')
+            //console.log(videoWidth, videoHeight, 'vvvvv')
 
         }
     };
 
     // 어떤 운동인지 파악
     const findExercise = (exercises, pose) => {
-        console.log(pose, '운')
         switch (pose) {
             case '스쿼트': {
                 divisionBodySquat(exercises);
@@ -210,7 +208,7 @@ const PoseCam = ({video, videoConstraints}) => {
     };
 
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
-        console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
+     //   console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
 
         if (leftKnee < 0 && leftFoot < 0 && leftKnee < leftFoot) return false;
         if (rightKnee < 0 && rightFoot < 0 && rightKnee < rightFoot) return false;

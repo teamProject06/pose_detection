@@ -93,7 +93,7 @@ const RoutineTensorflow = () => {
 
             const pose = await net.estimatePoses(video);
 
-            console.log(pose[0].keypoints, 'pose');
+           // console.log(pose[0].keypoints, 'pose');
 
             drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
 

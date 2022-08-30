@@ -53,14 +53,14 @@ const SignInComponent = () => {
   }
   
   const naverLogin= async() =>{
-    await axios.get(port.url + '/oauth/naver').then((res)=>{
+    return await axios.get(port.url + '/oauth/naver').then((res)=>{
       loginNavigate(res);
-    })
+    }).catch(err => console.log(err, 'naver')) 
   }
   const kakaoLogin= async() =>{
-    await axios.get(port.url + '/oauth/kakao').then((res)=>{
+    return await axios.get(port.url + '/oauth/kakao').then((res)=>{
       loginNavigate(res);
-    })
+    }).catch(err => console.log(err,'kakao'))
   }
 
     const loginNavigate = (res) =>{
