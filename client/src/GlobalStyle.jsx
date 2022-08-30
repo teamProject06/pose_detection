@@ -27,7 +27,10 @@ footer, header, hgroup, menu, nav, section {
     display: block; 
 }
 body {
-    line-height: 1;
+    line-height: 1.5;
+    font-family: "Elice Digital Baeum", sans-serif; 
+    font-weight: 700;
+    position: relative;
 }
 ol, ul {
     list-style: none;
@@ -47,6 +50,7 @@ table {
 button {
     background: inherit;
     border: none;
+    cursor: pointer;
 }
 img {
     width: 100%;

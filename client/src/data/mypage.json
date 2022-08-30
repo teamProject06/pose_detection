@@ -1,0 +1,21 @@
+[
+    {
+        "exercise": "런지",
+        "feedback_title": ["다리를 더 굽히세요."],
+        "feedback_detail" : ["다리를 더 굽히세요."],
+        "result" : "bad"
+    },
+    {
+        "exercise": "스쿼트",
+        "feedback_title": ["none"],
+        "feedback_detail" : ["none"],
+        "result" : "none"
+    },
+    {
+        "exercise": "런지",
+        "feedback_title": ["다리를 더 굽히세요."],
+        "feedback_detail" : ["다리를 더 굽히세요."],
+        "result" : "good"
+    }
+    
+]

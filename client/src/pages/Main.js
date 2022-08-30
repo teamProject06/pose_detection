@@ -1,12 +1,11 @@
 import React from 'react';
 import Middle from '../components/Middle';
-import Side from '../components/Side';
+import Footer from '../components/Footer';
 
 const Main = () => {
 
   return (
     <main>
-        <Side />
         <Middle />
     </main>
   );
