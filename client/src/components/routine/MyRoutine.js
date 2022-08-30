@@ -15,19 +15,13 @@ const MyRoutine = () => {
   const routineList = useRecoilValue(routineListState)
   let myRoutine = {};
 
-  //현재 시간 function : 2022년 8월 15일
-  const timeString = () => {
-    const now = new Date().getTime();
-    
-    return now;
-  }
-
   const startRoutine = () => {
     console.log(routineList,"routineList");
+    let date = new Date();
     myRoutine = {
       "routine" : routineList,
       "name" : cookies.userInfo.name,
-      "time" : timeString(),
+      "time" : date.getTime(),
     };
     console.log(myRoutine,"myRoutine");
     return sendMyRoutine().then((res) => {
@@ -47,8 +41,6 @@ const MyRoutine = () => {
   }
 
   return (
-    <>
-      <AddRoutineItem />
       <SQUARE>
         <Table>
           <tbody>
@@ -60,17 +52,27 @@ const MyRoutine = () => {
         {routineList.length > 0 
         && <LongChoose type='button' onClick={startRoutine}>이 루틴으로 운동 시작</LongChoose>}
       </SQUARE>
-    </>
   )
 }
 
 const SQUARE = styled.div`
-    width: 95%;
-    min-width: 95%;
-    margin : 10% 2.5%;
-    margin-bottom: 20px;`
+    width: 90%;
+    min-width: 90%;
+    margin : 0 2.5% 10% 2.5%;
+    /* margin-bottom: 20px; */
+    /* height: 100vh; */
+  /* overflow-y: auto; */
+  `
+
+// const SQUARE = styled.div`
+//     /* border: 1px solid #dae1e6; */
+//     width: 95%;
+//     margin : 0 2.5%;
+//     padding: 4em 5em;
+// `
 const Table = styled.table`
     width: 100%;
+    margin : 0 auto;
     border-collapse: collapse;
     td{
       font-size: 12px;
@@ -85,12 +87,13 @@ const LongChoose = styled.div`
     background-color: black; //#c3dbff;
     color : white;
     font-size: 14px;
-    width : 90%;
+    width : 100%;
     height: 45px;
     padding : 14px;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    margin: 5%;`
+    margin: 5% auto 0;
+    `
 
 export default MyRoutine;

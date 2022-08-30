@@ -33,6 +33,7 @@ const Footer = () => {
 }
 
 const FooterContainer = styled.div`
+  display: inline-block;
   width: 100%;
   padding-top: 100px;
   color: #808080;

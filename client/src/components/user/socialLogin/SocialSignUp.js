@@ -164,7 +164,7 @@ const SignUpSubtitle = styled.div`
 
 const SignUpInput = styled.input`
   text-size-adjust: none;
-  font-size: 13px; 
+  font-size: 12px; 
   font-weight: 500;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
@@ -192,7 +192,7 @@ const SignUpButton = styled.button`
 const Label = styled.div`
   padding : 0 100px 5px;
   text-align : left;
-  font-size : 13px;
+  font-size : 12px;
   font-weight: 700;
   color : #1d1d1d;
   font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;

@@ -188,7 +188,7 @@ const ActiveExcercise = styled.button`
     color: white;
     border-radius: 12px;
     padding: 10px;
-    font-size: 13px;
+    font-size: 14px;
     width: 100px;
     height: 35px;
     font-weight: 600;
@@ -213,7 +213,7 @@ const OverExcerciseInput = styled.div`
 //운동 이름 입력
 const ExcerciseInput = styled.input`
     font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
-    font-size: 13px; 
+    font-size: 12px; 
     font-weight: 500;
     text-align: center;
     border: 1.5px solid;;// #d4d4d4;
@@ -229,7 +229,7 @@ const ExcerciseInput = styled.input`
 const NumInput = styled.input`
     text-align: center;
     font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
-    font-size: 13px; 
+    font-size: 12px; 
     font-weight: 500;
     border: 1.5px solid black;
     border-radius: 8px;

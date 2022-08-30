@@ -30,7 +30,6 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
   return (
             <Block>
-                
                 {/* <button className='menubox1' onClick={() => {
                   navigate("/signin");
                   //window.location.reload();
@@ -40,9 +39,9 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
                   navigate("/home");
                 }}><FaHome size="30"/></button>
                 
-            <h1 className='font'><button type="buuton" className='font' onClick={() =>  window.location.replace("/home")}>FITBACK</button></h1>
+            <h1 className='font'><button type="button" className='font' onClick={() =>  window.location.replace("/home")}>FITBACK</button></h1>
             <div className='boxm'>
-                <button className='downbox' type="buuton" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                <button className='downbox' type="button" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                     {
                         dropdownVisibility? <FaAngleUp />: <FaAngleDown />
                     }
@@ -54,9 +53,9 @@ const [dropdownVisibility, setDropdownVisibility] = useState(false);
             <div className='boxm'>
                 <DropDown visibility={dropdownVisibility}>
                     <ul className='txt'>
-                        <li className='m' type="buuton" onClick={ClickSquart}><button>스쿼트</button></li>
-                        <li className='m' type="buuton" onClick={ClickLunji}><button>런지</button></li>
-                        <li className='m' type="buuton" onClick={ClickOneArm}><button>원암덤벨로우</button></li>
+                        <li className='m' type="button" onClick={ClickSquart}><button>스쿼트</button></li>
+                        <li className='m' type="button" onClick={ClickLunji}><button>런지</button></li>
+                        <li className='m' type="button" onClick={ClickOneArm}><button>원암덤벨로우</button></li>
                     </ul>
                 </DropDown>
             </div>

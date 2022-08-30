@@ -116,7 +116,7 @@ const EditorDelete = styled.span`
     `
 const RoutineInput = styled.input`
 font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
-font-size: 13px; 
+font-size: 12px; 
 font-weight: 500;
 border: 1px solid #d4d4d4;
 border-radius: 8px;
