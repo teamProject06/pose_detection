@@ -10,17 +10,6 @@ import { useCookies } from "react-cookie";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
 
-const initialEvents = [
-  {
-    id: '1',
-    calendarId: 'mycalendar',
-    title: 'Lunch',
-    category: 'time',
-    start: '2022-08-29T12:00:00',
-    end: '2022-08-29T13:30:00',
-  },
-];
-
 const calendars = [{ id: 'mycalendar'}];
 
 const RoutineCalendar = () => {
@@ -140,7 +129,8 @@ const RoutineCalendar = () => {
             data-action="move-prev"
             className='button move'
           >
-            <FaAngleLeft onClick={()=>{
+            <FaAngleLeft 
+            onClick={()=>{
               getCalInstance()['prev']();
               updateRenderRangeText();
             }}/>
@@ -176,7 +166,7 @@ const RoutineCalendar = () => {
 const Container = styled.div`
   position: relative;
   width: 80%;
-  margin: 50px auto;
+  margin: 20px auto;
   padding: 5em 2em 0;
   .toastui-calendar-detail-container .toastui-calendar-section-button {
     display: none;
@@ -194,8 +184,9 @@ const MenuContainer = styled.div`
   left: 2em;
   top: 1em; 
   .date-text {
-    font-size: 18px;
+    font-size: 16px;
     margin-right: 10px;
+    font-weight: 400;
   }
   .button {
     border: 1px solid #ddd;
@@ -203,13 +194,19 @@ const MenuContainer = styled.div`
   }
   .button.today {
     border-radius: 15px;
-    padding: .7em 1em;
+    padding: .45em .8em;
     margin-right: 10px;
+    box-sizing: border-box;
   }
   .button.move {
+    display: flex;
+    align-items: center;
     border-radius: 50%;
-    padding: .5em;
+    padding: 0.6em 0.75em;
+    box-sizing: border-box;
     margin-right: 10px;
+    width: 35px;
+    height: 35x;
   }
   `;
 

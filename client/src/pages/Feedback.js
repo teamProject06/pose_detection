@@ -43,8 +43,6 @@ const FeedbackContainer = styled.div`
 
 const H2 = styled.h2`
   display: inline-block;
-  margin-bottom: 1em;
-  padding-bottom: .4em;
   font-size: 20px;
 `;
 
