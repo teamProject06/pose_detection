@@ -96,13 +96,12 @@ const PoseCam = ({video, videoConstraints}) => {
                   type: "video/webm"
                 });
                 const url = URL.createObjectURL(blob);
-                //console.log(url)
                 window.localStorage.setItem("video", JSON.stringify(url))
                 navigation('/posedetection/feedback')
               }
       }
 
-    // 텐서플로우 모델 불러움
+    // 텐서플로우 모델 불러오기
     const runPosenet = async () => {
         const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
             runtime: 'tfjs',
@@ -114,8 +113,6 @@ const PoseCam = ({video, videoConstraints}) => {
 
         setTimeout(() => {
             clearInterval(interval);
-           // console.log(bodyPoint, 'bodyPoint');
-            // console.log(count, 'cc');
             window.localStorage.setItem('bodyData', JSON.stringify(bodyPoint));
             window.localStorage.setItem('bodyPointScores', JSON.stringify(pointScores));
         }, 20000);
@@ -136,13 +133,9 @@ const PoseCam = ({video, videoConstraints}) => {
 
             const pose = await net.estimatePoses(video);
 
-           // console.log(pose[0].keypoints, 'pose');
-
             drawCanvas(pose, videoWidth, videoHeight, canvasRef);
 
             findExercise(pose[0].keypoints, posture);
-            //console.log(videoWidth, videoHeight, 'vvvvv')
-
         }
     };
 
@@ -154,11 +147,9 @@ const PoseCam = ({video, videoConstraints}) => {
                 break;
             }
             case '원암덤벨로우': {
-
                 break;
             }
             case '런지': {
-                //divisionBodyLunge(exercises);
                 break;
             }
             default:
@@ -168,12 +159,6 @@ const PoseCam = ({video, videoConstraints}) => {
 
     // 스쿼트 올바른 자세 판단을 위한 각도, 움직임 함수 호출 
     const divisionBodySquat = (body) => {
-        // bodyPoint['leftElbowbodyPoint'].push(
-        //     calculatorAngles([body[11].x, body[11].y, body[13].x, body[13].y, body[15].x, body[15].y])
-        // );
-        // bodyPoint['rightElbowbodyPoint'].push(
-        //     calculatorAngles([body[12].x, body[12].y, body[14].x, body[14].y, body[16].x, body[16].y])
-        // );
         bodyPoint['leftKnees'].push(
             calculatorAngles([body[27].x, body[27].y, body[25].x, body[25].y, body[23].x, body[23].y])
         );
@@ -194,22 +179,15 @@ const PoseCam = ({video, videoConstraints}) => {
         bodyScorePoints([
             body[11].score,
             body[12].score,
-            body[13].score,
-            body[14].score,
-            body[23].score,
-            body[24].score,
-            body[25].score,
-            body[26].score,
+            body[15].score,
+            body[16].score,
             body[27].score,
             body[28].score,
         ]);
 
-        // bodyPoint['kneeProtrusionbodyPoint'].push(checkKneeProtrusion(body[25].z, body[31].z, body[26].z, body[32].z));
     };
 
     const checkKneeProtrusion = (leftKnee, leftFoot, rightKnee, rightFoot) => {
-     //   console.log(leftKnee, leftFoot, rightKnee, rightFoot, 'ce');
-
         if (leftKnee < 0 && leftFoot < 0 && leftKnee < leftFoot) return false;
         if (rightKnee < 0 && rightFoot < 0 && rightKnee < rightFoot) return false;
 
@@ -224,27 +202,11 @@ const PoseCam = ({video, videoConstraints}) => {
     const bodyScorePoints = (point) => {
         pointScores['leftShoulderPoints'].push(point[0]);
         pointScores['rightShoulderPoints'].push(point[1]);
-        pointScores['leftElbowPoints'].push(point[2]);
-        pointScores['rightElbowPoints'].push(point[3]);
-        pointScores['leftWristPoints'].push(point[4]);
-        pointScores['rightWristPoints'].push(point[5]);
-        pointScores['leftKneePoints'].push(point[6]);
-        pointScores['rightKneePoints'].push(point[7]);
-        pointScores['leftAnklePoint'].push(point[8]);
-        pointScores['rightAnklePoint'].push(point[9]);
+        pointScores['leftWristPoints'].push(point[2]);
+        pointScores['rightWristPoints'].push(point[3]);
+        pointScores['leftAnklePoint'].push(point[4]);
+        pointScores['rightAnklePoint'].push(point[5]);
     };
-
-
-    // 발꿈치(y) 떼어져 있는지 
-    // const checkFootHeel = (leftFootIndex, leftHeel, rightFootIndex, rightHeel) => {
-    //     console.log("왼발 앞:", leftFootIndex, "왼발꿈치:", leftHeel, "오른발 앞:", rightFootIndex, "오른발꿈치: ", rightHeel);
-
-    //     // 발 앞보다 발꿈치의 y값이 더 작아야 한다 = 까치발
-    //     if (leftFootIndex < leftHeel) return false;
-    //     if (rightFootIndex < rightHeel) return false;
-
-    //     return true;
-    // };
 
     //[0ax, 1ay, 2bx, 3by, 4cx, 5cy] 각도 계산
     const calculatorAngles = (position) => {

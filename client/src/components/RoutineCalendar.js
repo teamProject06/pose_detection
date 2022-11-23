@@ -73,9 +73,7 @@ const RoutineCalendar = () => {
         }
   
         setCalendarInitialList([...calendarInitialList, myCalendarObj])
-      //  console.log(myCalendarObj, 'eeeeeeeeeeeeeeeeeeeeeeee')
       }
-     // console.log(calendarInitialList)
   }
 
 

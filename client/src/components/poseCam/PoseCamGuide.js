@@ -9,7 +9,6 @@ const PoseCamGuide = ({videoConstraints}) => {
     const [loading, setLoading] = useState(true)
     const[textIdx, setTextIdx] = useState(0)
     const camRef = useRef(null)
-    console.log(videoConstraints)
 
     setTimeout(() => {
        setLoading(false) 
@@ -20,7 +19,6 @@ const PoseCamGuide = ({videoConstraints}) => {
     },5000)
 
     useEffect(() => {
-       
         if (textIdx >= 2) {
             setTextIdx(3)
             setTimeout(() => {

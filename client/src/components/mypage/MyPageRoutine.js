@@ -73,10 +73,6 @@ const MyPageRoutine = () => {
             <p className='box'>ROUTINE</p>
         </div>
 
-        {/* <Parent>
-            <Box>루틴예시</Box>
-        </Parent> */}
-
         <div className='Bodyr Parent'></div>
     </Container>
    

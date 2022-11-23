@@ -47,7 +47,7 @@ const FeedbackComponent = () => {
         const minUpperBodyMove = window.localStorage.getItem("minUpperBodyMove")
         const maxUpperBodyMove = window.localStorage.getItem("maxUpperBodyMove")
 
-        //fullBodyCheckScore()
+        fullBodyCheckScore()
 
         if(isFullBody) {
             setPostData({
@@ -64,10 +64,14 @@ const FeedbackComponent = () => {
     },[])
 
     const fullBodyCheckScore = () => {
-        const rightAnklePoint = resultScoreData['rightAnklePoint'].filter(it => it >= 0.9)
-     //   console.log(rightAnklePoint, 'rightAnklePoint')
+        const rightAnklePoint = resultScoreData['rightAnklePoint'].filter(it => it < 0.8)
+        const leftAnklePoint = resultScoreData['leftAnklePoint'].filter(it => it < 0.8)
+        const rightWristPoints = resultScoreData['rightWristPoints'].filter(it => it < 0.8)
+        const leftWristPoints = resultScoreData['leftWristPoints'].filter(it => it < 0.8)
+        const leftShoulderPoints = resultScoreData['leftShoulderPoints'].filter(it => it < 0.8)
+        const rightShoulderPoints = resultScoreData['rightShoulderPoints'].filter(it => it < 0.8)
 
-        if (rightAnklePoint.length <  1) {
+        if (rightAnklePoint || leftAnklePoint || rightWristPoints ||leftWristPoints || leftShoulderPoints || rightShoulderPoints) {
             setIsFull(false)
             setResultNone(2)
         }
@@ -80,9 +84,7 @@ const FeedbackComponent = () => {
                 state: '',
             }
     
-           // console.log('upperBodyMoveResult')
             const range = max - min
-
             
             if (range <= 6) {
                 posedetectionResult = {
@@ -98,8 +100,6 @@ const FeedbackComponent = () => {
                 state: 'Bad',
             }
         } 
-
-      //  console.log(posedetectionResult, 'posedetectionResult')
         
         return posedetectionResult
     
@@ -133,7 +133,6 @@ const FeedbackComponent = () => {
                 state: "Bad"
             }
         } 
-       // console.log(posedetectionResult, 'posedetectionResult')
         
         return posedetectionResult
     } 
@@ -141,8 +140,6 @@ const FeedbackComponent = () => {
     
         
     const kneeDapthResult =(angle) => {
-        // 컴포넌트 확인용 
-        //const angle = 60;
         let posedetectionResult = {
             part: '',
             feedback: '',
@@ -165,17 +162,14 @@ const FeedbackComponent = () => {
             }
         }
             
-          //  console.log(posedetectionResult, 'posedetectionResult')
             return posedetectionResult
         }
         
 
         const onClickPostData = () => {
             try {
-              //  console.log(postData, "POSTDATA");
                 if (postData.result.length > 0) {
                     sendFeedback().then((res) => {
-                       // console.log(res)
                         alert(res.data.result);
                     }).catch(e =>{
                         alert(e.response.data.message);
@@ -188,7 +182,6 @@ const FeedbackComponent = () => {
         }
 
         const sendFeedback = async () => {
-            // console.log(tmpData, "TMPDATA");
             return await axios.post(port.url + "/pose", postData,{
                 headers: {
                     accessToken: cookies.userInfo.accessToken,
@@ -216,7 +209,6 @@ const FeedbackComponent = () => {
                         </li>
                     )
                 }
-               
             })}
             {resultNone !== 2 && isFullBody && postData.result.map((it,index) => {
                 if (it.state === 'Bad') {
@@ -226,7 +218,6 @@ const FeedbackComponent = () => {
                         </li>
                     )
                 }
-               
             })}
             {resultNone >= 2 && isFullBody &&
                 <FilterNoneComponent result={'none'}/>

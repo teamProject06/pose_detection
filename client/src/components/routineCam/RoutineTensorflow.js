@@ -25,7 +25,6 @@ const RoutineTensorflow = () => {
      
     }, [])
 
-    // 'leftKnee', 'rightKnee', kneeProtrusion, leftElbow, rightElbow, 'leftWrist', 'rightWrist' leftStride rightStride
     const tmp = {
         leftElbowTmp: [],
         rightElbowTmp: [],
